@@ -4,8 +4,8 @@
 QuickRedis是一款 Redis 可视化管理工具。它支持直连、哨兵、集群，支持亿万数量级的key，还有令人兴奋的UI。
 
 #### 下载地址
-1. Windows：[https://gitee.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.1-win.exe](https://gitee.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.1-win.exe)
-1. Mac: [https://gitee.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.1-mac.dmg](https://gitee.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.1-mac.dmg)
+1. Windows：[gitee QuickRedis-0.1.1-win.exe](https://gitee.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.1-win.exe) | [github QuickRedis-0.1.1-win.exe](https://github.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.1-win.exe)
+2. Mac: [gitee QuickRedis-0.1.2-mac.dmg](https://gitee.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.2-mac.dmg) | [github QuickRedis-0.1.2-mac.dmg](https://github.com/quick123official/quick_redis_blog/blob/master/QuickRedis-0.1.2-mac.dmg)
 
 #### 软件截图
 
