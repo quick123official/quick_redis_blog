@@ -15,7 +15,7 @@ QuickRedis是一款 Redis 可视化管理工具。它支持直连、哨兵、集
 
 - 哨兵模式![哨兵模式](https://images.gitee.com/uploads/images/2020/0525/163845_2e5a89a6_7565825.png "屏幕截图.png")
 
-#### FAQ
+#### FAQ 
 任何问题，可以通过下面方式留言：
 1. 在点评回复；
 2. 提交 issues，地址：https://gitee.com/quick123official/quick_redis_blog/issues
