@@ -35,7 +35,7 @@ Windows & Mac：[https://github.com/quick123official/quick_redis_blog/](https://
 
 ## 开发者列表
 
-飞翔叶子（唯品会）、J（欢聚时代）、ken（阿里）
+飞翔叶子（唯品会）、J（欢聚时代）、阿 ken（阿里）
 
 ## 使用到的开源代码
 
