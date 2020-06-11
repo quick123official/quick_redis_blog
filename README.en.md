@@ -2,6 +2,8 @@
 ## 介绍
 QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支持**直连、哨兵、集群**模式，支持亿万数量级的 key，还有令人兴奋的 UI。QuickRedis 有可能是业界最好的 Redis 可视化管理工具。QuickRedis 同时支持 Windows 和 Mac 下运行。
 
+QuickRedis 是一个效率工具，**当别人在辛苦敲命令的时候，而你已经在喝茶。**
+
 ## QQ 群：1103435496
 
 ## 下载地址（请不要使用迅雷等下载工具进行下载）
@@ -33,7 +35,7 @@ Windows & Mac：[https://github.com/quick123official/quick_redis_blog/](https://
 
 ## 开发者列表
 
-飞翔叶子（唯品会）、J（欢聚时代）、ken（阿里）
+飞翔叶子（唯品会）、J（欢聚时代）、阿 ken（阿里）
 
 ## 使用到的开源代码
 
