@@ -33,10 +33,6 @@ Windows & Mac：[https://github.com/quick123official/quick_redis_blog/](https://
 ###  **github地址：**
 [https://github.com/quick123official/quick_redis_blog/issues](https://github.com/quick123official/quick_redis_blog/issues)
 
-## 开发者列表
-
-飞翔叶子（唯品会）、J（欢聚时代）、阿 ken（阿里）
-
 ## 使用到的开源代码
 
 [ANTD](https://ant.design/index-cn) [ioredis](https://github.com/luin/ioredis)
