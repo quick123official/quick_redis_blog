@@ -7,8 +7,8 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 ## QQ 群：1103435496
 
 ## 下载地址（请不要使用迅雷等下载工具进行下载）
-**使用 云盘 下载**
-Windows & Mac：链接: [https://share.weiyun.com/Clzhan0f](https://share.weiyun.com/Clzhan0f) 
+**使用 百度网盘 下载**
+Windows & Mac：链接: [https://pan.baidu.com/s/1lB7HMOix76UFnr-PbQy8ww](https://pan.baidu.com/s/1lB7HMOix76UFnr-PbQy8ww) 提取码: sn4f
 
 **使用 gitee 下载**
 Windows & Mac：[https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/)
