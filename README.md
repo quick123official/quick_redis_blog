@@ -4,8 +4,6 @@ QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支�
 
 QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。**
 
-## QQ 群：1103435496
-
 ## 下载地址（请不要使用迅雷等下载工具进行下载）
 **使用 百度网盘 下载**
 Windows & Mac：链接: [https://pan.baidu.com/s/1lB7HMOix76UFnr-PbQy8ww](https://pan.baidu.com/s/1lB7HMOix76UFnr-PbQy8ww) 提取码: sn4f
