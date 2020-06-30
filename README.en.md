@@ -6,7 +6,7 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 
 ## 下载地址（请不要使用迅雷等下载工具进行下载）
 **使用 百度网盘 下载**
-Windows & Mac：链接: [https://pan.baidu.com/s/1MNF6TwimMseYKmrbdG1Qdw](https://pan.baidu.com/s/1MNF6TwimMseYKmrbdG1Qdw) 提取码: swa4
+Windows & Mac：链接: [https://pan.baidu.com/s/1CwYGZ2aL2TNBsbLFmaeJ9A](https://pan.baidu.com/s/1CwYGZ2aL2TNBsbLFmaeJ9A) 提取码: rzdv
 
 **使用 gitee 下载**
 Windows & Mac：[https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/)
