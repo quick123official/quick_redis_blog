@@ -33,4 +33,4 @@ Windows & Mac：[https://github.com/quick123official/quick_redis_blog/](https://
 
 ## 使用到的开源代码
 
-[ANTD](https://ant.design/index-cn) [ioredis](https://github.com/luin/ioredis)
+[ANTD](https://ant.design/index-cn) [ioredis](https://github.com/luin/ioredis) [react](https://github.com/facebook/react) [redux](https://github.com/reduxjs/redux) [terminal-in-react](https://github.com/nitin42/terminal-in-react) [redis-splitargs](https://github.com/luin/splitargs)
