@@ -1,12 +1,13 @@
 # QuickRedis
 ## 介绍
+## 官方网站：[https://quick123.net/](https://quick123.net/)
 QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支持**直连、哨兵、集群**模式，支持亿万数量级的 key，还有令人兴奋的 UI。QuickRedis 同时支持 Windows 和 Mac 下运行。
 
 QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。**
 
 ## 下载地址（请不要使用迅雷等下载工具进行下载）
 **使用 百度网盘 下载**
-Windows & Mac：链接: [https://pan.baidu.com/s/1MNF6TwimMseYKmrbdG1Qdw](https://pan.baidu.com/s/1MNF6TwimMseYKmrbdG1Qdw) 提取码: swa4
+Windows & Mac：链接: [https://pan.baidu.com/s/1CwYGZ2aL2TNBsbLFmaeJ9A](https://pan.baidu.com/s/1CwYGZ2aL2TNBsbLFmaeJ9A) 提取码: rzdv
 
 **使用 gitee 下载**
 Windows & Mac：[https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/)
