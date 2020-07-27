@@ -6,7 +6,7 @@ QuickRedis is a **free forever** Redis visual management tool. It supports direc
 QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking coffee.**
 
 ## Download URL
-**Use Baidu network disk（百度网盘） to download**
+**Download using Baidu network disk（百度网盘）**
 Windows and Mac: [https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ](https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ "Baidu network disk") Extraction code（提取码）: qw3i
 
 **Download using gitee**
