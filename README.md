@@ -3,7 +3,7 @@
 ## Official website: [https://quick123.net/](https://quick123.net/)
 QuickRedis is a **free forever** Redis visual management tool. It supports direct connection, sentinel, and cluster mode, supports multiple languages, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows and Mac platform.
 
-QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking coffee. **
+QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking coffee.**
 
 ## Download URL
 **Use Baidu network disk（百度网盘） to download**
