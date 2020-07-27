@@ -18,15 +18,15 @@ Windows and Mac: [https://github.com/quick123official/quick_redis_blog/](https:/
 
 Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
 
-##Software screenshot
+## Software screenshot
 
--Home page! [Home] 
+-Home page
 [![Home](https://images.gitee.com/uploads/images/2020/0525/163820_bcaaa7c8_7565825.png "Home")](https://images.gitee.com/uploads/images/2020/0525/163820_bcaaa7c8_7565825.png "Home")
 
--Direct connection mode! [Direct connection mode] 
+-Direct connection mode
 [![Direct connection mode](https://images.gitee.com/uploads/images/2020/0525/163731_bc3177ab_7565825.png "Direct connection mode")](https://images.gitee.com/uploads/images/2020/0525/163731_bc3177ab_7565825.png "Direct connection mode")
 
--Sentinel mode! [Sentinel Mode]
+-Sentinel mode
 [![Sentinel Mode](https://images.gitee.com/uploads/images/2020/0525/163845_2e5a89a6_7565825.png "Sentinel Mode")](https://images.gitee.com/uploads/images/2020/0525/163845_2e5a89a6_7565825.png "Sentinel Mode")
 
 ## FAQ
@@ -39,6 +39,6 @@ If you have any questions about usage, please leave a message in the following w
 ### ** github address: **
 [https://github.com/quick123official/quick_redis_blog/issues](https://github.com/quick123official/quick_redis_blog/issues)
 
-##Open source code used
+## Open source code used
 
 [ANTD](https://ant.design/index-cn)[ioredis](https://github.com/luin/ioredis)
