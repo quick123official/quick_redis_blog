@@ -32,13 +32,13 @@ Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://
 ## FAQ
 If you have any questions about usage, please leave a message in the following ways:
 
-### ** gitee address**
+### github address
+[https://github.com/quick123official/quick_redis_blog/issues](https://github.com/quick123official/quick_redis_blog/issues)
+
+### gitee address
 
 [https://gitee.com/quick123official/quick_redis_blog/issues](https://gitee.com/quick123official/quick_redis_blog/issues)
 
-### ** github address: **
-[https://github.com/quick123official/quick_redis_blog/issues](https://github.com/quick123official/quick_redis_blog/issues)
-
-## Open source code used
+## Open source code we used
 
 [ANTD](https://ant.design/index-cn)[ioredis](https://github.com/luin/ioredis)
