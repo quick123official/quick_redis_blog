@@ -7,7 +7,7 @@ QuickRedis is an efficiency tool, **when others are trying to type commands, and
 
 ## Download URL
 **Use Baidu network disk（百度网盘） to download**
-[Baidu network disk](https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ "Baidu network disk") Extraction code（提取码）: qw3i
+Windows and Mac: [https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ](https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ "Baidu network disk") Extraction code（提取码）: qw3i
 
 **Download using gitee**
 Windows and Mac: [gitee](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
