@@ -36,7 +36,7 @@ Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://
 [![Sentinel Mode](https://images.gitee.com/uploads/images/2020/0525/163845_2e5a89a6_7565825.png "Sentinel Mode")](https://images.gitee.com/uploads/images/2020/0525/163845_2e5a89a6_7565825.png "Sentinel Mode")
 
 ## FAQ
-If you have any questions about usage, please leave a message in the following ways:
+If you have any questions about usage, please feel free to leave a message in the following ways:
 
 ### github address
 [https://github.com/quick123official/quick_redis_blog/issues](https://github.com/quick123official/quick_redis_blog/issues)
@@ -47,4 +47,4 @@ If you have any questions about usage, please leave a message in the following w
 
 ## Open source code we used
 
-[ANTD](https://ant.design/index-cn)[ioredis](https://github.com/luin/ioredis)
+[ANTD](https://ant.design/index-cn)  [ioredis](https://github.com/luin/ioredis)
