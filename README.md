@@ -1,18 +1,18 @@
-#QuickRedis
-##Introduction
-##Official website: [https://quick123.net/](https://quick123.net/)
+# QuickRedis
+## Introduction
+## Official website: [https://quick123.net/](https://quick123.net/)
 QuickRedis is a **forever free** Redis visual management tool. It supports direct connection, sentinel, and replacement mode, supports multiple languages, supports hundreds of millions of keys, and has an exciting UI. Supports both Windows and Mac operation.
 
 QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking tea. **
 
-##Download URL (Please do not use download tools such as Thunder to download)
-**Use Baidu SkyDrive to download**
+## Download URL (Please do not use download tools such as Thunder to download)
+** Use Baidu SkyDrive to download**
 Windows and Mac: Link: [https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ](https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ) Extraction code: qw3i
 
-**Download using gitee**
+** Download using gitee**
 Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/] (https://gitee.com/quick123official/quick_redis_blog/)
 
-**Download using github**
+** Download using github**
 Windows and Mac: [https://github.com/quick123official/quick_redis_blog/] (https://github.com/quick123official/quick_redis_blog/)
 ##Software screenshot
 
