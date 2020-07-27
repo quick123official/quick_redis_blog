@@ -10,10 +10,10 @@ QuickRedis is an efficiency tool, **when others are trying to type commands, and
 Windows and Mac: [https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ](https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ "Baidu network disk") Extraction code（提取码）: qw3i
 
 **Download using gitee**
-Windows and Mac: [gitee](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
+Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
 
 **Download using github**
-Windows and Mac: [github](https://github.com/quick123official/quick_redis_blog/ "github")
+Windows and Mac: [https://github.com/quick123official/quick_redis_blog/](https://github.com/quick123official/quick_redis_blog/ "github")
 
 ##Software screenshot
 
