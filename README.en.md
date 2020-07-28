@@ -41,4 +41,5 @@ If you have any questions about usage, please feel free to leave a message in th
 
 ## Open source code we used
 
-[ANTD](https://ant.design/index-cn)  [ioredis](https://github.com/luin/ioredis)
+[ANTD](https://ant.design/index-cn)  [ioredis](https://github.com/luin/ioredis) [react](https://reactjs.org/) [react-intl-universal](https://github.com/alibaba/react-intl-universal) [redux](https://redux.js.org/) [less](http://lesscss.org/features/)
+
