@@ -26,8 +26,8 @@ Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://
 
 ## Software screenshot
 
--Home page
-![Home page](https://quick123.net/images/introduction/my-home.png "Home page")
+-First page
+![Home page](https://quick123.net/images/introduction/key-zset-value.png "Home page")
 
 -Direct mode config
 ![Direct mode config](https://quick123.net/images/introduction/direct-config.png "Direct mode config")
