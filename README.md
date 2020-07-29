@@ -27,10 +27,10 @@ Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://
 ## Software screenshot
 
 -Home page
-[![Home](https://quick123.net/images/introduction/my-home.png "Home")](https://quick123.net/images/introduction/my-home.png "Home")
+![Home page](https://quick123.net/images/introduction/my-home.png "Home page")
 
--Direct connection mode
-[![Direct connection mode](https://images.gitee.com/uploads/images/2020/0525/163731_bc3177ab_7565825.png "Direct connection mode")](https://images.gitee.com/uploads/images/2020/0525/163731_bc3177ab_7565825.png "Direct connection mode")
+-Direct mode config
+![Direct mode config](https://quick123.net/images/introduction/direct-config.png "Direct mode config")
 
 -Sentinel mode
 [![Sentinel Mode](https://images.gitee.com/uploads/images/2020/0525/163845_2e5a89a6_7565825.png "Sentinel Mode")](https://images.gitee.com/uploads/images/2020/0525/163845_2e5a89a6_7565825.png "Sentinel Mode")
