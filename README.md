@@ -27,7 +27,7 @@ Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://
 ## Software screenshot
 
 -Home page
-[![Home](https://images.gitee.com/uploads/images/2020/0525/163820_bcaaa7c8_7565825.png "Home")](https://images.gitee.com/uploads/images/2020/0525/163820_bcaaa7c8_7565825.png "Home")
+[![Home](https://quick123.net/images/introduction/my-home.png "Home")](https://quick123.net/images/introduction/my-home.png "Home")
 
 -Direct connection mode
 [![Direct connection mode](https://images.gitee.com/uploads/images/2020/0525/163731_bc3177ab_7565825.png "Direct connection mode")](https://images.gitee.com/uploads/images/2020/0525/163731_bc3177ab_7565825.png "Direct connection mode")
