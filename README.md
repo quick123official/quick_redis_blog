@@ -8,7 +8,7 @@ QuickRedis is an efficiency tool, **when others are trying to type commands, and
 (
 QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支持**直连、哨兵、集群**模式，支持亿万数量级的 key，还有令人兴奋的 UI。QuickRedis 支持 Windows 、 Mac OS X 和 Linux 下运行。
 
-QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。**
+QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。** 
 )
 
 ## Download URL
