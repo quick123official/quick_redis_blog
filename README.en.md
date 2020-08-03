@@ -1,19 +1,23 @@
 # QuickRedis
 ## Introduction
 ## Official website: [https://quick123.net/](https://quick123.net/)
-QuickRedis is a **free forever** redis gui tool. It supports direct connection, sentinel, and cluster, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows and Mac platform.
+QuickRedis is a **free forever** Redis gui tool. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Ubuntu platform.
 
 QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking coffee.**
 
 ## Download URL
+**Download**
+[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-win.exe "Windows")
+[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-mac.dmg "Mac OS X")
+[Ubuntu](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-linux-x86_64.AppImage "Ubuntu")
 
 **Download from github**
 
-Windows and Mac: [https://github.com/quick123official/quick_redis_blog/](https://github.com/quick123official/quick_redis_blog/ "github")
+Windows & Mac & Ubuntu： [https://github.com/quick123official/quick_redis_blog/](https://github.com/quick123official/quick_redis_blog/ "github")
 
 **Download from gitee**
 
-Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
+Windows & Mac & Ubuntu：[https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
 
 ## Software screenshot
 
