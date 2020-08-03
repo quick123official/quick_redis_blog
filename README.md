@@ -1,28 +1,33 @@
 # QuickRedis
 ## Introduction
 ## Official website: [https://quick123.net/](https://quick123.net/)
-QuickRedis is a **free forever** Redis gui tool. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Ubuntu platform.
+QuickRedis is a **free forever** Redis gui tool. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Linux platform.
 
 QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking coffee.**
 
-（
-QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支持**直连、哨兵、集群**模式，支持亿万数量级的 key，还有令人兴奋的 UI。QuickRedis 支持 Windows 、 Mac OS X 和 Ubuntu 下运行。
+(
+QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支持**直连、哨兵、集群**模式，支持亿万数量级的 key，还有令人兴奋的 UI。QuickRedis 支持 Windows 、 Mac OS X 和 Linux 下运行。
 
-QuickRedis 是一个效率工具，当别人在努力敲命令的时候，而你已经在喝茶。
-）
+QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。**
+)
 
 ## Download URL
-**Download using Baidu network disk（百度网盘）**
+**Download**
+[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-win.exe "Windows")
+[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-mac.dmg "Mac OS X")
+[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-linux-x86_64.AppImage "Linux")
 
-Windows and Mac: [https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ](https://pan.baidu.com/s/1zalgnwkoeC6-YcWMDN2StQ "Baidu network disk") Extraction code（提取码）: qw3i
+**使用 百度网盘 下载**
+
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1HzUSLmcFYuDHfqZd8n7FPQ](https://pan.baidu.com/s/1HzUSLmcFYuDHfqZd8n7FPQ "百度网盘") 提取码: 4hkv
 
 **Download from github**
 
-Windows and Mac: [https://github.com/quick123official/quick_redis_blog/](https://github.com/quick123official/quick_redis_blog/ "github")
+Windows & Mac OS X & Linux : [https://github.com/quick123official/quick_redis_blog/](https://github.com/quick123official/quick_redis_blog/ "github")
 
 **Download from gitee**
 
-Windows and Mac: [https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
+Windows & Mac OS X & Linux : [https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
 
 ## Software screenshot
 
