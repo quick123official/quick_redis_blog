@@ -13,13 +13,16 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 
 ## Download URL
 **Download**
-[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-win.exe "Windows")
-[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-mac.dmg "Mac OS X")
-[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.0/QuickRedis-2.0.0-linux-x86_64.AppImage "Linux")
+
+[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.1/QuickRedis-2.0.1-win.exe "Windows")
+
+[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.1/QuickRedis-2.0.1-mac.dmg "Mac OS X")
+
+[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.1/QuickRedis-2.0.1-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1HzUSLmcFYuDHfqZd8n7FPQ](https://pan.baidu.com/s/1HzUSLmcFYuDHfqZd8n7FPQ "百度网盘") 提取码: 4hkv
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1OM8xV8h0cxKw-RHhX5QEcA](https://pan.baidu.com/s/1OM8xV8h0cxKw-RHhX5QEcA "百度网盘") 提取码: yp6t
 
 **Download from github**
 
