@@ -11,7 +11,7 @@ QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支�
 QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。** 
 )
 
-## Download URL
+## Download URL 
 **Download**
 
 [Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.1/QuickRedis-2.0.1-win.exe "Windows")
