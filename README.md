@@ -1,7 +1,7 @@
 # QuickRedis
 ## Introduction
 ## Official website: [https://quick123.net/](https://quick123.net/)
-QuickRedis is a **free forever** Redis gui tool. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Linux platform.
+QuickRedis is a **free forever** Redis Desktop manager. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Linux platform.
 
 QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking coffee.**
 
