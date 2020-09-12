@@ -22,7 +22,7 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1OM8xV8h0cxKw-RHhX5QEcA](https://pan.baidu.com/s/1OM8xV8h0cxKw-RHhX5QEcA "百度网盘") 提取码: yp6t
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1_A4zIb8t2NWgrjizK6oNAw](https://pan.baidu.com/s/1_A4zIb8t2NWgrjizK6oNAw "百度网盘") 提取码: bnq3
 
 **Download from github**
 
