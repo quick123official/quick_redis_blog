@@ -11,18 +11,18 @@ QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支�
 QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。**
 )
 
-## Download URL
+## Download URL 
 **Download**
 
-[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.2/QuickRedis-2.0.2-win.exe "Windows")
+[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.3/QuickRedis-2.0.3-win.exe "Windows")
 
-[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.2/QuickRedis-2.0.2-mac.dmg "Mac OS X")
+[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.3/QuickRedis-2.0.3-mac.dmg "Mac OS X")
 
-[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.2/QuickRedis-2.0.2-linux-x86_64.AppImage "Linux")
+[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.3/QuickRedis-2.0.3-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1_A4zIb8t2NWgrjizK6oNAw](https://pan.baidu.com/s/1_A4zIb8t2NWgrjizK6oNAw "百度网盘") 提取码: bnq3
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1nBeLDPTc6-SwhNiwF9uZiQ](https://pan.baidu.com/s/1nBeLDPTc6-SwhNiwF9uZiQ "百度网盘") 提取码: hzrq
 
 **Download from github**
 
