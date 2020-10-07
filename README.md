@@ -14,15 +14,15 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 ## Download URL 
 **Download**
 
-[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.3/QuickRedis-2.0.3-win.exe "Windows")
+[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.1.0/QuickRedis-2.1.0-win.exe "Windows")
 
-[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.3/QuickRedis-2.0.3-mac.dmg "Mac OS X")
+[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.1.0/QuickRedis-2.1.0-mac.dmg "Mac OS X")
 
-[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.0.3/QuickRedis-2.0.3-linux-x86_64.AppImage "Linux")
+[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.1.0/QuickRedis-2.1.0-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1nBeLDPTc6-SwhNiwF9uZiQ](https://pan.baidu.com/s/1nBeLDPTc6-SwhNiwF9uZiQ "百度网盘") 提取码: hzrq
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1AoJHSb4C1XzAPcjRAgAYZA](https://pan.baidu.com/s/1AoJHSb4C1XzAPcjRAgAYZA "百度网盘") 提取码: f69x
 
 **Download from github**
 
