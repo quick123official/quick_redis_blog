@@ -1,0 +1,9 @@
+.hostKeyZebraHighlight {
+    background-color: #f8f8f9;
+}
+.hostKeyCursor {
+    cursor: pointer;
+}
+.hostKeySelected {
+    background-color: #ebf7ff;
+}
