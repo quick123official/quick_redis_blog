@@ -157,7 +157,7 @@
     "electron.menu.help.minimize": "Minimize",
     "electron.menu.help.submit.issues.github": "submit issues (github)",
     "electron.menu.help.submit.issues.gitee": "submit issues (gitee)",
-    "electron.menu.help.officail.website": "Officail Website",
+    "electron.menu.help.officail.website": "Official Website",
     "electron.menu.help.about": "About QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####"
 }
