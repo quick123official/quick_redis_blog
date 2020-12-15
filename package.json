@@ -1,0 +1,113 @@
+{
+    "name": "QuickRedis",
+    "version": "2.1.0",
+    "private": true,
+    "description": "QuickRedis",
+    "author": "https://quick123.net/",
+    "main": "./build/main.js",
+    "homepage": ".",
+    "asar": true,
+    "dependencies": {
+        "circular-json": "^0.5.9",
+        "electron-log": "^4.2.2",
+        "getmac": "^1.2.1",
+        "ioredis": "^4.17.3",
+        "lodash": "^4.17.19",
+        "react-intl-universal": "^2.2.5",
+        "react-monaco-editor": "^0.36.0",
+        "redis-splitargs": "^1.0.1"
+    },
+    "scripts": {
+        "start1": "react-app-rewired start",
+        "start2": "run-electron ./public/main.js",
+        "build:mac": "GENERATE_SOURCEMAP=false react-app-rewired build",
+        "build:linux": "GENERATE_SOURCEMAP=false react-app-rewired build",
+        "build:win": "set GENERATE_SOURCEMAP=false && react-app-rewired build",
+        "test": "react-app-rewired test",
+        "pack:mac": "electron-builder -m",
+        "pack:win": "electron-builder -w",
+        "pack:linux": "electron-builder -l -p never",
+        "pack:all": "electron-builder -mwl"
+    },
+    "build": {
+        "extends": null,
+        "files": [
+            "./package.json",
+            "./build/**/*"
+        ],
+        "appId": "com.quick.redis",
+        "productName": "QuickRedis",
+        "copyright": "Copyright©2020 https://quick123.net/",
+        "compression": "maximum",
+        "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "ia32"
+                    ]
+                }
+            ],
+            "icon": "./build/img/quick_redis.ico"
+        },
+        "mac": {
+            "icon": "./build/img/quick_redis.icns"
+        },
+        "linux": {
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowElevation": true,
+            "allowToChangeInstallationDirectory": true,
+            "installerIcon": "./build/img/quick_redis.ico",
+            "uninstallerIcon": "./build/img/quick_redis.ico",
+            "installerHeaderIcon": "./build/img/quick_redis.ico",
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "QuickRedis"
+        }
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
+        "antd": "^4.2.4",
+        "babel-plugin-import": "^1.13.0",
+        "customize-cra": "^0.9.1",
+        "devtron": "^1.4.0",
+        "electron": "^9.1.0",
+        "electron-builder": "^22.6.1",
+        "electron-devtools-installer": "^3.1.1",
+        "global": "^4.4.0",
+        "less": "^3.10.3",
+        "less-loader": "^5.0.0",
+        "node-uuid": "^1.4.8",
+        "react": "^16.13.1",
+        "react-app-rewired": "^2.1.6",
+        "react-dom": "^16.13.1",
+        "react-redux": "^7.2.0",
+        "react-scripts": "^3.4.1",
+        "react-split-pane": "^0.1.91",
+        "react-try-catch-render": "^1.0.0",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0",
+        "run-electron": "^1.0.0",
+        "terminal-in-react": "^4.3.1"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
