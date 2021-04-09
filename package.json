@@ -1,6 +1,6 @@
 {
     "name": "QuickRedis",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "private": true,
     "description": "QuickRedis",
     "author": "https://quick123.net/",
@@ -15,7 +15,9 @@
         "lodash": "^4.17.19",
         "react-intl-universal": "^2.2.5",
         "react-monaco-editor": "^0.36.0",
-        "redis-splitargs": "^1.0.1"
+        "redis-splitargs": "^1.0.1",
+        "socksv5-fixed": "0.0.6",
+        "ssh2": "^0.8.9"
     },
     "scripts": {
         "start1": "react-app-rewired start",
@@ -54,8 +56,7 @@
         "mac": {
             "icon": "./build/img/quick_redis.icns"
         },
-        "linux": {
-        },
+        "linux": {},
         "nsis": {
             "oneClick": false,
             "allowElevation": true,

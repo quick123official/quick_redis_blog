@@ -30,6 +30,7 @@ export default class HostsFileService {
      * @memberof HostsFileService
      */
     static getHostsData() {
+        
         let hostsFilePath = this.getHostsFilePath();
         var data = undefined;
         try {
@@ -58,7 +59,7 @@ export default class HostsFileService {
         // let deepCopyNode = JSON.parse(JSON.stringify(node));
         let deepCopyNode = JSON.parse(CircularJSON.stringify(node));
         this.cleanNode(deepCopyNode);
-        let jsonHostsData = JSON.stringify(deepCopyNode);
+        let jsonHostsData = JSON.stringify(deepCopyNode, null, "\t");
         try {
             fs.writeFileSync(hostsFilePath, jsonHostsData, "utf-8");
         } catch (e) {

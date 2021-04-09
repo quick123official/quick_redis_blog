@@ -23,14 +23,14 @@ const { Option } = Select;
  * @class HostKey
  * @extends {Component}
  */
-let columns = [
-    {
-        title: "keys",
-        dataIndex: "name",
-        key: "key",
-        ellipsis: "true",
-    },
-];
+// let columns = [
+//     {
+//         title: `keys 共${this.state.tableTotal || 0}条`,
+//         dataIndex: "name",
+//         key: "key",
+//         ellipsis: "true",
+//     },
+// ];
 class HostKey extends Component {
     /**
      * table layout
@@ -81,7 +81,7 @@ class HostKey extends Component {
      * 删除key重新搜索
      */
     deleteKeyAndSearch = () => {
-        this.searchKey(this.searchInput.current.input.state.value);
+        this.searchKey(this.searchInput.current.input.value);
     };
     /**
      *加载 redis key
@@ -153,6 +153,7 @@ class HostKey extends Component {
                     tableData: [],
                     searchDisable: true,
                     currentPage: 1,
+                    tableTotal: 0,
                 });
                 let pattern = value;
                 let cursor = "0";
@@ -400,7 +401,15 @@ class HostKey extends Component {
                         />
                     </Tooltip>
                     <Table
-                        columns={columns}
+                        // columns={columns}
+                        columns={[
+                            {
+                                title: `keys 共${this.state.tableTotal || 0}条`,
+                                dataIndex: "name",
+                                key: "key",
+                                ellipsis: "true",
+                            },
+                        ]}
                         dataSource={this.state.tableData}
                         bordered={true}
                         size={"small"}
