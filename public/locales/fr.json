@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "soumettre des problèmes (gitee)",
     "electron.menu.help.officail.website": "Site Web Officail",
     "electron.menu.help.about": "À propos de QuickRedis",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"Utiliser un mandataire",
+    "proxy.host":"Agent Host",
+    "proxy.sshport":"Port SSH",
+    "proxy.username":"Nom d'utilisateur SSH",
+    "proxy.password":"Mot de passe Proxy",
+    "proxy.sshkeypath":"Chemin de la clé privée du mandataire",
+    "proxy.connecterror":"La connexion par procuration a échoué",
+    "proxy.privateKey.not.exist":"Erreur de fichier clé"
 }

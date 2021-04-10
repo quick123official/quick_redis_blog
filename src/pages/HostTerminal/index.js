@@ -28,7 +28,7 @@ class HostTerminal extends Component {
                         paddingLeft: "20px",
                         paddingRight: "20px",
                         height: "90vh",
-                        width: "90vw",
+                        // width: "90vw",
                     }}
                     commands={{
                         append: (args, print, runCommand) => {

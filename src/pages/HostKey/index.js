@@ -404,7 +404,7 @@ class HostKey extends Component {
                         // columns={columns}
                         columns={[
                             {
-                                title: `keys 共${this.state.tableTotal || 0}条`,
+                                title: `keys total:${this.state.tableTotal || 0}`,
                                 dataIndex: "name",
                                 key: "key",
                                 ellipsis: "true",

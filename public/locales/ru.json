@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "отправить проблемы (gitee)",
     "electron.menu.help.officail.website": "Официальный веб-сайт",
     "electron.menu.help.about": "О QuickRedis",
-    "electron.menu.end": "#### electrons.menu.end ####"
+    "electron.menu.end": "#### electrons.menu.end ####",
+
+    "proxy.use":"Использовать прокси",
+    "proxy.host":"агент хост",
+    "proxy.sshport":"порт SSH",
+    "proxy.username":"Имя пользователя SSH",
+    "proxy.password":"пароль агента",
+    "proxy.sshkeypath":"путь к закрытому ключу прокси",
+    "proxy.connecterror":"Ошибка соединения прокси",
+    "proxy.privateKey.not.exist":"ошибка в файле закрытого ключа"
 }

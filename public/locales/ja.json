@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "課題を提出（gitee）",
     "electron.menu.help.officail.website": "公式ウェブサイト",
     "electron.menu.help.about": "QuickRedisについて",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"プロキシを使う",
+    "proxy.host":"エージェントHost",
+    "proxy.sshport":"SSHポート",
+    "proxy.username":"SSHユーザ名",
+    "proxy.password":"プロキシパスワード",
+    "proxy.sshkeypath":"秘密鍵のプロキシパス",
+    "proxy.connecterror":"プロキシ接続に失敗しました",
+    "proxy.privateKey.not.exist":"秘密鍵ファイルエラー"
 }

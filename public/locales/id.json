@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "submit issues (gitee)",
     "electron.menu.help.officail.website": "Situs Web Resmi",
     "electron.menu.help.about": "Tentang QuickRedis",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"使用代理",
+    "proxy.host":"代理Host",
+    "proxy.sshport":"SSH端口",
+    "proxy.username":"SSH用户名",
+    "proxy.password":"代理密码",
+    "proxy.sshkeypath":"代理私钥路径",
+    "proxy.connecterror":"代理连接失败",
+    "proxy.privateKey.not.exist":"秘钥文件错误"
 }

@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "problemen indienen (gitee)",
     "electron.menu.help.officail.website": "Officail Website",
     "electron.menu.help.about": "Over QuickRedis",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"Gebruik van een proxy",
+    "proxy.host":"Agent host",
+    "proxy.sshport":"SSH poort",
+    "proxy.username":"SSH gebruikersnaam",
+    "proxy.password":"Wachtwoord voor proxy",
+    "proxy.sshkeypath":"Proxy prive-sleutel pad",
+    "proxy.connecterror":"Verbinding mislukt",
+    "proxy.privateKey.not.exist":"Fout in het geheime bestand"
 }
