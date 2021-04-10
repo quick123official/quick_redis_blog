@@ -73,7 +73,7 @@ class HostContent extends Component {
                 for (let i = 0; i < databasesSize; i++) {
                     dbTabs.push({
                         key: "" + i,
-                        title: "db " + i,
+                        title: "db" + i,
                     });
                 }
                 this.setState({ dbTabs: dbTabs });
