@@ -1,8 +1,0 @@
-version: 2.2.0
-files:
-  - url: QuickRedis-2.2.0-win.exe
-    sha512: 2dGyKe4C5pfHvSIkDK4YD2yv3hVJc8u6KMe1iG1tWQLON9gpu0038HOHoNai2/065e4H3uSqHiPV8VXucngpXw==
-    size: 64312705
-path: QuickRedis-2.2.0-win.exe
-sha512: 2dGyKe4C5pfHvSIkDK4YD2yv3hVJc8u6KMe1iG1tWQLON9gpu0038HOHoNai2/065e4H3uSqHiPV8VXucngpXw==
-releaseDate: '2021-04-11T12:36:54.774Z'
