@@ -60,6 +60,7 @@ function createWindow() {
         },
         backgroundColor: "#EBEBEB",
     });
+
     // 添加菜单
     const aplicationMenu = Menu.buildFromTemplate(menu.init(mainWindow));
     Menu.setApplicationMenu(aplicationMenu);

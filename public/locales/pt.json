@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "enviar problemas (gitee)",
     "electron.menu.help.officail.website": "Site da Officail",
     "electron.menu.help.about": "Sobre QuickRedis",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"Usando um proxy",
+    "proxy.host":"Agente anfitrião.",
+    "proxy.sshport":"Porta SSH",
+    "proxy.username":"Nome do utilizador SSH",
+    "proxy.password":"Senha Proxy",
+    "proxy.sshkeypath":"Localização provável Da chave Privada",
+    "proxy.connecterror":"A conexão do'proxy'falhou",
+    "proxy.privateKey.not.exist":"Erro de arquivo de chave secreta"
 }

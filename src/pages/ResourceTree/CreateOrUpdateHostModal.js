@@ -8,6 +8,7 @@ import {
     Divider,
     Button,
     message,
+    Checkbox,
 } from "antd";
 import Log from "@/services/LogService";
 import { CONNECT_TYPE } from "@/utils/constant";
@@ -25,6 +26,34 @@ const layout = {
     wrapperCol: { span: 19 },
 };
 class CreateOrUpdateHostModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.setState({
+            proxyuse: this.props.data.proxyuse || false,
+        });
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    // componentWillMount(){
+    //     
+    //     this.state = {
+    //         proxyuse: this.props.data.proxyuse || false,
+    //     };
+    // }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value
+        });
+
+        this.props.data[name] = value
+    }
+
+
     state = { showMasterName: "none" };
     /**
      * 在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。
@@ -34,6 +63,9 @@ class CreateOrUpdateHostModal extends React.Component {
      */
     UNSAFE_componentWillReceiveProps(nextProps) {
         this.props = nextProps;
+        this.setState({
+            proxyuse: this.props.data.proxyuse || false,
+        });
         let form = this.refs.form;
         if (form === undefined) {
             return;
@@ -48,6 +80,7 @@ class CreateOrUpdateHostModal extends React.Component {
         } else {
             this.setState({ showMasterName: "none" });
         }
+
     }
     /**
      *连接类型的select组件重新选择
@@ -71,6 +104,7 @@ class CreateOrUpdateHostModal extends React.Component {
             .then((values) => {
                 let testNode = {
                     data: {
+                        ...values,
                         host: values.host,
                         port: values.port,
                         auth: values.auth,
@@ -87,6 +121,7 @@ class CreateOrUpdateHostModal extends React.Component {
             });
     }
     render() {
+
         return (
             <Modal
                 visible={this.props.visible}
@@ -110,6 +145,7 @@ class CreateOrUpdateHostModal extends React.Component {
                     }
                     form.validateFields()
                         .then((values) => {
+                            values = {...this.props.data, ...values,proxyuse: this.props.data.proxyuse}
                             this.props.handleCreateOrUpdateHostModalOk(values);
                             form.resetFields();
                         })
@@ -204,7 +240,7 @@ class CreateOrUpdateHostModal extends React.Component {
                             display:
                                 this.props.data.connectType ===
                                     CONNECT_TYPE.SENTINEL ||
-                                this.state.showMasterName === "block"
+                                    this.state.showMasterName === "block"
                                     ? "block"
                                     : "none",
                         }}
@@ -218,7 +254,7 @@ class CreateOrUpdateHostModal extends React.Component {
                             display:
                                 this.props.data.connectType ===
                                     CONNECT_TYPE.SENTINEL ||
-                                this.state.showMasterName === "block"
+                                    this.state.showMasterName === "block"
                                     ? "block"
                                     : "none",
                         }}
@@ -228,6 +264,68 @@ class CreateOrUpdateHostModal extends React.Component {
                             label={intl.get(
                                 "ResourceTree.host.sentinel.password"
                             )}
+                        >
+                            <Input />
+                        </Form.Item>
+                    </div>
+                    <Form.Item
+                        name="proxyuse"
+                        label={intl.get("proxy.use")}
+                    >
+                        <Checkbox
+                            name="proxyuse"
+                            checked={this.state.proxyuse}
+                            onChange={this.handleInputChange}
+                        ></Checkbox>
+                    </Form.Item>
+                    <div
+                        style={{
+                            display: this.state.proxyuse == true ? "block" : "none",
+                        }}
+                    >
+                        <Form.Item
+                            name="proxyhost"
+                            label={intl.get("proxy.host")}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="proxysshport"
+                            label={intl.get("proxy.sshport")}
+                        >
+                            <InputNumber min={1} max={65535} value={22} />
+                        </Form.Item>
+                        {/* <Form.Item label={intl.get("proxy.remoteport")}>
+                            <Form.Item
+                                style={{ display: 'inline-flex', width: 'calc(45% - 4px)' }}
+                                name="proxyremoteport"
+                                label={intl.get("proxy.remoteport")}
+                            >
+                                <InputNumber min={1} max={65535} />
+                            </Form.Item>
+                            <Form.Item
+                                style={{ display: 'inline-flex', width: 'calc(55% - 4px)', marginLeft: '8px' }}
+                                name="proxysshport"
+                                label={intl.get("proxy.sshport")}
+                            >
+                                <InputNumber min={1} max={65535} />
+                            </Form.Item>
+                        </Form.Item> */}
+                        <Form.Item
+                            name="proxyusername"
+                            label={intl.get("proxy.username")}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="proxypassword"
+                            label={intl.get("proxy.password")}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item
+                            name="proxysshkeypath"
+                            label={intl.get("proxy.sshkeypath")}
                         >
                             <Input />
                         </Form.Item>

@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "문제 제출 (gitee)",
     "electron.menu.help.officail.website": "공식 웹 사이트",
     "electron.menu.help.about": "QuickRedis 정보",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"사용 에이전트",
+    "proxy.host":"대리 Host",
+    "proxy.sshport":"SSH 포트",
+    "proxy.username":"사용자 이름 SSH",
+    "proxy.password":"프 록 시 비밀번호",
+    "proxy.sshkeypath":"대리 비밀 키 루트",
+    "proxy.connecterror":"프 록 시 연결 실패",
+    "proxy.privateKey.not.exist":"비밀 키 파일 오류"
 }

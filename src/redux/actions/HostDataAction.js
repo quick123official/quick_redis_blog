@@ -35,6 +35,7 @@ function genHostsKey(nodes) {
  * @returns
  */
 export function getHostsData() {
+    
     let hosts = JSON.parse(HostsFileService.getHostsData());
     genHostsKey(hosts);
     return { type: GET_HOSTS_DATA, payload: hosts };
