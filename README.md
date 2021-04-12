@@ -84,3 +84,6 @@ If you have any questions about usage, please feel free to leave a message in th
 
 [ANTD](https://ant.design/index-cn)  [ioredis](https://github.com/luin/ioredis) [react](https://reactjs.org/) [react-intl-universal](https://github.com/alibaba/react-intl-universal) [redux](https://redux.js.org/) [less](http://lesscss.org/features/)
 
+## 快速开始
+### 开发阶段：1. yarn run start1；2. yarn run start2
+### 打包：1. yarn run build:mac；2. yarn run pack:mac
