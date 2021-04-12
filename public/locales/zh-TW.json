@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "提交問題（gitee）",
     "electron.menu.help.officail.website": "官方網站",
     "electron.menu.help.about": "關於 QuickRedis",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"使用代理",
+    "proxy.host":"代理Host",
+    "proxy.sshport":"SSH端口",
+    "proxy.username":"SSH用戶名",
+    "proxy.password":"代理密碼",
+    "proxy.sshkeypath":"代理私鑰路徑",
+    "proxy.connecterror":"代理連接失敗",
+    "proxy.privateKey.not.exist":"秘鑰文件錯誤"
 }

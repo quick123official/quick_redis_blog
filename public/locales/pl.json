@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "zgłoś problemy (gitee)",
     "electron.menu.help.officail.website": "Strona internetowa urzędu",
     "electron.menu.help.about": "Informacje o QuickRedis",
-    "electron.menu.end": "#### electron.menu.end ####"
+    "electron.menu.end": "#### electron.menu.end ####",
+
+    "proxy.use":"Korzystanie z pośrednika",
+    "proxy.host":"Agent prowadzący",
+    "proxy.sshport":"Port SSH",
+    "proxy.username":"Nazwa użytkownika SSH",
+    "proxy.password":"Hasło pośrednika",
+    "proxy.sshkeypath":"Ścieżka klucza prywatnego pośrednika",
+    "proxy.connecterror":"Błąd połączenia pośrednika",
+    "proxy.privateKey.not.exist":"Błąd tajnego klucza"
 }

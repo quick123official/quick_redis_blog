@@ -159,5 +159,14 @@
     "electron.menu.help.submit.issues.gitee": "odeslat problémy (gitee)",
     "electron.menu.help.officail.website": "Web Officail",
     "electron.menu.help.about": "O aplikaci QuickRedis",
-    "electron.menu.end": "#### elektron.menu.end ####"
+    "electron.menu.end": "#### elektron.menu.end ####",
+
+    "proxy.use":"Použití proxy",
+    "proxy.host":"Hostitel agenta",
+    "proxy.sshport":"SSH port",
+    "proxy.username":"Uživatelské jméno SSH",
+    "proxy.password":"Heslo proxy",
+    "proxy.sshkeypath":"Proxy soukromá přístupová cesta",
+    "proxy.connecterror":"Připojení proxy selhalo ",
+    "proxy.privateKey.not.exist":"Chyba tajného souboru"
 }
