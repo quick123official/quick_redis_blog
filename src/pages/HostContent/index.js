@@ -70,13 +70,56 @@ class HostContent extends Component {
             if (!err && res[1]) {
                 let databasesSize = Number(res[1]);
                 let dbTabs = [];
-                for (let i = 0; i < databasesSize; i++) {
-                    dbTabs.push({
-                        key: "" + i,
-                        title: "db " + i,
-                    });
-                }
-                this.setState({ dbTabs: dbTabs });
+                // for (let i = 0; i < databasesSize; i++) {
+                //     dbTabs.push({
+                //         key: "" + i,
+                //         title: "db" + i,
+                //     });
+                // }
+                //
+                // this.setState({ dbTabs: dbTabs });
+
+                //获取dbsizes信息
+                redis.info("Keyspace").then(
+                    (res) => {
+                        //拆分masters
+                        let infos = res.split("\n");
+
+                        let keyinfos = {};
+                        infos.forEach((v, i) => {
+                            if (v.startsWith("db")) {
+                                //先用 :keys 分隔,得到数据库序号
+                                let strings = v.split(":keys");
+                                let dbname = strings[0];
+                                let t1 = "keys" + strings[1];
+                                let temp = t1.split(",");
+                                let keyinfo = {
+                                    number: strings[0]
+                                }
+                                temp.forEach((v1, i1) => {
+                                    let key = v1.split("=")[0];
+                                    let value = v1.split("=")[1];
+                                    keyinfo[key] = value;
+                                })
+                                keyinfos[dbname] = keyinfo;
+                            }
+                        })
+                        console.log(`keyinfos:${JSON.stringify(keyinfos, null, "\t")}`);
+
+                        for (let i = 0; i < databasesSize; i++) {
+                            let dbname = "db" + i;
+                            let keyinfo = keyinfos[dbname];
+                            dbTabs.push({
+                                key: "" + i,
+                                title: dbname,
+                                total: keyinfo == undefined ? 0 : keyinfo['keys'] || 0
+                            });
+                        }
+
+                        this.setState({ dbTabs: dbTabs });
+                    }
+                );
+
             } else {
                 if (err) {
                     message.error("" + err);
@@ -132,9 +175,10 @@ class HostContent extends Component {
                 >
                     {this.state.dbTabs.map((tab) => (
                         <TabPane
-                            tab={tab.title}
+                            // tab={tab.title}
+                            tab={tab.title + " "+(tab.total > 0 ? "有" : "无")}
                             key={tab.key}
-                            style={{ background: "#fff" }}
+                            style={{ background: "#fff",color: "green"}}
                         >
                             <div>
                                 <SplitPane
@@ -166,7 +210,7 @@ class HostContent extends Component {
                                     </div>
                                     <div style={{ paddingLeft: "20px" }}>
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.STRING ? (
+                                            REDIS_DATA_TYPE.STRING ? (
                                             <HostKeyString
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -179,7 +223,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.ZSET ? (
+                                            REDIS_DATA_TYPE.ZSET ? (
                                             <HostKeySortSet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -192,7 +236,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.SET ? (
+                                            REDIS_DATA_TYPE.SET ? (
                                             <HostKeySet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -205,7 +249,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.HASH ? (
+                                            REDIS_DATA_TYPE.HASH ? (
                                             <HostKeyHash
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -218,7 +262,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.LIST ? (
+                                            REDIS_DATA_TYPE.LIST ? (
                                             <HostKeyList
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
