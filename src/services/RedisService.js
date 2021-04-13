@@ -26,10 +26,9 @@ export default class RedisService {
      * @memberof RedisService
      */
     static connectRedis(node, dispatch, callback) {
-        
         let redis = undefined;
         if (node.data.connectType === CONNECT_TYPE.DIRECT) {
-            if (node.data.proxyuse == true) {
+            if (node.data.proxyuse === true) {
                 RedisService.proxyssh(node.data, (redis) => {
                     RedisService.redisEvent(node, dispatch, callback, redis);
                 });
@@ -55,7 +54,7 @@ export default class RedisService {
                 password: node.data.auth,
                 sentinelPassword: node.data.sentinelPassword,
             }
-            if (node.data.proxyuse == true) {
+            if (node.data.proxyuse === true) {
                 RedisService.proxyssh({ ...node.data, ...params }, (redis) => {
                     RedisService.redisEvent(node, dispatch, callback, redis);
                 });
@@ -209,7 +208,7 @@ export default class RedisService {
             password: hostinfo.proxypassword,
         };
 
-        if (hostinfo.proxysshkeypath != null && hostinfo.proxysshkeypath != "")
+        if (hostinfo.proxysshkeypath != null && hostinfo.proxysshkeypath !== "")
         {
             try {
                 connectionConfig.privateKey = readFileSync(hostinfo.proxysshkeypath);
@@ -272,7 +271,7 @@ export default class RedisService {
                                         let value = v1.split("=")[1];
                                         master[key] = value;
 
-                                        if (key == "name") {
+                                        if (key === "name") {
                                             masters[value] = master;
                                         }
                                     })

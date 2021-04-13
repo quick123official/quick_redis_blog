@@ -128,6 +128,12 @@ class ResourceTree extends Component {
                 auth: "",
                 connectType: "0",
                 masterName: "",
+                proxyuse: false,
+                proxyhost: "",
+                proxysshport: 22,
+                proxyusername: "root",
+                proxypassword: "root",
+                proxysshkeypath: "",
             },
         },
     };
@@ -188,6 +194,12 @@ class ResourceTree extends Component {
                         connectType: "0",
                         masterName: "",
                         sentinelPassword: "",
+                        proxyuse: false,
+                        proxyhost: "",
+                        proxysshport: 22,
+                        proxyusername: "root",
+                        proxypassword: "root",
+                        proxysshkeypath: "",
                     },
                 },
             });
@@ -559,7 +571,7 @@ class ResourceTree extends Component {
      * @memberof ResourceTree
      */
     handleCreateOrUpdateHostModalCancel() {
-        this.setState({
+        let createOrUpdateHostModal = {
             createOrUpdateHostModal: {
                 visible: false,
                 type: 0,
@@ -570,9 +582,16 @@ class ResourceTree extends Component {
                     auth: "",
                     connectType: "0",
                     masterName: "",
+                    proxyuse: false,
+                    proxyhost: "",
+                    proxysshport: 22,
+                    proxyusername: "root",
+                    proxypassword: "root",
+                    proxysshkeypath: "",
                 },
             },
-        });
+        }
+        this.setState(createOrUpdateHostModal);
     }
     /**
      * 双击tree
