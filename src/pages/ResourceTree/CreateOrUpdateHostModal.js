@@ -80,7 +80,6 @@ class CreateOrUpdateHostModal extends React.Component {
         } else {
             this.setState({ showMasterName: "none" });
         }
-
     }
     /**
      *连接类型的select组件重新选择
@@ -111,6 +110,7 @@ class CreateOrUpdateHostModal extends React.Component {
                         connectType: values.connectType,
                         masterName: values.masterName,
                         sentinelPassword: values.sentinelPassword,
+                        proxyuse: this.state.proxyuse || false,
                     },
                 };
                 RedisService.connectRedis(testNode, undefined, undefined);
@@ -269,18 +269,18 @@ class CreateOrUpdateHostModal extends React.Component {
                         </Form.Item>
                     </div>
                     <Form.Item
-                        name="proxyuse"
+                        // name="proxyuse"
                         label={intl.get("proxy.use")}
                     >
                         <Checkbox
                             name="proxyuse"
-                            checked={this.state.proxyuse}
+                            checked={this.state.proxyuse || false}
                             onChange={this.handleInputChange}
                         ></Checkbox>
                     </Form.Item>
                     <div
                         style={{
-                            display: this.state.proxyuse == true ? "block" : "none",
+                            display: this.state.proxyuse === true ? "block" : "none",
                         }}
                     >
                         <Form.Item
@@ -295,22 +295,6 @@ class CreateOrUpdateHostModal extends React.Component {
                         >
                             <InputNumber min={1} max={65535} value={22} />
                         </Form.Item>
-                        {/* <Form.Item label={intl.get("proxy.remoteport")}>
-                            <Form.Item
-                                style={{ display: 'inline-flex', width: 'calc(45% - 4px)' }}
-                                name="proxyremoteport"
-                                label={intl.get("proxy.remoteport")}
-                            >
-                                <InputNumber min={1} max={65535} />
-                            </Form.Item>
-                            <Form.Item
-                                style={{ display: 'inline-flex', width: 'calc(55% - 4px)', marginLeft: '8px' }}
-                                name="proxysshport"
-                                label={intl.get("proxy.sshport")}
-                            >
-                                <InputNumber min={1} max={65535} />
-                            </Form.Item>
-                        </Form.Item> */}
                         <Form.Item
                             name="proxyusername"
                             label={intl.get("proxy.username")}

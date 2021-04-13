@@ -112,7 +112,7 @@ class HostContent extends Component {
                             dbTabs.push({
                                 key: "" + i,
                                 title: dbname,
-                                total: keyinfo == undefined ? 0 : keyinfo['keys'] || 0
+                                total: keyinfo === undefined ? 0 : keyinfo['keys'] || 0
                             });
                         }
 
