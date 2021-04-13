@@ -26,7 +26,6 @@ export default class RedisService {
      * @memberof RedisService
      */
     static connectRedis(node, dispatch, callback) {
-        debugger
         let redis = undefined;
         if (node.data.connectType === CONNECT_TYPE.DIRECT) {
             if (node.data.proxyuse === true) {
