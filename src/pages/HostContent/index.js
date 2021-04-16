@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Tabs, message } from "antd";
 import HostKey from "@/pages/HostKey";
 import HostKeyString from "@/pages/HostKeyString";
+import HostCornerMarker from "@/pages/HostCornerMarker";
 import HostKeyList from "@/pages/HostKeyList";
 import HostKeySet from "@/pages/HostKeySet";
 import HostKeySortSet from "@/pages/HostKeySortSet";
@@ -176,9 +177,13 @@ class HostContent extends Component {
                     {this.state.dbTabs.map((tab) => (
                         <TabPane
                             // tab={tab.title}
-                            tab={tab.title + " "+(tab.total > 0 ? "有" : "无")}
+                            // tab={tab.title + " "+(tab.total > 0 ? "有" : "无")}
+                            tab={<HostCornerMarker
+                                title={tab.title}
+                                total={tab.total}
+                            ></HostCornerMarker>}
                             key={tab.key}
-                            style={{ background: "#fff",color: "green"}}
+                            style={{ background: "#fff"}}
                         >
                             <div>
                                 <SplitPane
