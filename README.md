@@ -1,7 +1,7 @@
 # QuickRedis
 
 ## Donate（捐赠作者）
-<img src="https://quick123.net/images/juanzeng/weixin.jpg" alt="捐赠作者" width="280" height="336" align="bottom" />
+<img src="https://quick123.net/images/juanzeng/weixin.png" alt="捐赠作者" width="280" height="280" align="bottom" />
 
 ## Introduction
 ## Official website: [https://quick123.net/](https://quick123.net/)
