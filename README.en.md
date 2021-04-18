@@ -14,15 +14,15 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 ## Download URL 
 **Download**
 
-[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.1.0/QuickRedis-2.1.0-win.exe "Windows")
+[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.2.0/QuickRedis-2.2.0-win.exe "Windows")
 
-[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.1.0/QuickRedis-2.1.0-mac.dmg "Mac OS X")
+[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.2.0/QuickRedis-2.2.0-mac.dmg "Mac OS X")
 
-[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.1.0/QuickRedis-2.1.0-linux-x86_64.AppImage "Linux")
+[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.2.0/QuickRedis-2.2.0-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1AoJHSb4C1XzAPcjRAgAYZA](https://pan.baidu.com/s/1AoJHSb4C1XzAPcjRAgAYZA "百度网盘") 提取码: f69x
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1LQ7lb30GW-OSqC8-VXW2YA](https://pan.baidu.com/s/1LQ7lb30GW-OSqC8-VXW2YA "百度网盘") 提取码: skyf
 
 **Download from github**
 
@@ -84,3 +84,6 @@ If you have any questions about usage, please feel free to leave a message in th
 
 [ANTD](https://ant.design/index-cn)  [ioredis](https://github.com/luin/ioredis) [react](https://reactjs.org/) [react-intl-universal](https://github.com/alibaba/react-intl-universal) [redux](https://redux.js.org/) [less](http://lesscss.org/features/)
 
+## 快速开始
+### 开发阶段：1. yarn run start1；2. yarn run start2
+### 打包：1. yarn run build:mac；2. yarn run pack:mac
