@@ -26,14 +26,6 @@ const layout = {
     wrapperCol: { span: 19 },
 };
 class CreateOrUpdateHostModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.setState({
-            proxyuse: this.props.data.proxyuse || false,
-        });
-
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
 
     // componentWillMount(){
     //     
@@ -43,14 +35,10 @@ class CreateOrUpdateHostModal extends React.Component {
     // }
 
     handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
         this.setState({
-            [name]: value
+            proxyuse: !this.state.proxyuse,
         });
-
-        this.props.data[name] = value
+        this.props.data.proxyuse = !this.state.proxyuse;
     }
 
 
@@ -275,7 +263,7 @@ class CreateOrUpdateHostModal extends React.Component {
                         <Checkbox
                             name="proxyuse"
                             checked={this.state.proxyuse || false}
-                            onChange={this.handleInputChange}
+                            onChange={this.handleInputChange.bind(this)}
                         ></Checkbox>
                     </Form.Item>
                     <div
