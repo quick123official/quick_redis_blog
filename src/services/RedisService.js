@@ -320,24 +320,7 @@ export default class RedisService {
                     //集群
 
                 }
-
-                // redis = new Redis({ host: '127.0.0.1', port: server.address().port,password: hostinfo.auth});
                 console.log("redis:redis:", redis);
-                // redis.keys("*").then(
-                //     (res) => {
-                //         console.log(`redis:res:${res}`);
-                //     },
-                //     (err) => {
-                //         console.log(`redis:err:${err}`);
-                //     }
-                // );
-                // if (redis != null) {
-                //     callback(redis);
-                // } else {
-                //     message.error(
-                //         intl.get("RedisService.error.occurred")
-                //     );
-                // }
             })
         }).on('error', err => {
             console.error(`[ERROR] - ${err}`);

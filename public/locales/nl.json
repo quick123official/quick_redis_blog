@@ -16,7 +16,7 @@
     "common.modal.title.add": "Record toevoegen",
     "common.modal.title.view": "Bekijk record",
     "common.modal.title.modify": "Record wijzigen",
-    "common.search.tooltip.limit": "Query tot 1000 records",
+    "common.search.tooltip.limit": "Query tot 10000 records",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

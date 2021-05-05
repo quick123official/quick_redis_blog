@@ -16,7 +16,7 @@
     "common.modal.title.add": "Thêm Bản ghi",
     "common.modal.title.view": "Xem Bản ghi",
     "common.modal.title.modify": "Sửa đổi Bản ghi",
-    "common.search.tooltip.limit": "Truy vấn tối đa 1000 bản ghi",
+    "common.search.tooltip.limit": "Truy vấn tối đa 10000 bản ghi",
     "common.end00": "#### chung ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

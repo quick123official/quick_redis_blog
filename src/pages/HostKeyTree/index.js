@@ -1,37 +1,32 @@
 import React, { Component } from "react";
 import {
     Space,
-    Table,
     Input,
     Button,
     Modal,
     Select,
     Form,
     Tooltip,
+    Tree,
+    Tag,
 } from "antd";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { REDIS_DATA_TYPE, REDIS_DATA_SHOW } from "@/utils/constant";
+import { REDIS_DATA_TYPE } from "@/utils/constant";
 import "@/pages/CommonCss/zebra.css";
+import uuid from "node-uuid";
 import Log from "@/services/LogService";
 import intl from "react-intl-universal";
 const { Search } = Input;
 const { Option } = Select;
+const { DirectoryTree } = Tree;
 /**
  *host 管理
  *
- * @class HostKey
+ * @class HostKeyTree
  * @extends {Component}
  */
-// let columns = [
-//     {
-//         title: `keys 共${this.state.tableTotal || 0}条`,
-//         dataIndex: "name",
-//         key: "key",
-//         ellipsis: "true",
-//     },
-// ];
-class HostKey extends Component {
+class HostKeyTree extends Component {
     /**
      * table layout
      *
@@ -44,36 +39,34 @@ class HostKey extends Component {
     /**
      *
      *
-     * @memberof HostKey
+     * @memberof HostKeyTree
      */
     initValues = { key: "", keyType: REDIS_DATA_TYPE.STRING };
     /**
      *
      *
-     * @memberof HostKey
+     * @memberof HostKeyTree
      */
     state = {
-        tableData: [],
-        tableTotal: 10,
-        currentPage: 1,
-        pageSize: 15,
+        treeData: [],
+        treeDataTotal: 0,
         searchDisable: false,
-        selectedRowKey: "",
         createKeyMadal: { visible: false, keyType: REDIS_DATA_TYPE.STRING },
     };
     searchInput = React.createRef();
     componentDidMount() {
-        let pattern = "*";
-        let cursor = "0";
-        let maxRecords = 10000;
-        this.setState({ tableData: [], searchDisable: true, currentPage: 1 });
+        this.setState({
+            treeData: [],
+            treeDataTotal: 0,
+            searchDisable: true,
+        });
         this.props.node.redis.select(this.props.db, (err, res) => {
             if (err) {
                 message.error("" + err);
-                Log.error("HostKey componentDidMount error", err, res);
+                Log.error("HostKeyTree componentDidMount error", err, res);
                 return;
             }
-            this.loadRedisDataByPattern(pattern, cursor, maxRecords);
+            this.loadRedisDataByPattern("*");
         });
         this.props.triggerRef(this);
     }
@@ -84,55 +77,95 @@ class HostKey extends Component {
         this.searchKey(this.searchInput.current.input.value);
     };
     /**
-     *加载 redis key
-     *
-     * @param {*} pattern
-     * @param {*} cursor
-     * @param {*} maxRecords
-     * @memberof HostKey
+     * 构建 treeMap
+     * @param {*} parentMap
+     * @param {*} parentKeyArr
      */
-    loadRedisDataByPattern(pattern, cursor, maxRecords, existKey) {
+    keyArrToTreeMap(parentMap, parentKeyArr) {
+        let childMap = parentMap.get(parentKeyArr[0]);
+        if (childMap === null || childMap === undefined) {
+            childMap = new Map();
+            parentMap.set(parentKeyArr[0], childMap);
+        }
+        if (parentKeyArr.length > 1) {
+            this.keyArrToTreeMap(
+                childMap,
+                parentKeyArr.slice(1, parentKeyArr.length)
+            );
+        }
+    }
+    /**
+     * treeMap to treeData
+     * @param {*} treeMap
+     * @param {*} treeData
+     */
+    treeMapToTreeData(treeMap, treeData) {
+        for (let item of treeMap.entries()) {
+            let key = item[0];
+            let value = item[1];
+            if (value.size > 0) {
+                let children = [];
+                treeData.push({
+                    title: key,
+                    key: uuid.v4(),
+                    children,
+                });
+                this.treeMapToTreeData(value, children);
+            } else {
+                treeData.push({
+                    title: key,
+                    key: uuid.v4(),
+                    isLeaf: true,
+                });
+            }
+        }
+    }
+    /**
+     * 加载 redis key
+     * @param {*} pattern
+     */
+    loadRedisDataByPattern(pattern) {
+        if (pattern !== "*") {
+            pattern = "*" + pattern + "*";
+        }
         let redis = this.props.node.redis;
-        redis.scan(
-            cursor,
-            "MATCH",
-            pattern,
-            "COUNT",
-            REDIS_DATA_SHOW.FETCH_DATA_SIZE,
-            (err, res) => {
-                if (err) {
-                    this.setState({ searchDisable: false });
-                    message.error("" + err);
-                    Log.error("HostKey loadRedisDataByPattern error", err);
-                    return;
-                }
-                let data = [];
-                for (let i = 0; i < res[1].length; i++) {
-                    if (res[1][i] === existKey) {
-                        continue;
+        redis.keys(pattern).then(
+            (res) => {
+                this.setState({
+                    treeData: [],
+                    treeDataTotal: 0,
+                    searchDisable: true,
+                });
+                let treeData = [];
+                if (res !== null && res !== undefined && res.length !== 0) {
+                    let rootTreeMap = new Map();
+                    for (let i = 0; i < res.length; i++) {
+                        let key = res[i];
+                        let childKeyArr = key.split(":");
+                        let childMap = rootTreeMap.get(childKeyArr[0]);
+                        if (childMap === null || childMap === undefined) {
+                            childMap = new Map();
+                        }
+                        rootTreeMap.set(childKeyArr[0], childMap);
+                        if (childKeyArr.length > 1) {
+                            this.keyArrToTreeMap(
+                                childMap,
+                                childKeyArr.slice(1, childKeyArr.length)
+                            );
+                        }
                     }
-                    data.push({
-                        key: res[1][i],
-                        name: res[1][i],
-                    });
+                    this.treeMapToTreeData(rootTreeMap, treeData);
+                    console.info("treeData", treeData);
                 }
-                if (data.length !== 0) {
-                    let tableData = [...this.state.tableData, ...data];
-                    this.setState({
-                        tableData: tableData,
-                        tableTotal: tableData.length,
-                    });
-                }
-                if (
-                    res[0] === "0" ||
-                    this.state.tableData.length >= maxRecords
-                ) {
-                    this.setState({ searchDisable: false });
-                    // 没有数据或获取的数据已经达到maxRecords，则不再获取
-                    return;
-                } else {
-                    this.loadRedisDataByPattern(pattern, res[0], maxRecords);
-                }
+                this.setState({
+                    treeData: treeData,
+                    treeDataTotal: treeData.length,
+                    searchDisable: false,
+                });
+            },
+            (err) => {
+                message.error("" + err);
+                Log.error("HostKeyTree refreshValue error", err);
             }
         );
     }
@@ -140,108 +173,17 @@ class HostKey extends Component {
      *搜索key
      *
      * @param {*} value
-     * @memberof HostKey
+     * @memberof HostKeyTree
      */
     searchKey(value) {
         if (value === null || value === undefined || value === "") {
             value = "*";
         }
-        let redis = this.props.node.redis;
-        redis.keys(value).then(
-            (res) => {
-                this.setState({
-                    tableData: [],
-                    searchDisable: true,
-                    currentPage: 1,
-                    tableTotal: 0,
-                });
-                let pattern = value;
-                let cursor = "0";
-                let maxRecords = 10000;
-                pattern = "*" + pattern + "*";
-                // 关键字的key，如果存在，必然显示在第一页第一行
-                if (
-                    res !== null &&
-                    res !== undefined &&
-                    res.length !== 0 &&
-                    value !== "*"
-                ) {
-                    let data = [];
-                    data.push({
-                        key: value,
-                        name: value,
-                    });
-                    if (data.length !== 0) {
-                        let tableData = [...this.state.tableData, ...data];
-                        this.setState({
-                            tableData: tableData,
-                            tableTotal: tableData.length,
-                        });
-                    }
-                }
-                this.loadRedisDataByPattern(pattern, cursor, maxRecords, value);
-            },
-            (err) => {
-                message.error("" + err);
-                Log.error("HostKey refreshValue error", err);
-            }
-        );
-    }
-    /**
-     *改变页码
-     *
-     * @param {*} page
-     * @param {*} pageSize
-     * @memberof HostKey
-     */
-    onPaginationChange(page, pageSize) {
-        this.setState({ currentPage: page });
-    }
-    /**
-     *页面显示条数改变
-     *
-     * @param {*} current
-     * @param {*} size
-     * @memberof HostKey
-     */
-    onShowSizeChange(current, size) {
-        this.setState({ pageSize: size });
-    }
-    /**
-     *斑马纹
-     *
-     * @param {*} record
-     * @param {*} index
-     * @returns
-     * @memberof HostKey
-     */
-    renderRowClassName(record, index) {
-        let className = "hostKeyCursor";
-        if (record.key === this.state.selectedRowKey) {
-            className += " hostKeySelected";
-        } else {
-            if (index % 2 === 1) {
-                className += " hostKeyZebraHighlight";
-            }
-        }
-        return className;
-    }
-    /**
-     *行事件
-     *
-     * @param {*} record
-     * @returns
-     * @memberof HostKey
-     */
-    onRowEvent(record) {
-        return {
-            onClick: () => {
-                this.setState({
-                    selectedRowKey: record.key,
-                });
-                this.props.updateHostKey(record.key);
-            },
-        };
+        let pattern = value;
+        let cursor = "0";
+        let maxRecords = 10000;
+        pattern = "*" + pattern + "*";
+        this.loadRedisDataByPattern(pattern, cursor, maxRecords, value);
     }
     /**
      * 打开 创建key 窗口
@@ -252,7 +194,7 @@ class HostKey extends Component {
     /**
      *关闭 创建key 窗口
      *
-     * @memberof HostKey
+     * @memberof HostKeyTree
      */
     cancelCreateKeyMadal = (e) => {
         this.setState({
@@ -262,7 +204,7 @@ class HostKey extends Component {
     /**
      *确定 创建key 窗口
      *
-     * @memberof HostKey
+     * @memberof HostKeyTree
      */
     okCreateKeyMadal = (e) => {
         let form = this.refs.form;
@@ -287,7 +229,7 @@ class HostKey extends Component {
                             (err) => {
                                 message.error("" + err);
                                 Log.error(
-                                    "HostKey okCreateKeyMadal string error",
+                                    "HostKeyTree okCreateKeyMadal string error",
                                     err
                                 );
                             }
@@ -300,7 +242,7 @@ class HostKey extends Component {
                             (err) => {
                                 message.error("" + err);
                                 Log.error(
-                                    "HostKey okCreateKeyMadal zset error",
+                                    "HostKeyTree okCreateKeyMadal zset error",
                                     err
                                 );
                             }
@@ -313,7 +255,7 @@ class HostKey extends Component {
                             (err) => {
                                 message.error("" + err);
                                 Log.error(
-                                    "HostKey okCreateKeyMadal set error",
+                                    "HostKeyTree okCreateKeyMadal set error",
                                     err
                                 );
                             }
@@ -326,7 +268,7 @@ class HostKey extends Component {
                             (err) => {
                                 message.error("" + err);
                                 Log.error(
-                                    "HostKey okCreateKeyMadal hash error",
+                                    "HostKeyTree okCreateKeyMadal hash error",
                                     err
                                 );
                             }
@@ -339,25 +281,17 @@ class HostKey extends Component {
                             (err) => {
                                 message.error("" + err);
                                 Log.error(
-                                    "HostKey okCreateKeyMadal list error",
+                                    "HostKeyTree okCreateKeyMadal list error",
                                     err
                                 );
                             }
                         );
                     }
-                    let tableData = [
-                        { key: key, name: key },
-                        ...this.state.tableData,
-                    ];
-                    this.setState({
-                        tableData: tableData,
-                        tableTotal: tableData.length,
-                    });
                 }
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKey createKey error", err);
+                Log.error("HostKeyTree createKey error", err);
             }
         );
     };
@@ -366,7 +300,7 @@ class HostKey extends Component {
      *
      * @param {*} key
      * @param {*} keyType
-     * @memberof HostKey
+     * @memberof HostKeyTree
      */
     okCreateKeyMadalSuccess(key, keyType) {
         this.setState({
@@ -400,31 +334,12 @@ class HostKey extends Component {
                             disabled={this.state.searchDisable}
                         />
                     </Tooltip>
-                    <Table
-                        // columns={columns}
-                        columns={[
-                            {
-                                title: `keys total: ${this.state.tableTotal || 0}`,
-                                dataIndex: "name",
-                                key: "key",
-                                ellipsis: "true",
-                            },
-                        ]}
-                        dataSource={this.state.tableData}
-                        bordered={true}
-                        size={"small"}
-                        pagination={{
-                            position: "bottom",
-                            pageSize: this.state.pageSize,
-                            total: this.state.tableTotal,
-                            responsive: true,
-                            current: this.state.currentPage,
-                            onChange: this.onPaginationChange.bind(this),
-                            onShowSizeChange: this.onShowSizeChange.bind(this),
-                        }}
-                        rowClassName={this.renderRowClassName.bind(this)}
-                        onRow={this.onRowEvent.bind(this)}
-                    />
+                    <Tag>keys total: {this.state.treeDataTotal}</Tag>
+                    <DirectoryTree
+                        multiple
+                        treeData={this.state.treeData}
+                        height={600}
+                    ></DirectoryTree>
                 </Space>
                 <div>
                     <Modal
@@ -499,4 +414,4 @@ class HostKey extends Component {
     }
 }
 
-export default HostKey;
+export default HostKeyTree;
