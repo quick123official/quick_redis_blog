@@ -8,8 +8,10 @@ import {
     Form,
     Tooltip,
     Tree,
-    Tag,
+    Dropdown,
+    Menu,
 } from "antd";
+import { DeleteTwoTone } from "@ant-design/icons";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { REDIS_DATA_TYPE } from "@/utils/constant";
@@ -36,6 +38,24 @@ class HostKeyTree extends Component {
         labelCol: { span: 7 },
         wrapperCol: { span: 17 },
     };
+    /**
+     *标记key分割的结束符号
+     *
+     * @memberof HostKeyTree
+     */
+    splitEndSign = "]@[+p";
+    /**
+     *分隔符
+     *
+     * @memberof HostKeyTree
+     */
+    splitSign = ":";
+    /**
+     * 选中的key
+     *
+     * @memberof HostKeyTree
+     */
+    resourceTreeSelectKey = { selectedKey: "", isLeaf: true };
     /**
      *
      *
@@ -66,7 +86,7 @@ class HostKeyTree extends Component {
                 Log.error("HostKeyTree componentDidMount error", err, res);
                 return;
             }
-            this.loadRedisDataByPattern("*");
+            this.loadRedisKeysByPattern("*");
         });
         this.props.triggerRef(this);
     }
@@ -92,6 +112,8 @@ class HostKeyTree extends Component {
                 childMap,
                 parentKeyArr.slice(1, parentKeyArr.length)
             );
+        } else {
+            parentMap.set(parentKeyArr[0] + this.splitEndSign, undefined);
         }
     }
     /**
@@ -99,24 +121,41 @@ class HostKeyTree extends Component {
      * @param {*} treeMap
      * @param {*} treeData
      */
-    treeMapToTreeData(treeMap, treeData) {
+    treeMapToTreeData(treeMap, treeData, parentKey) {
+        var repeatKeyCheck = new Set();
         for (let item of treeMap.entries()) {
             let key = item[0];
             let value = item[1];
-            if (value.size > 0) {
+            if (value !== undefined && value.size > 0) {
                 let children = [];
                 treeData.push({
                     title: key,
                     key: uuid.v4(),
+                    currentKey: parentKey + this.splitSign + key,
                     children,
                 });
-                this.treeMapToTreeData(value, children);
+                this.treeMapToTreeData(
+                    value,
+                    children,
+                    parentKey + this.splitSign + key
+                );
             } else {
-                treeData.push({
-                    title: key,
-                    key: uuid.v4(),
-                    isLeaf: true,
-                });
+                let orgiKey = key;
+                if (key.endsWith(this.splitEndSign)) {
+                    orgiKey = key.substr(
+                        0,
+                        key.length - this.splitEndSign.length
+                    );
+                }
+                if (!repeatKeyCheck.has(orgiKey)) {
+                    repeatKeyCheck.add(orgiKey);
+                    treeData.push({
+                        title: orgiKey,
+                        key: uuid.v4(),
+                        currentKey: parentKey + this.splitSign + orgiKey,
+                        isLeaf: true,
+                    });
+                }
             }
         }
     }
@@ -124,7 +163,7 @@ class HostKeyTree extends Component {
      * 加载 redis key
      * @param {*} pattern
      */
-    loadRedisDataByPattern(pattern) {
+    loadRedisKeysByPattern(pattern) {
         if (pattern !== "*") {
             pattern = "*" + pattern + "*";
         }
@@ -141,7 +180,7 @@ class HostKeyTree extends Component {
                     let rootTreeMap = new Map();
                     for (let i = 0; i < res.length; i++) {
                         let key = res[i];
-                        let childKeyArr = key.split(":");
+                        let childKeyArr = key.split(this.splitSign);
                         let childMap = rootTreeMap.get(childKeyArr[0]);
                         if (childMap === null || childMap === undefined) {
                             childMap = new Map();
@@ -152,10 +191,14 @@ class HostKeyTree extends Component {
                                 childMap,
                                 childKeyArr.slice(1, childKeyArr.length)
                             );
+                        } else {
+                            rootTreeMap.set(
+                                childKeyArr[0] + this.splitEndSign,
+                                undefined
+                            );
                         }
                     }
-                    this.treeMapToTreeData(rootTreeMap, treeData);
-                    console.info("treeData", treeData);
+                    this.treeMapToTreeData(rootTreeMap, treeData, "");
                 }
                 this.setState({
                     treeData: treeData,
@@ -164,8 +207,8 @@ class HostKeyTree extends Component {
                 });
             },
             (err) => {
-                message.error("" + err);
-                Log.error("HostKeyTree refreshValue error", err);
+                message.error("loadRedisKeysByPattern error" + err);
+                Log.error("HostKeyTree loadRedisKeysByPattern error", err);
             }
         );
     }
@@ -176,14 +219,13 @@ class HostKeyTree extends Component {
      * @memberof HostKeyTree
      */
     searchKey(value) {
-        if (value === null || value === undefined || value === "") {
-            value = "*";
+        let pattern = "*";
+        if (value !== null && value !== undefined && value !== "") {
+            pattern = "*";
+        } else {
+            pattern = "*" + value + "*";
         }
-        let pattern = value;
-        let cursor = "0";
-        let maxRecords = 10000;
-        pattern = "*" + pattern + "*";
-        this.loadRedisDataByPattern(pattern, cursor, maxRecords, value);
+        this.loadRedisKeysByPattern(pattern);
     }
     /**
      * 打开 创建key 窗口
@@ -314,6 +356,83 @@ class HostKeyTree extends Component {
         }
         form.resetFields();
     }
+    /**
+     *显示右键菜单
+     *
+     * @memberof HostKeyTree
+     */
+    showTreeRightClickMenu() {
+        let showMenuItem = [1];
+        return (
+            <Menu
+                onClick={this.clickTreeRightClickMenu.bind(this)}
+                style={{ width: 200 }}
+            >
+                {showMenuItem[0] === 1 ? (
+                    <Menu.Item key="0">
+                        <DeleteTwoTone />{" "}
+                        {intl.get("HostKeyTree.delete.key.node")}
+                    </Menu.Item>
+                ) : (
+                    ""
+                )}
+            </Menu>
+        );
+    }
+    /**
+     *点击菜单项目
+     *
+     * @param {*} item
+     * @memberof HostKeyTree
+     */
+    clickTreeRightClickMenu(item) {
+        let selectedKey = this.resourceTreeSelectKey.selectedKey;
+        let isLeaf = this.resourceTreeSelectKey.isLeaf;
+        let orgiKey = selectedKey.substr(1, selectedKey.length);
+        let pattern = orgiKey;
+        if (!isLeaf) {
+            pattern = pattern + this.splitSign + "*";
+        }
+
+        console.info("clickTreeRightClickMenu pattern", pattern);
+        let redis = this.props.node.redis;
+        redis.keys(pattern).then(
+            (res) => {
+                if (res !== null && res !== undefined && res.length !== 0) {
+                    for (let i = 0; i < res.length; i++) {
+                        let key = res[i];
+                        redis.del(key).then(
+                            (value) => {},
+                            (err) => {
+                                message.error(
+                                    "del key error. key: " + key + ". " + err
+                                );
+                                Log.error(
+                                    "clickTreeRightClickMenu del key error. key: " +
+                                        key +
+                                        ". ",
+                                    err
+                                );
+                            }
+                        );
+                    }
+                }
+            },
+            (err) => {
+                message.error("clickTreeRightClickMenu keys error" + err);
+                Log.error("clickTreeRightClickMenu keys error", err);
+            }
+        );
+    }
+    /**
+     *选择树节点
+     *
+     * @memberof ResourceTree
+     */
+    onDirectoryTreeSelect = (keys, event) => {
+        this.resourceTreeSelectKey.selectedKey = event.node.currentKey;
+        this.resourceTreeSelectKey.isLeaf = event.node.isLeaf;
+    };
     render() {
         return (
             <div>
@@ -334,12 +453,18 @@ class HostKeyTree extends Component {
                             disabled={this.state.searchDisable}
                         />
                     </Tooltip>
-                    <Tag>keys total: {this.state.treeDataTotal}</Tag>
-                    <DirectoryTree
-                        multiple
-                        treeData={this.state.treeData}
-                        height={600}
-                    ></DirectoryTree>
+                    <Dropdown
+                        overlay={this.showTreeRightClickMenu.bind(this)}
+                        trigger={["contextMenu"]}
+                    >
+                        <div style={{ height: "100vh" }}>
+                            <DirectoryTree
+                                treeData={this.state.treeData}
+                                onSelect={this.onDirectoryTreeSelect.bind(this)}
+                                height={750}
+                            ></DirectoryTree>
+                        </div>
+                    </Dropdown>
                 </Space>
                 <div>
                     <Modal
