@@ -70,7 +70,6 @@ class HostKeyTree extends Component {
      */
     state = {
         treeData: [],
-        treeDataTotal: 0,
         searchDisable: false,
         createKeyMadal: { visible: false, keyType: REDIS_DATA_TYPE.STRING },
     };
@@ -80,7 +79,6 @@ class HostKeyTree extends Component {
         this.splitSign = LocaleUtils.readSystemConfig().splitSign;
         this.setState({
             treeData: [],
-            treeDataTotal: 0,
             searchDisable: true,
         });
         this.props.node.redis.select(this.props.db, (err, res) => {
@@ -175,7 +173,6 @@ class HostKeyTree extends Component {
             (res) => {
                 this.setState({
                     treeData: [],
-                    treeDataTotal: 0,
                     searchDisable: true,
                 });
                 let treeData = [];
@@ -205,7 +202,6 @@ class HostKeyTree extends Component {
                 }
                 this.setState({
                     treeData: treeData,
-                    treeDataTotal: treeData.length,
                     searchDisable: false,
                 });
             },

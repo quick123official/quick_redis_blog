@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Row, Col, Select, Input } from "antd";
+import { Modal, Row, Col, Select, Input, Tooltip } from "antd";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -98,13 +98,16 @@ class SystemConfig extends React.Component {
                             {intl.get("SystemConfig.tree.split")}
                         </Col>
                         <Col span={18}>
-                            <Input
-                                style={{ width: 200 }}
-                                placeholder="Input Delimiter"
-                                defaultValue={this.state.config.splitSign}
-                                value={this.state.config.splitSign}
-                                onChange={this.handleSplitSignChange}
-                            />
+                            <Tooltip title="Will use the 'keys' command">
+                                <Input
+                                    style={{ width: 200 }}
+                                    placeholder="Input Delimiter"
+                                    defaultValue={this.state.config.splitSign}
+                                    value={this.state.config.splitSign}
+                                    onChange={this.handleSplitSignChange}
+                                />{" "}
+                            </Tooltip>
+                            ,
                         </Col>
                     </Row>
                 </Modal>

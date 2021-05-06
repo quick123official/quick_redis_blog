@@ -65,7 +65,6 @@ class HostKey extends Component {
     componentDidMount() {
         let pattern = "*";
         let cursor = "0";
-        let maxRecords = 10000;
         this.setState({ tableData: [], searchDisable: true, currentPage: 1 });
         this.props.node.redis.select(this.props.db, (err, res) => {
             if (err) {
@@ -73,7 +72,7 @@ class HostKey extends Component {
                 Log.error("HostKey componentDidMount error", err, res);
                 return;
             }
-            this.loadRedisDataByPattern(pattern, cursor, maxRecords);
+            this.loadRedisDataByPattern(pattern, cursor, "*");
         });
         this.props.triggerRef(this);
     }
@@ -88,10 +87,10 @@ class HostKey extends Component {
      *
      * @param {*} pattern
      * @param {*} cursor
-     * @param {*} maxRecords
+     * @param {*} existKey
      * @memberof HostKey
      */
-    loadRedisDataByPattern(pattern, cursor, maxRecords, existKey) {
+    loadRedisDataByPattern(pattern, cursor, existKey) {
         let redis = this.props.node.redis;
         redis.scan(
             cursor,
@@ -123,31 +122,22 @@ class HostKey extends Component {
                         tableTotal: tableData.length,
                     });
                 }
-                if (
-                    res[0] === "0" ||
-                    this.state.tableData.length >= maxRecords
-                ) {
-                    this.setState({ searchDisable: false });
-                    // 没有数据或获取的数据已经达到maxRecords，则不再获取
-                    return;
-                } else {
-                    this.loadRedisDataByPattern(pattern, res[0], maxRecords);
-                }
+                this.setState({ searchDisable: false });
             }
         );
     }
     /**
      *搜索key
      *
-     * @param {*} value
+     * @param {*} key
      * @memberof HostKey
      */
-    searchKey(value) {
-        if (value === null || value === undefined || value === "") {
-            value = "*";
+    searchKey(key) {
+        if (key === null || key === undefined || key === "") {
+            key = "*";
         }
         let redis = this.props.node.redis;
-        redis.keys(value).then(
+        redis.get(key).then(
             (res) => {
                 this.setState({
                     tableData: [],
@@ -155,21 +145,20 @@ class HostKey extends Component {
                     currentPage: 1,
                     tableTotal: 0,
                 });
-                let pattern = value;
+                let pattern = key;
                 let cursor = "0";
-                let maxRecords = 10000;
                 pattern = "*" + pattern + "*";
                 // 关键字的key，如果存在，必然显示在第一页第一行
                 if (
                     res !== null &&
                     res !== undefined &&
                     res.length !== 0 &&
-                    value !== "*"
+                    key !== "*"
                 ) {
                     let data = [];
                     data.push({
-                        key: value,
-                        name: value,
+                        key: key,
+                        name: key,
                     });
                     if (data.length !== 0) {
                         let tableData = [...this.state.tableData, ...data];
@@ -179,7 +168,7 @@ class HostKey extends Component {
                         });
                     }
                 }
-                this.loadRedisDataByPattern(pattern, cursor, maxRecords, value);
+                this.loadRedisDataByPattern(pattern, cursor, key);
             },
             (err) => {
                 message.error("" + err);
