@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "언어 선택",
+    "SystemConfig.tree.split": "구분자 설정",
     "SystemConfig.title": "시스템 구성",
     "SystemConfig.needRestart": "적용하려면 다시 시작해야합니다.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "지우다",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### 호스트 키 ####",
     "HostKey.key.exist": "키가 이미 있습니다.",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "QuickRedis 정보",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"사용 에이전트",
-    "proxy.host":"대리 Host",
-    "proxy.sshport":"SSH 포트",
-    "proxy.username":"사용자 이름 SSH",
-    "proxy.password":"프 록 시 비밀번호",
-    "proxy.sshkeypath":"대리 비밀 키 루트",
-    "proxy.connecterror":"프 록 시 연결 실패",
-    "proxy.privateKey.not.exist":"비밀 키 파일 오류"
+    "proxy.use": "사용 에이전트",
+    "proxy.host": "대리 Host",
+    "proxy.sshport": "SSH 포트",
+    "proxy.username": "사용자 이름 SSH",
+    "proxy.password": "프 록 시 비밀번호",
+    "proxy.sshkeypath": "대리 비밀 키 루트",
+    "proxy.connecterror": "프 록 시 연결 실패",
+    "proxy.privateKey.not.exist": "비밀 키 파일 오류"
 }

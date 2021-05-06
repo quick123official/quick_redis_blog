@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Wybierz język",
+    "SystemConfig.tree.split": "Ustaw separator",
     "SystemConfig.title": "Konfiguracja systemu",
     "SystemConfig.needRestart": "Musisz zrestartować, aby odniosły skutek.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "kasować",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Klucz już istnieje",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "Informacje o QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Korzystanie z pośrednika",
-    "proxy.host":"Agent prowadzący",
-    "proxy.sshport":"Port SSH",
-    "proxy.username":"Nazwa użytkownika SSH",
-    "proxy.password":"Hasło pośrednika",
-    "proxy.sshkeypath":"Ścieżka klucza prywatnego pośrednika",
-    "proxy.connecterror":"Błąd połączenia pośrednika",
-    "proxy.privateKey.not.exist":"Błąd tajnego klucza"
+    "proxy.use": "Korzystanie z pośrednika",
+    "proxy.host": "Agent prowadzący",
+    "proxy.sshport": "Port SSH",
+    "proxy.username": "Nazwa użytkownika SSH",
+    "proxy.password": "Hasło pośrednika",
+    "proxy.sshkeypath": "Ścieżka klucza prywatnego pośrednika",
+    "proxy.connecterror": "Błąd połączenia pośrednika",
+    "proxy.privateKey.not.exist": "Błąd tajnego klucza"
 }

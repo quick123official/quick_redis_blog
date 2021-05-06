@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Select language",
+    "SystemConfig.tree.split": "Set separator",
     "SystemConfig.title": "System configuration",
     "SystemConfig.needRestart": "You need to restart to take effect.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "Delete",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Key already exists",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "About QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Using a proxy",
-    "proxy.host":"Agent host",
-    "proxy.sshport":"SSH port",
-    "proxy.username":"SSH user name",
-    "proxy.password":"Proxy password",
-    "proxy.sshkeypath":"Proxy private key path",
-    "proxy.connecterror":"Proxy connection failed",
-    "proxy.privateKey.not.exist":"Secret key file error"
+    "proxy.use": "Using a proxy",
+    "proxy.host": "Agent host",
+    "proxy.sshport": "SSH port",
+    "proxy.username": "SSH user name",
+    "proxy.password": "Proxy password",
+    "proxy.sshkeypath": "Proxy private key path",
+    "proxy.connecterror": "Proxy connection failed",
+    "proxy.privateKey.not.exist": "Secret key file error"
 }

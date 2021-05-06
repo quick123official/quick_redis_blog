@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Seleziona lingua",
+    "SystemConfig.tree.split": "Imposta separatore",
     "SystemConfig.title": "Configurazione del sistema",
     "SystemConfig.needRestart": "È necessario riavviare per avere effetto.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "Elimina",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Chiave già esistente",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "Informazioni su QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Usare un proxy",
-    "proxy.host":"Host dell'agente",
-    "proxy.sshport":"Porta SSH",
-    "proxy.username":"Nome utente SSH",
-    "proxy.password":"Proxy password",
-    "proxy.sshkeypath":"Percorso chiave privato proxy",
-    "proxy.connecterror":"Collegamento proxy non riuscito",
-    "proxy.privateKey.not.exist":"Errore di file chiave segreta"
+    "proxy.use": "Usare un proxy",
+    "proxy.host": "Host dell'agente",
+    "proxy.sshport": "Porta SSH",
+    "proxy.username": "Nome utente SSH",
+    "proxy.password": "Proxy password",
+    "proxy.sshkeypath": "Percorso chiave privato proxy",
+    "proxy.connecterror": "Collegamento proxy non riuscito",
+    "proxy.privateKey.not.exist": "Errore di file chiave segreta"
 }

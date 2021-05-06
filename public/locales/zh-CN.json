@@ -41,13 +41,13 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "选择语言",
-    "SystemConfig.tree.split": "设置目录分隔符",
+    "SystemConfig.tree.split": "设置分隔符",
     "SystemConfig.title": "系统配置",
     "SystemConfig.needRestart": "您需要重新启动才能生效。",
     "SystemConfig.end00": "#### SystemConfig ####",
 
     "HostKeyTree.start": "#### HostKey ####",
-    "HostKeyTree.delete.key.node": "删除节点",
+    "HostKeyTree.delete.key.node": "删除",
     "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",

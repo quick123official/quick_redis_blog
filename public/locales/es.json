@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Seleccionar idioma",
+    "SystemConfig.tree.split": "Establecer separador",
     "SystemConfig.title": "Configuración del sistema",
     "SystemConfig.needRestart": "Necesita reiniciar para que surta efecto",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "Eliminar",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "La clave ya existe",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "Acerca de QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Usar proxy",
-    "proxy.host":"Host proxy",
-    "proxy.sshport":"Puerto SSH",
-    "proxy.username":"Nombre de usuario SSH",
-    "proxy.password":"Contraseña proxy",
-    "proxy.sshkeypath":"Ruta de clave privada proxy",
-    "proxy.connecterror":"Falló la conexión proxy",
-    "proxy.privateKey.not.exist":"Error en el archivo de clave secreta"
+    "proxy.use": "Usar proxy",
+    "proxy.host": "Host proxy",
+    "proxy.sshport": "Puerto SSH",
+    "proxy.username": "Nombre de usuario SSH",
+    "proxy.password": "Contraseña proxy",
+    "proxy.sshkeypath": "Ruta de clave privada proxy",
+    "proxy.connecterror": "Falló la conexión proxy",
+    "proxy.privateKey.not.exist": "Error en el archivo de clave secreta"
 }

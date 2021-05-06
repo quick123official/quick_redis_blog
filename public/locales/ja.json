@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "言語を選択してください",
+    "SystemConfig.tree.split": "区切り文字を設定する",
     "SystemConfig.title": "システム構成",
     "SystemConfig.needRestart": "有効にするには再起動する必要があります。",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "削除",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "キーはすでに存在します",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "QuickRedisについて",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"プロキシを使う",
-    "proxy.host":"エージェントHost",
-    "proxy.sshport":"SSHポート",
-    "proxy.username":"SSHユーザ名",
-    "proxy.password":"プロキシパスワード",
-    "proxy.sshkeypath":"秘密鍵のプロキシパス",
-    "proxy.connecterror":"プロキシ接続に失敗しました",
-    "proxy.privateKey.not.exist":"秘密鍵ファイルエラー"
+    "proxy.use": "プロキシを使う",
+    "proxy.host": "エージェントHost",
+    "proxy.sshport": "SSHポート",
+    "proxy.username": "SSHユーザ名",
+    "proxy.password": "プロキシパスワード",
+    "proxy.sshkeypath": "秘密鍵のプロキシパス",
+    "proxy.connecterror": "プロキシ接続に失敗しました",
+    "proxy.privateKey.not.exist": "秘密鍵ファイルエラー"
 }

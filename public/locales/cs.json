@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Vyberte jazyk",
+    "SystemConfig.tree.split": "Nastavit oddělovač",
     "SystemConfig.title": "Konfigurace systému",
     "SystemConfig.needRestart": "Abyste se projevili, musíte restartovat.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "vymazat",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Klíč již existuje",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "O aplikaci QuickRedis",
     "electron.menu.end": "#### elektron.menu.end ####",
 
-    "proxy.use":"Použití proxy",
-    "proxy.host":"Hostitel agenta",
-    "proxy.sshport":"SSH port",
-    "proxy.username":"Uživatelské jméno SSH",
-    "proxy.password":"Heslo proxy",
-    "proxy.sshkeypath":"Proxy soukromá přístupová cesta",
-    "proxy.connecterror":"Připojení proxy selhalo ",
-    "proxy.privateKey.not.exist":"Chyba tajného souboru"
+    "proxy.use": "Použití proxy",
+    "proxy.host": "Hostitel agenta",
+    "proxy.sshport": "SSH port",
+    "proxy.username": "Uživatelské jméno SSH",
+    "proxy.password": "Heslo proxy",
+    "proxy.sshkeypath": "Proxy soukromá přístupová cesta",
+    "proxy.connecterror": "Připojení proxy selhalo ",
+    "proxy.privateKey.not.exist": "Chyba tajného souboru"
 }

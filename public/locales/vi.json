@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Chọn ngôn ngữ",
+    "SystemConfig.tree.split": "Đặt dấu phân cách",
     "SystemConfig.title": "Cấu hình hệ thống",
     "SystemConfig.needRestart": "Bạn cần khởi động lại để có hiệu lực.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "xóa bỏ",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Khóa đã tồn tại",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "Giới thiệu về QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"使用代理",
-    "proxy.host":"代理Host",
-    "proxy.sshport":"SSH端口",
-    "proxy.username":"SSH用户名",
-    "proxy.password":"代理密码",
-    "proxy.sshkeypath":"代理私钥路径",
-    "proxy.connecterror":"代理连接失败",
-    "proxy.privateKey.not.exist":"秘钥文件错误"
+    "proxy.use": "Sử dụng proxy",
+    "proxy.host": "Máy chủ proxy",
+    "proxy.sshport": "Cổng SSH",
+    "proxy.username": "Tên người dùng SSH",
+    "proxy.password": "Mật khẩu proxy",
+    "proxy.sshkeypath": "Đường dẫn khóa cá nhân proxy",
+    "proxy.connecterror": "Kết nối proxy không thành công",
+    "proxy.privateKey.not.exist": "Lỗi tệp khóa bí mật"
 }

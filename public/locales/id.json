@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Pilih bahasa",
+    "SystemConfig.tree.split": "Atur pemisah",
     "SystemConfig.title": "Konfigurasi sistem",
     "SystemConfig.needRestart": "Anda perlu memulai ulang untuk menerapkannya.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "menghapus",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Kunci sudah ada",
@@ -161,12 +166,12 @@
     "electron.menu.help.about": "Tentang QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"使用代理",
-    "proxy.host":"代理Host",
-    "proxy.sshport":"SSH端口",
-    "proxy.username":"SSH用户名",
-    "proxy.password":"代理密码",
-    "proxy.sshkeypath":"代理私钥路径",
-    "proxy.connecterror":"代理连接失败",
-    "proxy.privateKey.not.exist":"秘钥文件错误"
+    "proxy.use": "Gunakan proxy",
+    "proxy.host": "Proxy Host",
+    "proxy.sshport": "port SSH",
+    "proxy.username": "nama pengguna SSH",
+    "proxy.password": "Proxy Password",
+    "proxy.sshkeypath": "Jalur kunci pribadi proxy",
+    "proxy.connecterror": "Sambungan proxy gagal",
+    "proxy.privateKey.not.exist": "Kesalahan file kunci rahasia"
 }
