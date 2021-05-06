@@ -173,5 +173,10 @@
     "proxy.password": "Contraseña proxy",
     "proxy.sshkeypath": "Ruta de clave privada proxy",
     "proxy.connecterror": "Falló la conexión proxy",
-    "proxy.privateKey.not.exist": "Error en el archivo de clave secreta"
+    "proxy.privateKey.not.exist": "Error en el archivo de clave secreta",
+
+    "notification.start": "#### notificación ####",
+    "notification.support.host.key.tree.title": "Nuevo directorio de uso de funciones para mostrar y manipular claves",
+    "notification.support.host.key.tree.description": "Cómo habilitar esta función: Menú principal -> Archivo -> Configuración del sistema -> Establecer delimitador",
+    "notification.end00": "#### notificación ####"
 }

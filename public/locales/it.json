@@ -173,5 +173,10 @@
     "proxy.password": "Proxy password",
     "proxy.sshkeypath": "Percorso chiave privato proxy",
     "proxy.connecterror": "Collegamento proxy non riuscito",
-    "proxy.privateKey.not.exist": "Errore di file chiave segreta"
+    "proxy.privateKey.not.exist": "Errore di file chiave segreta",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "Nuova directory di utilizzo delle funzionalità per visualizzare e manipolare le chiavi",
+    "notification.support.host.key.tree.description": "Come abilitare questa funzione: Menu principale -> File -> Impostazioni di sistema -> Imposta delimitatore",
+    "notification.end00": "#### notification ####"
 }

@@ -12,7 +12,7 @@ class HostCornerMarker extends Component {
     render() {
         return (
             <span>
-                {this.props.title} - ({this.props.total})
+                {this.props.title}({this.props.total})
             </span>
         );
     }

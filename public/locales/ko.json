@@ -173,5 +173,10 @@
     "proxy.password": "프 록 시 비밀번호",
     "proxy.sshkeypath": "대리 비밀 키 루트",
     "proxy.connecterror": "프 록 시 연결 실패",
-    "proxy.privateKey.not.exist": "비밀 키 파일 오류"
+    "proxy.privateKey.not.exist": "비밀 키 파일 오류",
+
+    "notification.start": "#### 알림 ####",
+    "notification.support.host.key.tree.title": "키를 표시하고 조작하기위한 새로운 기능 사용 디렉토리",
+    "notification.support.host.key.tree.description": "이 기능 활성화 방법 : 주 메뉴-> 파일-> 시스템 설정-> 구분 기호 설정",
+    "notification.end00": "#### 알림 ####"
 }

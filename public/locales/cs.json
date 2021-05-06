@@ -173,5 +173,10 @@
     "proxy.password": "Heslo proxy",
     "proxy.sshkeypath": "Proxy soukromá přístupová cesta",
     "proxy.connecterror": "Připojení proxy selhalo ",
-    "proxy.privateKey.not.exist": "Chyba tajného souboru"
+    "proxy.privateKey.not.exist": "Chyba tajného souboru",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "Nový adresář pro zobrazení funkcí a manipulaci s nimi",
+    "notification.support.host.key.tree.description": "Jak povolit tuto funkci: Hlavní nabídka -> Soubor -> Nastavení systému -> Nastavit oddělovač",
+    "notification.end00": "#### upozornění ####"
 }

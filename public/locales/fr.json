@@ -173,5 +173,10 @@
     "proxy.password": "Mot de passe Proxy",
     "proxy.sshkeypath": "Chemin de la clé privée du mandataire",
     "proxy.connecterror": "La connexion par procuration a échoué",
-    "proxy.privateKey.not.exist": "Erreur de fichier clé"
+    "proxy.privateKey.not.exist": "Erreur de fichier clé",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "Nouveau répertoire d'utilisation des fonctionnalités pour afficher et manipuler les clés",
+    "notification.support.host.key.tree.description": "Comment activer cette fonction: Menu principal -> Fichier -> Paramètres système -> Définir le délimiteur",
+    "notification.end00": "#### notification ####"
 }

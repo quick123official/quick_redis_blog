@@ -173,5 +173,10 @@
     "proxy.password": "Proxy password",
     "proxy.sshkeypath": "Proxy private key path",
     "proxy.connecterror": "Proxy connection failed",
-    "proxy.privateKey.not.exist": "Secret key file error"
+    "proxy.privateKey.not.exist": "Secret key file error",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "New feature-use directory to display and manipulate keys",
+    "notification.support.host.key.tree.description": "How to enable this feature: Main Menu -> File -> System Settings -> Set Delimiter",
+    "notification.end00": "#### notification ####"
 }

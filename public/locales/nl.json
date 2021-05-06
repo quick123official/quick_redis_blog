@@ -173,5 +173,10 @@
     "proxy.password": "Wachtwoord voor proxy",
     "proxy.sshkeypath": "Proxy prive-sleutel pad",
     "proxy.connecterror": "Verbinding mislukt",
-    "proxy.privateKey.not.exist": "Fout in het geheime bestand"
+    "proxy.privateKey.not.exist": "Fout in het geheime bestand",
+
+    "notification.start": "#### melding ####",
+    "notification.support.host.key.tree.title": "Nieuwe feature-use directory om sleutels weer te geven en te manipuleren",
+    "notification.support.host.key.tree.description": "Deze functie inschakelen: Hoofdmenu -> Bestand -> Systeeminstellingen -> Scheidingsteken instellen",
+    "notification.end00": "#### melding ####"
 }

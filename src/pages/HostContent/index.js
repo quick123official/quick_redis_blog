@@ -31,11 +31,11 @@ class HostContent extends Component {
      */
     hostKeyShowType = HOST_KEY_SHOW_TYPE.TREE;
     componentDidMount() {
+        this.updateDBCount();
         let splitSign = LocaleUtils.readSystemConfig().splitSign;
         if (splitSign === "" || splitSign === undefined || splitSign === null) {
             this.hostKeyShowType = HOST_KEY_SHOW_TYPE.TABLE;
         }
-        this.updateDBCount();
     }
     bindHostKeyRef = (hostKeyRef) => {
         this.hostKeyRef = hostKeyRef;

@@ -173,5 +173,10 @@
     "proxy.password": "プロキシパスワード",
     "proxy.sshkeypath": "秘密鍵のプロキシパス",
     "proxy.connecterror": "プロキシ接続に失敗しました",
-    "proxy.privateKey.not.exist": "秘密鍵ファイルエラー"
+    "proxy.privateKey.not.exist": "秘密鍵ファイルエラー",
+
+    "notification.start": "####通知####",
+    "notification.support.host.key.tree.title": "新機能-ディレクトリを使用してキーを表示および操作する",
+    "notification.support.host.key.tree.description": "この機能を有効にする方法：メインメニュー->ファイル->システム設定->区切り文字の設定",
+    "notification.end00": "####通知####"
 }

@@ -173,5 +173,10 @@
     "proxy.password": "Mật khẩu proxy",
     "proxy.sshkeypath": "Đường dẫn khóa cá nhân proxy",
     "proxy.connecterror": "Kết nối proxy không thành công",
-    "proxy.privateKey.not.exist": "Lỗi tệp khóa bí mật"
+    "proxy.privateKey.not.exist": "Lỗi tệp khóa bí mật",
+
+    "notification.start": "#### thông báo ####",
+    "notification.support.host.key.tree.title": "Thư mục sử dụng tính năng mới để hiển thị và thao tác các phím",
+    "notification.support.host.key.tree.description": "Cách bật tính năng này: Menu Chính -> Tệp -> Cài đặt Hệ thống -> Đặt Dấu phân cách",
+    "notification.end00": "#### thông báo ####"
 }

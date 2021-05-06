@@ -173,5 +173,10 @@
     "proxy.password": "Proxy Password",
     "proxy.sshkeypath": "Jalur kunci pribadi proxy",
     "proxy.connecterror": "Sambungan proxy gagal",
-    "proxy.privateKey.not.exist": "Kesalahan file kunci rahasia"
+    "proxy.privateKey.not.exist": "Kesalahan file kunci rahasia",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "Direktori penggunaan fitur baru untuk menampilkan dan memanipulasi kunci",
+    "notification.support.host.key.tree.description": "Cara mengaktifkan fitur ini: Menu Utama -> File -> Pengaturan Sistem -> Set Pembatas",
+    "notification.end00": "#### notifikasi ####"
 }

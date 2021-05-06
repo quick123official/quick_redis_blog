@@ -173,5 +173,10 @@
     "proxy.password": "Hasło pośrednika",
     "proxy.sshkeypath": "Ścieżka klucza prywatnego pośrednika",
     "proxy.connecterror": "Błąd połączenia pośrednika",
-    "proxy.privateKey.not.exist": "Błąd tajnego klucza"
+    "proxy.privateKey.not.exist": "Błąd tajnego klucza",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "Nowy katalog użycia funkcji do wyświetlania i manipulowania klawiszami",
+    "notification.support.host.key.tree.description": "Jak włączyć tę funkcję: Menu główne -> Plik -> Ustawienia systemowe -> Ustaw separator",
+    "notification.end00": "#### notification ####"
 }

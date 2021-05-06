@@ -173,5 +173,10 @@
     "proxy.password": "Пароль проксі",
     "proxy.sshkeypath": "Шлях приватного ключа проксі",
     "proxy.connecterror": "Помилка підключення проксі",
-    "proxy.privateKey.not.exist": "Помилка файлу секретного ключа"
+    "proxy.privateKey.not.exist": "Помилка файлу секретного ключа",
+
+    "notification.start": "#### сповіщення ####",
+    "notification.support.host.key.tree.title": "Нова директорія для використання функцій для відображення та управління клавішами",
+    "notification.support.host.key.tree.description": "Як увімкнути цю функцію: Головне меню -> Файл -> Налаштування системи -> Встановити роздільник",
+    "notification.end00": "#### повідомлення ####"
 }

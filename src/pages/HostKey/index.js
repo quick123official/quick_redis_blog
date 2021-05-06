@@ -401,6 +401,7 @@ class HostKey extends Component {
                         />
                     </Tooltip>
                     <Table
+                        // columns={columns}
                         columns={[
                             {
                                 title: "",
