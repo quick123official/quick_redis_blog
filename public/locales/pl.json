@@ -16,7 +16,7 @@
     "common.modal.title.add": "Dodaj rekord",
     "common.modal.title.view": "Wyświetl rekord",
     "common.modal.title.modify": "Modyfikuj rekord",
-    "common.search.tooltip.limit": "Zapytaj do 1000 rekordów",
+    "common.search.tooltip.limit": "Zapytaj do 10000 rekordów",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

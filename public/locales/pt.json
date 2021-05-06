@@ -16,7 +16,7 @@
     "common.modal.title.add": "Adicionar registro",
     "common.modal.title.view": "Ver registro",
     "common.modal.title.modify": "Modificar registro",
-    "common.search.tooltip.limit": "Consultar até 1000 registros",
+    "common.search.tooltip.limit": "Consultar até 10000 registros",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

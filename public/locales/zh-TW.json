@@ -16,7 +16,7 @@
     "common.modal.title.add": "添加記錄",
     "common.modal.title.view": "查看記錄",
     "common.modal.title.modify": "修改記錄",
-    "common.search.tooltip.limit": "最多查詢 1000 條記錄",
+    "common.search.tooltip.limit": "最多查詢 10000 條記錄",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

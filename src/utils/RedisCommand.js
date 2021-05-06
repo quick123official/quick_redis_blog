@@ -8,14 +8,20 @@ export default class RedisCommand {
      *解释结果
      *
      * @static
+     * @param {*} command
      * @param {*} result
      * @returns
      * @memberof RedisCommand
      */
-    static parseResult(result) {
+    static parseResult(command, result) {
         let append = "";
         if (result === null) {
             append = `${null}\n`;
+        } else if (command === "scan") {
+            append += `1) ` + result[0] + `\n`;
+            for (const i in result[1]) {
+                append += `2) ` + i + ") " + result[1][i] + `\n`;
+            }
         } else if (typeof result === "object") {
             const isArray = !isNaN(result.length);
             for (const i in result) {
@@ -50,10 +56,12 @@ export default class RedisCommand {
         let commandLine = args.join(" ");
         let splitCommandLine = splitargs(commandLine);
         try {
-            let promise = redis[splitCommandLine[0]](...splitCommandLine.slice(1));
+            let promise = redis[splitCommandLine[0]](
+                ...splitCommandLine.slice(1)
+            );
             promise
                 .then((reply) => {
-                    let content = this.parseResult(reply);
+                    let content = this.parseResult(splitCommandLine[0], reply);
                     print(content);
                 })
                 .catch((e1) => {

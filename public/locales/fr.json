@@ -16,7 +16,7 @@
     "common.modal.title.add": "Ajouter un enregistrement",
     "common.modal.title.view": "Afficher l'enregistrement",
     "common.modal.title.modify": "Modifier l'enregistrement",
-    "common.search.tooltip.limit": "Interroger jusqu'à 1000 enregistrements",
+    "common.search.tooltip.limit": "Interroger jusqu'à 10000 enregistrements",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

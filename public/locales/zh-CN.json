@@ -16,7 +16,7 @@
     "common.modal.title.add": "添加记录",
     "common.modal.title.view": "查看记录",
     "common.modal.title.modify": "修改记录",
-    "common.search.tooltip.limit": "最多查询 1000 条记录",
+    "common.search.tooltip.limit": "最多查询 10000 条记录",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",
@@ -44,6 +44,10 @@
     "SystemConfig.title": "系统配置",
     "SystemConfig.needRestart": "您需要重新启动才能生效。",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "删除节点",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Key 已存在",
@@ -161,12 +165,12 @@
     "electron.menu.help.about": "关于 QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"使用代理",
-    "proxy.host":"代理Host",
-    "proxy.sshport":"SSH端口",
-    "proxy.username":"SSH用户名",
-    "proxy.password":"代理密码",
-    "proxy.sshkeypath":"代理私钥路径",
-    "proxy.connecterror":"代理连接失败",
-    "proxy.privateKey.not.exist":"秘钥文件错误"
+    "proxy.use": "使用代理",
+    "proxy.host": "代理Host",
+    "proxy.sshport": "SSH端口",
+    "proxy.username": "SSH用户名",
+    "proxy.password": "代理密码",
+    "proxy.sshkeypath": "代理私钥路径",
+    "proxy.connecterror": "代理连接失败",
+    "proxy.privateKey.not.exist": "秘钥文件错误"
 }

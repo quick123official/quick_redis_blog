@@ -16,7 +16,7 @@
     "common.modal.title.add": "Datensatz hinzufügen",
     "common.modal.title.view": "Datensatz anzeigen",
     "common.modal.title.modify": "Datensatz ändern",
-    "common.search.tooltip.limit": "Abfrage von bis zu 1000 Datensätzen",
+    "common.search.tooltip.limit": "Abfrage von bis zu 10000 Datensätzen",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

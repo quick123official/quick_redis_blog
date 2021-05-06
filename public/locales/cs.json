@@ -16,7 +16,7 @@
     "common.modal.title.add": "Přidat záznam",
     "common.modal.title.view": "Zobrazit záznam",
     "common.modal.title.modify": "Upravit záznam",
-    "common.search.tooltip.limit": "Dotazovat až 1000 záznamů",
+    "common.search.tooltip.limit": "Dotazovat až 10000 záznamů",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

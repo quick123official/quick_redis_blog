@@ -16,7 +16,7 @@
     "common.modal.title.add": "Добавить запись",
     "common.modal.title.view": "Просмотр записи",
     "common.modal.title.modify": "Изменить запись",
-    "common.search.tooltip.limit": "Запросить до 1000 записей",
+    "common.search.tooltip.limit": "Запросить до 10000 записей",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

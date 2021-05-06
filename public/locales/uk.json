@@ -16,7 +16,7 @@
     "common.modal.title.add": "Додати запис",
     "common.modal.title.view": "Переглянути запис",
     "common.modal.title.modify": "Змінити запис",
-    "common.search.tooltip.limit": "Запитувати до 1000 записів",
+    "common.search.tooltip.limit": "Запитувати до 10000 записів",
     "common.end00": "#### загальне ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

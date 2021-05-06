@@ -138,7 +138,6 @@ class ResourceTree extends Component {
         },
     };
     constructor(props) {
-        
         super(props);
         // 获取 redis hosts 数据
         this.props.getHostsData();
@@ -206,7 +205,7 @@ class ResourceTree extends Component {
         } else if (menuType === HOSTS_TREEE_MENU_TYPE.UPDATE_CONN) {
             //
             let retObj = this.findNodeByNodeKey(this.props.hosts, keys[0]);
-            
+
             this.setState({
                 createOrUpdateHostModal: {
                     visible: true,
@@ -529,7 +528,7 @@ class ResourceTree extends Component {
      */
     handleCreateOrUpdateHostModalOk(data) {
         let newNode = {
-            title: data.name + "-[" + data.host + ":" + data.port + "]",
+            title: data.name,
             name: data.name,
             isLeaf: true,
             data: {
@@ -539,10 +538,10 @@ class ResourceTree extends Component {
                 auth: data.auth,
                 connectType: data.connectType,
                 masterName: data.masterName,
-                sentinelPassword: data.sentinelPassword
+                sentinelPassword: data.sentinelPassword,
             },
         };
-        
+
         if (this.state.createOrUpdateHostModal.type === 0) {
             let keys = resourceTreeSelectKeys;
             let key = undefined;
@@ -590,7 +589,7 @@ class ResourceTree extends Component {
                     proxysshkeypath: "",
                 },
             },
-        }
+        };
         this.setState(createOrUpdateHostModal);
     }
     /**
@@ -670,7 +669,6 @@ class ResourceTree extends Component {
         resourceTreeSelectKeys = keys;
     };
     render() {
-        
         return (
             <div>
                 <Dropdown

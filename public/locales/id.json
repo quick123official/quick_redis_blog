@@ -16,7 +16,7 @@
     "common.modal.title.add": "Tambahkan Rekaman",
     "common.modal.title.view": "Lihat Record",
     "common.modal.title.modify": "Ubah Record",
-    "common.search.tooltip.limit": "Buat kueri hingga 1000 catatan",
+    "common.search.tooltip.limit": "Buat kueri hingga 10000 catatan",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",

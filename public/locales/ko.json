@@ -16,7 +16,7 @@
     "common.modal.title.add": "레코드 추가",
     "common.modal.title.view": "레코드보기",
     "common.modal.title.modify": "레코드 수정",
-    "common.search.tooltip.limit": "최대 1000 개의 레코드 쿼리",
+    "common.search.tooltip.limit": "최대 10000 개의 레코드 쿼리",
     "common.end00": "#### common ####",
 
     "Tree.Menu.start": "#### Tree.Menu ####",
