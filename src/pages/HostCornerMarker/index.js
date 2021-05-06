@@ -9,25 +9,11 @@ import React, { Component } from "react";
  * @extends {Component}
  */
 class HostCornerMarker extends Component {
-
     render() {
         return (
-            <div>
-                {this.props.title}
-                {this.props.total > 0 &&
-                    <>
-                        <div
-                            style={{ width: '5px', display: 'inline-block' }}
-                        ></div>
-                        <div
-                            style={
-                                { background: '#8fc63d', width: '10px', height: '10px', borderRadius: '5px', float: 'right' }
-                            }
-                        >
-                        </div>
-                    </>
-                }
-            </div>
+            <span>
+                {this.props.title} - ({this.props.total})
+            </span>
         );
     }
 }

@@ -9,7 +9,8 @@ import HostKeySet from "@/pages/HostKeySet";
 import HostKeySortSet from "@/pages/HostKeySortSet";
 import HostKeyHash from "@/pages/HostKeyHash";
 import HostKeyNotExist from "@/pages/HostKeyNotExist";
-import { REDIS_DATA_TYPE } from "@/utils/constant";
+import { REDIS_DATA_TYPE, HOST_KEY_SHOW_TYPE } from "@/utils/constant";
+import LocaleUtils from "@/utils/LocaleUtils";
 import Log from "@/services/LogService";
 import SplitPane from "react-split-pane";
 const { TabPane } = Tabs;
@@ -23,7 +24,17 @@ const { TabPane } = Tabs;
 class HostContent extends Component {
     state = { dbTabs: [], activeKey: "0", redisKey: { key: "", type: "" } };
 
+    /**
+     *分隔符
+     *
+     * @memberof HostKeyTree
+     */
+    hostKeyShowType = HOST_KEY_SHOW_TYPE.TREE;
     componentDidMount() {
+        let splitSign = LocaleUtils.readSystemConfig().splitSign;
+        if (splitSign === "" || splitSign === undefined || splitSign === null) {
+            this.hostKeyShowType = HOST_KEY_SHOW_TYPE.TABLE;
+        }
         this.updateDBCount();
     }
     bindHostKeyRef = (hostKeyRef) => {
@@ -176,8 +187,6 @@ class HostContent extends Component {
                 >
                     {this.state.dbTabs.map((tab) => (
                         <TabPane
-                            // tab={tab.title}
-                            // tab={tab.title + " "+(tab.total > 0 ? "有" : "无")}
                             tab={
                                 <HostCornerMarker
                                     title={tab.title}
@@ -203,17 +212,38 @@ class HostContent extends Component {
                                             paddingRight: "10px",
                                         }}
                                     >
-                                        <HostKeyTree
-                                            node={this.props.node}
-                                            db={tab.key}
-                                            updateHostKey={this.updateHostKey.bind(
-                                                this
-                                            )}
-                                            createKey={this.createKey.bind(
-                                                this
-                                            )}
-                                            triggerRef={this.bindHostKeyRef}
-                                        ></HostKeyTree>
+                                        {this.hostKeyShowType ===
+                                        HOST_KEY_SHOW_TYPE.TREE ? (
+                                            <HostKeyTree
+                                                node={this.props.node}
+                                                db={tab.key}
+                                                updateHostKey={this.updateHostKey.bind(
+                                                    this
+                                                )}
+                                                createKey={this.createKey.bind(
+                                                    this
+                                                )}
+                                                triggerRef={this.bindHostKeyRef}
+                                            ></HostKeyTree>
+                                        ) : (
+                                            ""
+                                        )}
+                                        {this.hostKeyShowType ===
+                                        HOST_KEY_SHOW_TYPE.TABLE ? (
+                                            <HostKey
+                                                node={this.props.node}
+                                                db={tab.key}
+                                                updateHostKey={this.updateHostKey.bind(
+                                                    this
+                                                )}
+                                                createKey={this.createKey.bind(
+                                                    this
+                                                )}
+                                                triggerRef={this.bindHostKeyRef}
+                                            ></HostKey>
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
                                     <div style={{ paddingLeft: "20px" }}>
                                         {redisKeyType ===

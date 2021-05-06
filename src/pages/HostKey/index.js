@@ -401,10 +401,9 @@ class HostKey extends Component {
                         />
                     </Tooltip>
                     <Table
-                        // columns={columns}
                         columns={[
                             {
-                                title: `keys total: ${this.state.tableTotal || 0}`,
+                                title: "",
                                 dataIndex: "name",
                                 key: "key",
                                 ellipsis: "true",

@@ -390,7 +390,10 @@ class HostKeyTree extends Component {
     clickTreeRightClickMenu(item) {
         let selectedKey = this.resourceTreeSelectKey.selectedKey;
         let isLeaf = this.resourceTreeSelectKey.isLeaf;
-        let orgiKey = selectedKey.substr(1, selectedKey.length);
+        let orgiKey = selectedKey.substr(
+            this.splitSign.length,
+            selectedKey.length
+        );
         let pattern = orgiKey;
         if (!isLeaf) {
             pattern = pattern + this.splitSign + "*";
@@ -435,8 +438,10 @@ class HostKeyTree extends Component {
         this.resourceTreeSelectKey.isLeaf = event.node.isLeaf;
         if (this.resourceTreeSelectKey.isLeaf) {
             let currentKey = this.resourceTreeSelectKey.selectedKey;
-            let orgiKey = currentKey.substr(1,
-                 currentKey.length);
+            let orgiKey = currentKey.substr(
+                this.splitSign.length,
+                currentKey.length
+            );
             this.props.updateHostKey(orgiKey);
         }
     };
@@ -446,7 +451,10 @@ class HostKeyTree extends Component {
     handleDoubleClick(event, node) {
         if (node.isLeaf) {
             let currentKey = node.currentKey;
-            let orgiKey = currentKey.substr(1, currentKey.length);
+            let orgiKey = currentKey.substr(
+                this.splitSign.length,
+                currentKey.length
+            );
             this.props.updateHostKey(orgiKey);
         }
     }
