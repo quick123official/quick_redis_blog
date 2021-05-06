@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Row, Col, Select } from "antd";
+import { Modal, Row, Col, Select, Input } from "antd";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -10,7 +10,7 @@ const { ipcRenderer, remote } = window.require("electron");
  * 系统配置
  */
 class SystemConfig extends React.Component {
-    state = { visible: false, config: { lang: "" } };
+    state = { visible: false, config: { lang: "", splitSign: "" } };
     componentDidMount() {
         // 重置连接事件
         ipcRenderer.on("system-config", (event, arg) => {
@@ -21,7 +21,7 @@ class SystemConfig extends React.Component {
     showModal = () => {
         this.setState({
             visible: true,
-            config: { lang: LocaleUtils.readSystemConfig().lang },
+            config: LocaleUtils.readSystemConfig(),
         });
     };
 
@@ -46,12 +46,28 @@ class SystemConfig extends React.Component {
             visible: false,
         });
     };
-
-    handleChange(val) {
+    /**
+     *修改语言
+     *
+     * @param {*} val
+     * @memberof SystemConfig
+     */
+    handleLangChange(val) {
         this.setState({
-            config: { lang: val },
+            config: { ...this.state.config, lang: val },
         });
     }
+    /**
+     *修改分隔符
+     *
+     * @memberof SystemConfig
+     */
+    handleSplitSignChange = (event) => {
+        this.setState({
+            config: { ...this.state.config, splitSign: event.target.value },
+        });
+    };
+
     render() {
         let options = LocaleUtils.LOCALES.map((l) => (
             <Option key={l.value} value={l.value}>
@@ -66,17 +82,29 @@ class SystemConfig extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    <Row>
+                    <Row gutter={[16, 16]}>
                         <Col span={6}>{intl.get("SystemConfig.lang")}</Col>
                         <Col span={18}>
                             <Select
                                 key={this.state.config.lang}
                                 defaultValue={this.state.config.lang}
                                 style={{ width: 200 }}
-                                onChange={this.handleChange.bind(this)}
+                                onChange={this.handleLangChange.bind(this)}
                             >
                                 {options}
                             </Select>
+                        </Col>
+                        <Col span={6}>
+                            {intl.get("SystemConfig.tree.split")}
+                        </Col>
+                        <Col span={18}>
+                            <Input
+                                style={{ width: 200 }}
+                                placeholder="Input Delimiter"
+                                defaultValue={this.state.config.splitSign}
+                                value={this.state.config.splitSign}
+                                onChange={this.handleSplitSignChange}
+                            />
                         </Col>
                     </Row>
                 </Modal>

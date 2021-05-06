@@ -119,7 +119,7 @@ export default class LocaleUtils {
             if (locale === undefined) {
                 locale = "en";
             }
-            systemConfigData = { lang: locale };
+            systemConfigData = { lang: locale, splitSign: "" };
             this.saveSystemConfig(systemConfigData);
         }
         return systemConfigData;

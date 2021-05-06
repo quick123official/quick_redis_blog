@@ -18,6 +18,7 @@ import { REDIS_DATA_TYPE } from "@/utils/constant";
 import "@/pages/CommonCss/zebra.css";
 import uuid from "node-uuid";
 import Log from "@/services/LogService";
+import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 const { Search } = Input;
 const { Option } = Select;
@@ -75,6 +76,8 @@ class HostKeyTree extends Component {
     };
     searchInput = React.createRef();
     componentDidMount() {
+        // 获取配置的key分割符
+        this.splitSign = LocaleUtils.readSystemConfig().splitSign;
         this.setState({
             treeData: [],
             treeDataTotal: 0,
@@ -221,8 +224,6 @@ class HostKeyTree extends Component {
     searchKey(value) {
         let pattern = "*";
         if (value !== null && value !== undefined && value !== "") {
-            pattern = "*";
-        } else {
             pattern = "*" + value + "*";
         }
         this.loadRedisKeysByPattern(pattern);
@@ -329,6 +330,7 @@ class HostKeyTree extends Component {
                             }
                         );
                     }
+                    this.searchKey(this.searchInput.current.input.state.value);
                 }
             },
             (err) => {
@@ -393,8 +395,6 @@ class HostKeyTree extends Component {
         if (!isLeaf) {
             pattern = pattern + this.splitSign + "*";
         }
-
-        console.info("clickTreeRightClickMenu pattern", pattern);
         let redis = this.props.node.redis;
         redis.keys(pattern).then(
             (res) => {
@@ -416,6 +416,7 @@ class HostKeyTree extends Component {
                             }
                         );
                     }
+                    this.searchKey(this.searchInput.current.input.state.value);
                 }
             },
             (err) => {
@@ -432,7 +433,23 @@ class HostKeyTree extends Component {
     onDirectoryTreeSelect = (keys, event) => {
         this.resourceTreeSelectKey.selectedKey = event.node.currentKey;
         this.resourceTreeSelectKey.isLeaf = event.node.isLeaf;
+        if (this.resourceTreeSelectKey.isLeaf) {
+            let currentKey = this.resourceTreeSelectKey.selectedKey;
+            let orgiKey = currentKey.substr(1,
+                 currentKey.length);
+            this.props.updateHostKey(orgiKey);
+        }
     };
+    /**
+     * 双击tree
+     */
+    handleDoubleClick(event, node) {
+        if (node.isLeaf) {
+            let currentKey = node.currentKey;
+            let orgiKey = currentKey.substr(1, currentKey.length);
+            this.props.updateHostKey(orgiKey);
+        }
+    }
     render() {
         return (
             <div>
@@ -457,10 +474,13 @@ class HostKeyTree extends Component {
                         overlay={this.showTreeRightClickMenu.bind(this)}
                         trigger={["contextMenu"]}
                     >
-                        <div style={{ height: "100vh" }}>
+                        <div>
                             <DirectoryTree
                                 treeData={this.state.treeData}
                                 onSelect={this.onDirectoryTreeSelect.bind(this)}
+                                onDoubleClick={this.handleDoubleClick.bind(
+                                    this
+                                )}
                                 height={750}
                             ></DirectoryTree>
                         </div>
