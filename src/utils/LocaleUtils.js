@@ -104,7 +104,7 @@ export default class LocaleUtils {
         try {
             systemConfigData = fs.readFileSync(filePath, "utf-8");
         } catch (e) {
-            Log.error("[cmd=readSystemConfig] error", filePath, e);
+            Log.error("[cmd=LocaleUtils] readSystemConfig error", filePath, e);
         }
         if (systemConfigData !== undefined) {
             systemConfigData = JSON.parse(systemConfigData);
@@ -137,7 +137,7 @@ export default class LocaleUtils {
         try {
             fs.writeFileSync(filePath, strData, "utf-8");
         } catch (e) {
-            Log.error("[cmd=saveSystemConfig] error", filePath, e);
+            Log.error("[cmd=LocaleUtils] saveSystemConfig error", filePath, e);
         }
     }
 }

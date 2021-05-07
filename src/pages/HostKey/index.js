@@ -69,7 +69,7 @@ class HostKey extends Component {
         this.props.node.redis.select(this.props.db, (err, res) => {
             if (err) {
                 message.error("" + err);
-                Log.error("HostKey componentDidMount error", err, res);
+                Log.error("[cmd=HostKey] componentDidMount error", err, res);
                 return;
             }
             this.loadRedisDataByPattern(pattern, cursor, "*");
@@ -102,7 +102,13 @@ class HostKey extends Component {
                 if (err) {
                     this.setState({ searchDisable: false });
                     message.error("" + err);
-                    Log.error("HostKey loadRedisDataByPattern error", err);
+                    Log.error(
+                        "[cmd=HostKey] loadRedisDataByPattern error",
+                        pattern,
+                        cursor,
+                        existKey,
+                        err
+                    );
                     return;
                 }
                 let data = [];
@@ -137,44 +143,46 @@ class HostKey extends Component {
             key = "*";
         }
         let redis = this.props.node.redis;
-        redis.get(key).then(
-            (res) => {
-                this.setState({
-                    tableData: [],
-                    searchDisable: true,
-                    currentPage: 1,
-                    tableTotal: 0,
-                });
-                let pattern = key;
-                let cursor = "0";
-                pattern = "*" + pattern + "*";
-                // 关键字的key，如果存在，必然显示在第一页第一行
-                if (
-                    res !== null &&
-                    res !== undefined &&
-                    res.length !== 0 &&
-                    key !== "*"
-                ) {
-                    let data = [];
-                    data.push({
-                        key: key,
-                        name: key,
-                    });
-                    if (data.length !== 0) {
-                        let tableData = [...this.state.tableData, ...data];
-                        this.setState({
-                            tableData: tableData,
-                            tableTotal: tableData.length,
-                        });
-                    }
-                }
-                this.loadRedisDataByPattern(pattern, cursor, key);
-            },
-            (err) => {
+        // 使用 scan 的原因：有些redis server禁用keys。
+        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
+            if (err) {
+                this.setState({ searchDisable: false });
                 message.error("" + err);
-                Log.error("HostKey refreshValue error", err);
+                Log.error("[cmd=HostKey] searchKey error", key, err);
+                return;
             }
-        );
+            this.setState({
+                tableData: [],
+                searchDisable: true,
+                currentPage: 1,
+                tableTotal: 0,
+            });
+            let pattern = key;
+            let cursor = "0";
+            pattern = "*" + pattern + "*";
+            if (
+                res !== null &&
+                res !== undefined &&
+                res[1].length > 0 &&
+                key !== "*"
+            ) {
+                // 关键字的key，如果存在，显示在第一页第一行
+                let data = [];
+                data.push({
+                    key: key,
+                    name: key,
+                });
+                if (data.length !== 0) {
+                    let tableData = [...this.state.tableData, ...data];
+                    this.setState({
+                        tableData: tableData,
+                        tableTotal: tableData.length,
+                    });
+                }
+            }
+            this.loadRedisDataByPattern(pattern, cursor, key);
+        });
     }
     /**
      *改变页码
@@ -260,95 +268,99 @@ class HostKey extends Component {
         }
         let redis = this.props.node.redis;
         let key = form.getFieldValue("key");
-        redis.get(key).then(
-            (value0) => {
-                if (value0 !== null) {
-                    message.error(
-                        intl.get("HostKey.key.exist") + ", key > " + key
-                    );
-                } else {
-                    let keyType = form.getFieldValue("keyType");
-                    if (keyType === REDIS_DATA_TYPE.STRING) {
-                        redis.set(key, "").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKey okCreateKeyMadal string error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.ZSET) {
-                        redis.zadd(key, 1, "default-member").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKey okCreateKeyMadal zset error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.SET) {
-                        redis.sadd(key, "default-member").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKey okCreateKeyMadal set error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.HASH) {
-                        redis.hset(key, "default-member", "default-value").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKey okCreateKeyMadal hash error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.LIST) {
-                        redis.lpush(key, "default-member").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKey okCreateKeyMadal list error",
-                                    err
-                                );
-                            }
-                        );
-                    }
-                    let tableData = [
-                        { key: key, name: key },
-                        ...this.state.tableData,
-                    ];
-                    this.setState({
-                        tableData: tableData,
-                        tableTotal: tableData.length,
-                    });
-                }
-            },
-            (err) => {
+        // 使用 scan 的原因：有些redis server禁用keys。
+        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
+            if (err) {
                 message.error("" + err);
-                Log.error("HostKey createKey error", err);
+                Log.error("[cmd=HostKey] createKey error", key, err);
+                return;
             }
-        );
+            if (res !== null && res !== undefined && res[1].length > 0) {
+                message.error(intl.get("HostKey.key.exist") + ", key > " + key);
+            } else {
+                let keyType = form.getFieldValue("keyType");
+                if (keyType === REDIS_DATA_TYPE.STRING) {
+                    redis.set(key, "").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "[cmd=HostKey] okCreateKeyMadal string error",
+                                key,
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.ZSET) {
+                    redis.zadd(key, 1, "default-member").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "[cmd=HostKey] okCreateKeyMadal zset error",
+                                key,
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.SET) {
+                    redis.sadd(key, "default-member").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "[cmd=HostKey] okCreateKeyMadal set error",
+                                key,
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.HASH) {
+                    redis.hset(key, "default-member", "default-value").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "[cmd=HostKey] okCreateKeyMadal hash error",
+                                key,
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.LIST) {
+                    redis.lpush(key, "default-member").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "[cmd=HostKey] okCreateKeyMadal list error",
+                                key,
+                                err
+                            );
+                        }
+                    );
+                }
+                let tableData = [
+                    { key: key, name: key },
+                    ...this.state.tableData,
+                ];
+                this.setState({
+                    tableData: tableData,
+                    tableTotal: tableData.length,
+                });
+            }
+        });
     };
     /**
      *创建KEY成功，关闭窗口，调用父组件创建key

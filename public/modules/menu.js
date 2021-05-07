@@ -32,7 +32,7 @@ module.exports = {
                                     }
                                 })
                                 .catch((err) => {
-                                    Log.error("导入连接失败", err);
+                                    Log.error("[cmd=menu] 导入连接失败", err);
                                     dialog.showMessageBox(mainWindow, {
                                         type: "info",
                                         title: "提示",
@@ -65,7 +65,7 @@ module.exports = {
                                     }
                                 })
                                 .catch((err) => {
-                                    Log.error("导入连接失败", err);
+                                    Log.error("[cmd=menu] 导出连接失败", err);
                                     dialog.showMessageBox(mainWindow, {
                                         type: "info",
                                         title: "提示",

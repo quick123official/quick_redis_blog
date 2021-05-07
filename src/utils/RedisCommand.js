@@ -48,7 +48,6 @@ export default class RedisCommand {
      * @static
      * @param {*} redis
      * @param {*} print
-     * @param {*} command
      * @param {*} args
      * @memberof RedisCommand
      */
@@ -66,11 +65,11 @@ export default class RedisCommand {
                 })
                 .catch((e1) => {
                     print("" + e1);
-                    Log.error("RedisCommand invoke error e1", e1);
+                    Log.error("[cmd=RedisCommand] invoke error e1", e1);
                 });
         } catch (e2) {
             print("" + e2);
-            Log.error("RedisCommand invoke error e2", e2);
+            Log.error("[cmd=RedisCommand] invoke error e2", e2);
         }
     }
 }

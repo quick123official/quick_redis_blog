@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component {
 
     componentDidCatch(error, errorInfo) {
         // 这里上报错误或者打印错误日志
-        Log.error("[cmd=ErrorBoundary] error", error, errorInfo);
+        Log.error("[cmd=ErrorBoundary] componentDidCatch error", error, errorInfo);
     }
 
     render() {

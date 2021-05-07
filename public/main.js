@@ -130,6 +130,6 @@ app.on("activate", function () {
 
 // GPU进程崩溃
 app.on("gpu-process-crashed", function () {
-    Log.error("GPU进程崩溃，程序退出");
+    Log.error("[cmd=main] gpu-process-crashed");
     app.exit(0);
 });

@@ -23,7 +23,7 @@ const ElectronIntlUniversal = {
         try {
             langJsonData = fs.readFileSync(langPath, "utf-8");
         } catch (e) {
-            Log.error("[cmd=ElectronIntlUniversal.init] error", langPath, e);
+            Log.error("[cmd=ElectronIntlUniversal] init error", langPath, e);
         }
         ElectronIntlUniversal.langData = JSON.parse(langJsonData);
     },
@@ -129,7 +129,7 @@ const ElectronIntlUniversal = {
         try {
             systemConfigData = fs.readFileSync(filePath, "utf-8");
         } catch (e) {
-            Log.error("[cmd=readSystemConfig] error", filePath, e);
+            Log.error("[cmd=ElectronIntlUniversal] readSystemConfig error", langPath, e);
         }
         if (systemConfigData !== undefined) {
             systemConfigData = JSON.parse(systemConfigData);

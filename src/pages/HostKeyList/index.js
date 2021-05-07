@@ -148,7 +148,7 @@ class HostKeyList extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyList refreshValue error", err);
+                Log.error("[cmd=HostKeyList] refreshValue error", err);
             }
         );
     }
@@ -168,7 +168,7 @@ class HostKeyList extends Component {
         redis.lrange(redisKey, startIndex, endIndex, (err, list) => {
             if (err) {
                 message.error("" + err);
-                Log.error("HostKeyList fetchDataByPage error", err);
+                Log.error("[cmd=HostKeyList] fetchDataByPage error", err);
                 return;
             }
             let data = [];
@@ -229,7 +229,7 @@ class HostKeyList extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyList deleteMember error", err);
+                Log.error("[cmd=HostKeyList] deleteMember error", err);
             }
         );
     }
@@ -276,7 +276,7 @@ class HostKeyList extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyList handleModalOk llen error", err);
+                Log.error("[cmd=HostKeyList] handleModalOk llen error", err);
             }
         );
         // 搜索
@@ -310,14 +310,14 @@ class HostKeyList extends Component {
                 .lpush(redisKey, member)
                 .then(this.pushMemberCallBack(redisKey), (err) => {
                     message.error("" + err);
-                    Log.error("HostKeyList handleModalOk lpush error", err);
+                    Log.error("[cmd=HostKeyList] handleModalOk lpush error", err);
                 });
         } else if (insertType === "1") {
             redis
                 .rpush(redisKey, member)
                 .then(this.pushMemberCallBack(redisKey), (err) => {
                     message.error("" + err);
-                    Log.error("HostKeyList handleModalOk rpush error", err);
+                    Log.error("[cmd=HostKeyList] handleModalOk rpush error", err);
                 });
         }
     }

@@ -30,13 +30,16 @@ export default class HostsFileService {
      * @memberof HostsFileService
      */
     static getHostsData() {
-        
         let hostsFilePath = this.getHostsFilePath();
         var data = undefined;
         try {
             data = fs.readFileSync(hostsFilePath, "utf-8");
         } catch (e) {
-            Log.error("[cmd=getHostsData] error", hostsFilePath, e);
+            Log.error(
+                "[cmd=HostsFileService] getHostsData error",
+                hostsFilePath,
+                e
+            );
         }
         if (data === undefined || data === "") {
             // [] 表示删除的，"" 表示删除的。删除的清空则不给默认值
@@ -63,7 +66,11 @@ export default class HostsFileService {
         try {
             fs.writeFileSync(hostsFilePath, jsonHostsData, "utf-8");
         } catch (e) {
-            Log.error("[cmd=saveHostsDataByNode] error", hostsFilePath, e);
+            Log.error(
+                "[cmd=HostsFileService] saveHostsDataByNode error",
+                hostsFilePath,
+                e
+            );
         }
     }
     static compare(p) {
@@ -115,7 +122,7 @@ export default class HostsFileService {
             data = fs.readFileSync(importHostsFilePath, "utf-8");
         } catch (e) {
             Log.error(
-                "[cmd=saveHostsDataByHostFilePath] error",
+                "[cmd=HostsFileService] saveHostsDataByHostFilePath error",
                 importHostsFilePath,
                 e
             );
@@ -123,7 +130,7 @@ export default class HostsFileService {
         }
         if (!data) {
             Log.error(
-                "[cmd=saveHostsDataByHostFilePath] error. !data. data > {}",
+                "[cmd=HostsFileService] saveHostsDataByHostFilePath error. !data. data > {}",
                 data
             );
             return false;
@@ -131,7 +138,7 @@ export default class HostsFileService {
         let deepCopyNode = JSON.parse(data);
         if (!Array.isArray(deepCopyNode)) {
             Log.error(
-                "[cmd=saveHostsDataByHostFilePath] error. !Array.isArray(deepCopyNode). data > {}",
+                "[cmd=HostsFileService] saveHostsDataByHostFilePath error. !Array.isArray(deepCopyNode). data > {}",
                 data
             );
             return false;
@@ -144,7 +151,7 @@ export default class HostsFileService {
             return true;
         } catch (e) {
             Log.error(
-                "[cmd=saveHostsDataByHostFilePath] error",
+                "[cmd=HostsFileService] saveHostsDataByHostFilePath error",
                 hostsFilePath,
                 e
             );
@@ -162,7 +169,7 @@ export default class HostsFileService {
             return true;
         } catch (e) {
             Log.error(
-                "[cmd=exportHostsDataToHostFilePath] error",
+                "[cmd=HostsFileService] exportHostsDataToHostFilePath error",
                 exportHostsFilePath,
                 e
             );
@@ -183,7 +190,11 @@ export default class HostsFileService {
             fs.writeFileSync(hostsFilePath, jsonHostsData, "utf-8");
             return true;
         } catch (e) {
-            Log.error("[cmd=cleanHostsData] error", hostsFilePath, e);
+            Log.error(
+                "[cmd=HostsFileService] cleanHostsData error",
+                hostsFilePath,
+                e
+            );
             return false;
         }
     }
