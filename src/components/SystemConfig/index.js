@@ -107,7 +107,7 @@ class SystemConfig extends React.Component {
                                     onChange={this.handleSplitSignChange}
                                 />{" "}
                             </Tooltip>
-                            ,
+                            {/* , */}
                         </Col>
                     </Row>
                 </Modal>
