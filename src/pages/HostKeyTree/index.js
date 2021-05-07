@@ -414,7 +414,7 @@ class HostKeyTree extends Component {
                             }
                         );
                     }
-                    this.searchKey(this.searchInput.current.input.state.value);
+                    this.searchKey(this.searchInput.current.input.value);
                 }
             },
             (err) => {
