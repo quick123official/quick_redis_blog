@@ -352,16 +352,18 @@ export default class RedisService {
                                 }
                             },
                             (err) => {
-                                console.log(`redis-info:err:${err}`);
+                                Log.error(
+                                    "[cmd=RedisService] connectRedis error. redis-info:err",
+                                    hostinfo,
+                                    err
+                                );
                             }
                         );
                     } else if (hostinfo.connectType === CONNECT_TYPE.CLUSTER) {
                         //集群
                     }
-                    console.log("redis:redis:", redis);
                 });
         }).on("error", (err) => {
-            console.error(`[ERROR] - ${err}`);
             Log.error("[cmd=RedisService] connectRedis error.", hostinfo, err);
             message.error(intl.get("proxy.connecterror"));
         });
