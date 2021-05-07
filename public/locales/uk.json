@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Вибрати мову",
+    "SystemConfig.tree.split": "Встановити роздільник",
     "SystemConfig.title": "Конфігурація системи",
     "SystemConfig.needRestart": "Вам потрібно перезапуститися, щоб набути чинності.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "видалити",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Ключ уже існує",
@@ -161,12 +166,17 @@
     "electron.menu.help.about": "Про QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"使用代理",
-    "proxy.host":"代理Host",
-    "proxy.sshport":"SSH端口",
-    "proxy.username":"SSH用户名",
-    "proxy.password":"代理密码",
-    "proxy.sshkeypath":"代理私钥路径",
-    "proxy.connecterror":"代理连接失败",
-    "proxy.privateKey.not.exist":"秘钥文件错误"
+    "proxy.use": "Використовувати проксі",
+    "proxy.host": "Проксі-хост",
+    "proxy.sshport": "Порт SSH",
+    "proxy.username": "Ім'я користувача SSH",
+    "proxy.password": "Пароль проксі",
+    "proxy.sshkeypath": "Шлях приватного ключа проксі",
+    "proxy.connecterror": "Помилка підключення проксі",
+    "proxy.privateKey.not.exist": "Помилка файлу секретного ключа",
+
+    "notification.start": "#### сповіщення ####",
+    "notification.support.host.key.tree.title": "Нова директорія для використання функцій для відображення та управління клавішами",
+    "notification.support.host.key.tree.description": "Як увімкнути цю функцію: Головне меню -> Файл -> Налаштування системи -> Встановити роздільник",
+    "notification.end00": "#### повідомлення ####"
 }

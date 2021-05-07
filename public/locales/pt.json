@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Selecione o idioma",
+    "SystemConfig.tree.split": "Definir separador",
     "SystemConfig.title": "Configuração do sistema",
     "SystemConfig.needRestart": "Você precisa reiniciar para fazer efeito.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "excluir",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "A chave já existe",
@@ -161,12 +166,17 @@
     "electron.menu.help.about": "Sobre QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Usando um proxy",
-    "proxy.host":"Agente anfitrião.",
-    "proxy.sshport":"Porta SSH",
-    "proxy.username":"Nome do utilizador SSH",
-    "proxy.password":"Senha Proxy",
-    "proxy.sshkeypath":"Localização provável Da chave Privada",
-    "proxy.connecterror":"A conexão do'proxy'falhou",
-    "proxy.privateKey.not.exist":"Erro de arquivo de chave secreta"
+    "proxy.use": "Usando um proxy",
+    "proxy.host": "Agente anfitrião.",
+    "proxy.sshport": "Porta SSH",
+    "proxy.username": "Nome do utilizador SSH",
+    "proxy.password": "Senha Proxy",
+    "proxy.sshkeypath": "Localização provável Da chave Privada",
+    "proxy.connecterror": "A conexão do'proxy'falhou",
+    "proxy.privateKey.not.exist": "Erro de arquivo de chave secreta",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "Novo diretório de uso de recursos para exibir e manipular chaves",
+    "notification.support.host.key.tree.description": "Como habilitar este recurso: Menu Principal -> Arquivo -> Configurações do Sistema -> Definir Delimitador",
+    "notification.end00": "#### notification ####"
 }

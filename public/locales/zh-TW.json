@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "選擇語言",
+    "SystemConfig.tree.split": "設置分隔符",
     "SystemConfig.title": "系統配置",
     "SystemConfig.needRestart": "您需要重新啟動才能生效。",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "刪除",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Key 已存在",
@@ -161,12 +166,17 @@
     "electron.menu.help.about": "關於 QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"使用代理",
-    "proxy.host":"代理Host",
-    "proxy.sshport":"SSH端口",
-    "proxy.username":"SSH用戶名",
-    "proxy.password":"代理密碼",
-    "proxy.sshkeypath":"代理私鑰路徑",
-    "proxy.connecterror":"代理連接失敗",
-    "proxy.privateKey.not.exist":"秘鑰文件錯誤"
+    "proxy.use": "使用代理",
+    "proxy.host": "代理Host",
+    "proxy.sshport": "SSH端口",
+    "proxy.username": "SSH用戶名",
+    "proxy.password": "代理密碼",
+    "proxy.sshkeypath": "代理私鑰路徑",
+    "proxy.connecterror": "代理連接失敗",
+    "proxy.privateKey.not.exist": "秘鑰文件錯誤",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "新增功能 - 使用目錄顯示和操作keys",
+    "notification.support.host.key.tree.description": "啟用該功能的方法：主菜單 -> 文件 -> 系統設置 -> 設置分隔符",
+    "notification.end00": "#### notification ####"
 }

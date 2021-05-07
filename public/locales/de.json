@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Sprache auswählen",
+    "SystemConfig.tree.split": "Trennzeichen einstellen",
     "SystemConfig.title": "Systemkonfiguration",
     "SystemConfig.needRestart": "Sie müssen neu starten, um wirksam zu werden.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "löschen",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Schlüssel existiert bereits",
@@ -161,12 +166,17 @@
     "electron.menu.help.about": "Über QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Verwendung eines Proxy",
-    "proxy.host":"Agent Host",
-    "proxy.sshport":"Port SSH",
-    "proxy.username":"Benutzername SSH",
-    "proxy.password":"Passwort des Proxy",
-    "proxy.sshkeypath":"Pfad des privaten Schlüssels Proxy",
-    "proxy.connecterror":"Verbindungsaufbau fehlgeschlagen",
-    "proxy.privateKey.not.exist":"Fehler bei der geheimen Schlüsseldatei"
+    "proxy.use": "Verwendung eines Proxy",
+    "proxy.host": "Agent Host",
+    "proxy.sshport": "Port SSH",
+    "proxy.username": "Benutzername SSH",
+    "proxy.password": "Passwort des Proxy",
+    "proxy.sshkeypath": "Pfad des privaten Schlüssels Proxy",
+    "proxy.connecterror": "Verbindungsaufbau fehlgeschlagen",
+    "proxy.privateKey.not.exist": "Fehler bei der geheimen Schlüsseldatei",
+
+    "Benachrichtigung.Start": "#### Benachrichtigung ####",
+    "notification.support.host.key.tree.title": "Neues Feature-Use-Verzeichnis zum Anzeigen und Bearbeiten von Schlüsseln",
+    "notification.support.host.key.tree.description": "So aktivieren Sie diese Funktion: Hauptmenü -> Datei -> Systemeinstellungen -> Trennzeichen festlegen",
+    "Benachrichtigung.end00": "#### Benachrichtigung ####"
 }

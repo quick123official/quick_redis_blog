@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Selecteer taal",
+    "SystemConfig.tree.split": "Scheidingsteken instellen",
     "SystemConfig.title": "Systeemconfiguratie",
     "SystemConfig.needRestart": "U moet opnieuw opstarten om van kracht te worden.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "verwijderen",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Sleutel bestaat al",
@@ -161,12 +166,17 @@
     "electron.menu.help.about": "Over QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Gebruik van een proxy",
-    "proxy.host":"Agent host",
-    "proxy.sshport":"SSH poort",
-    "proxy.username":"SSH gebruikersnaam",
-    "proxy.password":"Wachtwoord voor proxy",
-    "proxy.sshkeypath":"Proxy prive-sleutel pad",
-    "proxy.connecterror":"Verbinding mislukt",
-    "proxy.privateKey.not.exist":"Fout in het geheime bestand"
+    "proxy.use": "Gebruik van een proxy",
+    "proxy.host": "Agent host",
+    "proxy.sshport": "SSH poort",
+    "proxy.username": "SSH gebruikersnaam",
+    "proxy.password": "Wachtwoord voor proxy",
+    "proxy.sshkeypath": "Proxy prive-sleutel pad",
+    "proxy.connecterror": "Verbinding mislukt",
+    "proxy.privateKey.not.exist": "Fout in het geheime bestand",
+
+    "notification.start": "#### melding ####",
+    "notification.support.host.key.tree.title": "Nieuwe feature-use directory om sleutels weer te geven en te manipuleren",
+    "notification.support.host.key.tree.description": "Deze functie inschakelen: Hoofdmenu -> Bestand -> Systeeminstellingen -> Scheidingsteken instellen",
+    "notification.end00": "#### melding ####"
 }

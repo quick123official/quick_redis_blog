@@ -82,3 +82,10 @@ export const OS_TYPE = {
     // linux
     LINUX: "linux",
 };
+// redis key 展示的类型
+export const HOST_KEY_SHOW_TYPE = {
+    // 目录树
+    TREE: "tree",
+    // 单行表格
+    TABLE: "table",
+};

@@ -9,7 +9,7 @@
     "common.save": "Save",
     "common.columns.title.op": "Operating",
     "common.columns.title.modify": "Modify",
-    "common.columns.title.view": "Melihat",
+    "common.columns.title.view": "View",
     "common.columns.title.delete": "Delete",
     "common.columns.title.delete.notice": "Are you sure to delete?",
     "common.add.record": "Add Record",
@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Select language",
+    "SystemConfig.tree.split": "Set separator",
     "SystemConfig.title": "System configuration",
     "SystemConfig.needRestart": "You need to restart to take effect.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "Delete",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "Key already exists",
@@ -146,7 +151,7 @@
     "electron.menu.edit.copy": "Copy",
     "electron.menu.edit.paste": "Paste",
     "electron.menu.edit.select.all": "Select All",
-    "electron.menu.view": "Melihat",
+    "electron.menu.view": "View",
     "electron.menu.view.reload": "Reload",
     "electron.menu.view.toggle.full.screen": "Toggle full screen",
     "electron.menu.view.switch.dev.tools": "Switch developer tools",
@@ -161,12 +166,17 @@
     "electron.menu.help.about": "About QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Using a proxy",
-    "proxy.host":"Agent host",
-    "proxy.sshport":"SSH port",
-    "proxy.username":"SSH user name",
-    "proxy.password":"Proxy password",
-    "proxy.sshkeypath":"Proxy private key path",
-    "proxy.connecterror":"Proxy connection failed",
-    "proxy.privateKey.not.exist":"Secret key file error"
+    "proxy.use": "Using a proxy",
+    "proxy.host": "Agent host",
+    "proxy.sshport": "SSH port",
+    "proxy.username": "SSH user name",
+    "proxy.password": "Proxy password",
+    "proxy.sshkeypath": "Proxy private key path",
+    "proxy.connecterror": "Proxy connection failed",
+    "proxy.privateKey.not.exist": "Secret key file error",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "New feature-use directory to display and manipulate keys",
+    "notification.support.host.key.tree.description": "How to enable this feature: Main Menu -> File -> System Settings -> Set Delimiter",
+    "notification.end00": "#### notification ####"
 }

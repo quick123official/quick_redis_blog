@@ -41,12 +41,13 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "选择语言",
+    "SystemConfig.tree.split": "设置分隔符",
     "SystemConfig.title": "系统配置",
     "SystemConfig.needRestart": "您需要重新启动才能生效。",
     "SystemConfig.end00": "#### SystemConfig ####",
 
     "HostKeyTree.start": "#### HostKey ####",
-    "HostKeyTree.delete.key.node": "删除节点",
+    "HostKeyTree.delete.key.node": "删除",
     "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
@@ -172,5 +173,10 @@
     "proxy.password": "代理密码",
     "proxy.sshkeypath": "代理私钥路径",
     "proxy.connecterror": "代理连接失败",
-    "proxy.privateKey.not.exist": "秘钥文件错误"
+    "proxy.privateKey.not.exist": "秘钥文件错误",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "新增功能 - 使用目录显示和操作keys",
+    "notification.support.host.key.tree.description": "启用该功能的方法：主菜单 -> 文件 -> 系统设置 -> 设置分隔符",
+    "notification.end00": "#### notification ####"
 }

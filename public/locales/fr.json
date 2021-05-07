@@ -41,9 +41,14 @@
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Sélectionnez la langue",
+    "SystemConfig.tree.split": "Définir le séparateur",
     "SystemConfig.title": "Configuration système",
     "SystemConfig.needRestart": "Vous devez redémarrer pour prendre effet.",
     "SystemConfig.end00": "#### SystemConfig ####",
+
+    "HostKeyTree.start": "#### HostKey ####",
+    "HostKeyTree.delete.key.node": "effacer",
+    "HostKeyTree.end00": "#### HostKey ####",
 
     "HostKey.start": "#### HostKey ####",
     "HostKey.key.exist": "La clé existe déjà",
@@ -161,12 +166,17 @@
     "electron.menu.help.about": "À propos de QuickRedis",
     "electron.menu.end": "#### electron.menu.end ####",
 
-    "proxy.use":"Utiliser un mandataire",
-    "proxy.host":"Agent Host",
-    "proxy.sshport":"Port SSH",
-    "proxy.username":"Nom d'utilisateur SSH",
-    "proxy.password":"Mot de passe Proxy",
-    "proxy.sshkeypath":"Chemin de la clé privée du mandataire",
-    "proxy.connecterror":"La connexion par procuration a échoué",
-    "proxy.privateKey.not.exist":"Erreur de fichier clé"
+    "proxy.use": "Utiliser un mandataire",
+    "proxy.host": "Agent Host",
+    "proxy.sshport": "Port SSH",
+    "proxy.username": "Nom d'utilisateur SSH",
+    "proxy.password": "Mot de passe Proxy",
+    "proxy.sshkeypath": "Chemin de la clé privée du mandataire",
+    "proxy.connecterror": "La connexion par procuration a échoué",
+    "proxy.privateKey.not.exist": "Erreur de fichier clé",
+
+    "notification.start": "#### notification ####",
+    "notification.support.host.key.tree.title": "Nouveau répertoire d'utilisation des fonctionnalités pour afficher et manipuler les clés",
+    "notification.support.host.key.tree.description": "Comment activer cette fonction: Menu principal -> Fichier -> Paramètres système -> Définir le délimiteur",
+    "notification.end00": "#### notification ####"
 }
