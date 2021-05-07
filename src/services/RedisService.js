@@ -3,20 +3,18 @@ import { CheckCircleTwoTone, WarningTwoTone } from "@ant-design/icons";
 import { message } from "antd";
 import { MODIFY_HOSTS_DATA } from "@/redux/constants/HostDataActionType";
 import { CONNECT_TYPE } from "@/utils/constant";
+import Log from "@/services/LogService";
 import intl from "react-intl-universal";
 
-
 let Redis = window.require("ioredis");
-const net = window.require('net');
-const Client = window.require('ssh2');
-const { readFileSync } = window.require('fs');
-
+const net = window.require("net");
+const Client = window.require("ssh2");
+const { readFileSync } = window.require("fs");
 
 /**
  * 连接到redis
  */
 export default class RedisService {
-
     /**
      *连接到redis，返会redis实例
      *
@@ -37,11 +35,10 @@ export default class RedisService {
                     host: node.data.host,
                     port: node.data.port,
                     password: node.data.auth,
-                }
+                };
                 redis = new Redis(params);
                 RedisService.redisEvent(node, dispatch, callback, redis);
             }
-
         } else if (node.data.connectType === CONNECT_TYPE.SENTINEL) {
             let params = {
                 sentinels: [
@@ -53,7 +50,7 @@ export default class RedisService {
                 name: node.data.masterName,
                 password: node.data.auth,
                 sentinelPassword: node.data.sentinelPassword,
-            }
+            };
             if (node.data.proxyuse === true) {
                 RedisService.proxyssh({ ...node.data, ...params }, (redis) => {
                     RedisService.redisEvent(node, dispatch, callback, redis);
@@ -79,23 +76,26 @@ export default class RedisService {
             );
             RedisService.redisEvent(node, dispatch, callback, redis);
         } else {
+            Log.error(
+                "[cmd=RedisService] connectRedis error. unknow connection mode."
+            );
             message.error(
                 intl.get("RedisService.error.configure.connection.mode")
             );
             return;
         }
-
     }
 
     /**
      * 注册redis事件
-     * @param {*} node 
-     * @param {*} dispatch 
-     * @param {*} callback 
-     * @param {*} redis 
+     * @param {*} node
+     * @param {*} dispatch
+     * @param {*} callback
+     * @param {*} redis
      */
     static redisEvent(node, dispatch, callback, redis) {
         redis.once("connect", function () {
+            Log.info("[cmd=RedisService] connectRedis connect.", node);
             RedisService.dispatchSuccess(node, redis, dispatch);
             message.success(
                 intl.get("RedisService.info.connection.established.success")
@@ -105,6 +105,7 @@ export default class RedisService {
             }
         });
         redis.once("error", function (error) {
+            Log.error("[cmd=RedisService] connectRedis error.", node, error);
             RedisService.dispatchError(redis, node, dispatch);
             message.error(intl.get("RedisService.error.occurred") + error);
             if (callback !== undefined) {
@@ -112,6 +113,7 @@ export default class RedisService {
             }
         });
         redis.once("end", function () {
+            Log.info("[cmd=RedisService] connectRedis end.", node);
             RedisService.dispatchError(redis, node, dispatch);
             if (callback !== undefined) {
                 callback({
@@ -121,7 +123,6 @@ export default class RedisService {
             }
         });
     }
-
 
     /**
      *连接错误
@@ -178,11 +179,11 @@ export default class RedisService {
 
     /**
      * 深复制
-     * @param {} data 
-     * @returns 
+     * @param {} data
+     * @returns
      */
     static deepClone(data) {
-        if (!data || !(data instanceof Object) || (typeof data == "function")) {
+        if (!data || !(data instanceof Object) || typeof data == "function") {
             return data || undefined;
         }
         var constructor = data.constructor;
@@ -208,128 +209,164 @@ export default class RedisService {
             password: hostinfo.proxypassword,
         };
 
-        if (hostinfo.proxysshkeypath != null && hostinfo.proxysshkeypath !== "")
-        {
+        if (
+            hostinfo.proxysshkeypath != null &&
+            hostinfo.proxysshkeypath !== ""
+        ) {
             try {
-                connectionConfig.privateKey = readFileSync(hostinfo.proxysshkeypath);
+                connectionConfig.privateKey = readFileSync(
+                    hostinfo.proxysshkeypath
+                );
             } catch (e) {
-                message.error(intl.get("proxy.privateKey.not.exist"));
+                Log.error(
+                    "[cmd=RedisService] connectRedis error. read privateKey file error",
+                    hostinfo,
+                    e
+                );
+                message.error(intl.get("proxy.privateKey.not.exist"), e);
                 return;
             }
         }
 
         const conn = new Client();
-        conn.on('ready', () => {
-            console.log(`conn连接成功`);
-            const server = net.createServer(function (sock) {
-                conn.forwardOut(sock.remoteAddress, sock.remotePort, hostinfo.host, hostinfo.port, (err, stream) => {
-                    if (err) {
-                        sock.end()
-                    } else {
-                        sock.pipe(stream).pipe(sock)
-                    }
-                })
-            }).listen(0, function () {
-                let redis;
-                if (hostinfo.connectType === CONNECT_TYPE.DIRECT) {
-                    //直连
-                    redis = new Redis({ host: '127.0.0.1', port: server.address().port, password: hostinfo.auth });
-                    if (redis != null) {
-                        callback(redis);
-                    } else {
-                        message.error(
-                            intl.get("RedisService.error.occurred")
-                        );
-                    }
-                } else if (hostinfo.connectType === CONNECT_TYPE.SENTINEL) {
-                    //哨兵
-                    //先用直连模式连接哨兵,获取master信息
-                    // redis = new Redis(hostinfo);
-                    // redis = new Redis({ ...hostinfo, host: '127.0.0.1', port: server.address().port, password: hostinfo.sentinelPassword });
-                    redis = new Redis({ host: '127.0.0.1', port: server.address().port, password: hostinfo.sentinelPassword });
-
-                    //获取master信息
-                    redis.info("Sentinel").then(
-                        (res) => {
-                            // console.log(`redis-info:res:${res}`);
-
-                            //拆分masters
-                            let infos = res.split("\n");
-
-                            let masters = {};
-                            infos.forEach((v, i) => {
-                                if (v.startsWith("master")) {
-                                    //先用 :name 分隔,去除开头的master序号
-                                    let strings = v.split(":name");
-                                    let t1 = "name" + strings[1];
-                                    let temp = t1.split(",");
-                                    let master = {
-                                        number: strings[0]
-                                    }
-                                    temp.forEach((v1, i1) => {
-                                        let key = v1.split("=")[0];
-                                        let value = v1.split("=")[1];
-                                        master[key] = value;
-
-                                        if (key === "name") {
-                                            masters[value] = master;
-                                        }
-                                    })
-                                }
-                            })
-                            console.log(`masters:${JSON.stringify(masters, null, "\t")}`);
-
-                            //直接转发到当前master
-                            let currentMaster = masters[hostinfo.masterName];
-                            if (currentMaster != null)
-                            {
-                                let address = currentMaster.address.split(":");
-                                let masterHost = address[0];
-                                let masterPort = address[1];
-                                const masterServer = net.createServer(function (sock) {
-                                    conn.forwardOut(sock.remoteAddress, sock.remotePort, masterHost, masterPort, (err, stream) => {
-                                        if (err) {
-                                            sock.end()
-                                        } else {
-                                            sock.pipe(stream).pipe(sock)
-                                        }
-                                    })
-                                }).listen(0, function () {
-                                    //连接master的实例
-                                    let masterRedis = new Redis({ host: '127.0.0.1', port: masterServer.address().port});
-                                    if (masterRedis != null) {
-                                        callback(masterRedis);
-                                    } else {
-                                        message.error(
-                                            intl.get("RedisService.error.occurred")
-                                        );
-                                    }
-                                });
-                            }else{
-                                message.error(
-                                    intl.get("RedisService.error.occurred")
-                                );
+        conn.on("ready", () => {
+            const server = net
+                .createServer(function (sock) {
+                    conn.forwardOut(
+                        sock.remoteAddress,
+                        sock.remotePort,
+                        hostinfo.host,
+                        hostinfo.port,
+                        (err, stream) => {
+                            if (err) {
+                                sock.end();
+                            } else {
+                                sock.pipe(stream).pipe(sock);
                             }
-
-                        },
-                        (err) => {
-                            console.log(`redis-info:err:${err}`);
                         }
                     );
-                } else if (hostinfo.connectType === CONNECT_TYPE.CLUSTER) {
-                    //集群
+                })
+                .listen(0, function () {
+                    let redis;
+                    if (hostinfo.connectType === CONNECT_TYPE.DIRECT) {
+                        //直连
+                        redis = new Redis({
+                            host: "127.0.0.1",
+                            port: server.address().port,
+                            password: hostinfo.auth,
+                        });
+                        if (redis != null) {
+                            callback(redis);
+                        } else {
+                            message.error(
+                                intl.get("RedisService.error.occurred")
+                            );
+                        }
+                    } else if (hostinfo.connectType === CONNECT_TYPE.SENTINEL) {
+                        //哨兵
+                        //先用直连模式连接哨兵,获取master信息
+                        // redis = new Redis(hostinfo);
+                        // redis = new Redis({ ...hostinfo, host: '127.0.0.1', port: server.address().port, password: hostinfo.sentinelPassword });
+                        redis = new Redis({
+                            host: "127.0.0.1",
+                            port: server.address().port,
+                            password: hostinfo.sentinelPassword,
+                        });
 
-                }
-                console.log("redis:redis:", redis);
-            })
-        }).on('error', err => {
-            console.error(`[ERROR] - ${err}`);
-            message.error(
-                intl.get("proxy.connecterror")
-            );
+                        //获取master信息
+                        redis.info("Sentinel").then(
+                            (res) => {
+                                //拆分masters
+                                let infos = res.split("\n");
+
+                                let masters = {};
+                                infos.forEach((v, i) => {
+                                    if (v.startsWith("master")) {
+                                        //先用 :name 分隔,去除开头的master序号
+                                        let strings = v.split(":name");
+                                        let t1 = "name" + strings[1];
+                                        let temp = t1.split(",");
+                                        let master = {
+                                            number: strings[0],
+                                        };
+                                        temp.forEach((v1, i1) => {
+                                            let key = v1.split("=")[0];
+                                            let value = v1.split("=")[1];
+                                            master[key] = value;
+
+                                            if (key === "name") {
+                                                masters[value] = master;
+                                            }
+                                        });
+                                    }
+                                });
+
+                                //直接转发到当前master
+                                let currentMaster =
+                                    masters[hostinfo.masterName];
+                                if (currentMaster != null) {
+                                    let address = currentMaster.address.split(
+                                        ":"
+                                    );
+                                    let masterHost = address[0];
+                                    let masterPort = address[1];
+                                    const masterServer = net
+                                        .createServer(function (sock) {
+                                            conn.forwardOut(
+                                                sock.remoteAddress,
+                                                sock.remotePort,
+                                                masterHost,
+                                                masterPort,
+                                                (err, stream) => {
+                                                    if (err) {
+                                                        sock.end();
+                                                    } else {
+                                                        sock.pipe(stream).pipe(
+                                                            sock
+                                                        );
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .listen(0, function () {
+                                            //连接master的实例
+                                            let masterRedis = new Redis({
+                                                host: "127.0.0.1",
+                                                port: masterServer.address()
+                                                    .port,
+                                            });
+                                            if (masterRedis != null) {
+                                                callback(masterRedis);
+                                            } else {
+                                                message.error(
+                                                    intl.get(
+                                                        "RedisService.error.occurred"
+                                                    )
+                                                );
+                                            }
+                                        });
+                                } else {
+                                    message.error(
+                                        intl.get("RedisService.error.occurred")
+                                    );
+                                }
+                            },
+                            (err) => {
+                                Log.error(
+                                    "[cmd=RedisService] connectRedis error. redis-info:err",
+                                    hostinfo,
+                                    err
+                                );
+                            }
+                        );
+                    } else if (hostinfo.connectType === CONNECT_TYPE.CLUSTER) {
+                        //集群
+                    }
+                });
+        }).on("error", (err) => {
+            Log.error("[cmd=RedisService] connectRedis error.", hostinfo, err);
+            message.error(intl.get("proxy.connecterror"));
         });
         conn.connect(connectionConfig);
-
     }
-
 }

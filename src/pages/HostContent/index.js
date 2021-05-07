@@ -51,7 +51,7 @@ class HostContent extends Component {
         redis.type(key, (err, keyType) => {
             if (err) {
                 message.error("" + err);
-                Log.error("HostContent updateHostKey error", err);
+                Log.error("[cmd=HostContent] updateHostKey error", key, err);
                 return;
             }
             if (keyType === "none") {
@@ -135,7 +135,7 @@ class HostContent extends Component {
             } else {
                 if (err) {
                     message.error("" + err);
-                    Log.error("HostContent updateDBCount error", err);
+                    Log.error("[cmd=HostContent] updateDBCount error", err);
                     return;
                 }
             }
@@ -156,7 +156,12 @@ class HostContent extends Component {
         redis.select(activeKey, (err, res) => {
             if (err) {
                 message.error("" + err);
-                Log.error("HostContent onTabClick error", err, res);
+                Log.error(
+                    "[cmd=HostContent] onTabClick error",
+                    activeKey,
+                    err,
+                    res
+                );
                 return;
             }
         });

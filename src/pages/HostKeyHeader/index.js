@@ -76,7 +76,11 @@ class HostKeyHeader extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyHeader initKeyAndTtl error", err);
+                Log.error(
+                    "[cmd=HostKeyHeader] initKeyAndTtl error",
+                    redisKey,
+                    err
+                );
             }
         );
     }
@@ -103,7 +107,11 @@ class HostKeyHeader extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyHeader initKeyAndTtl error", err);
+                Log.error(
+                    "[cmd=HostKeyHeader] initKeyAndTtl error",
+                    this.state.oldRedisKey,
+                    err
+                );
             }
         );
     }
@@ -121,37 +129,36 @@ class HostKeyHeader extends Component {
             return;
         }
         let newKey = form.getFieldValue("redisKey");
-        redis.get(newKey).then(
-            (value) => {
-                if (value === null) {
-                    redis.rename(this.state.oldRedisKey, newKey).then(
-                        (value) => {
-                            this.setState({
-                                oldRedisKey: newKey,
-                            });
-                            message.success(
-                                intl.get("HostKey.header.key.modify.success")
-                            );
-                        },
-                        (error) => {
-                            message.error(
-                                intl.get("HostKey.header.key.modify.fail") +
-                                    " " +
-                                    error
-                            );
-                        }
-                    );
-                } else {
-                    message.error(
-                        intl.get("HostKey.header.key.modify.fail.exist")
-                    );
-                }
-            },
-            (err) => {
+        // 使用 scan 的原因：有些redis server禁用keys。
+        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", newKey, "COUNT", 10000000, (err, res) => {
+            if (err) {
                 message.error("" + err);
-                Log.error("HostKeyHeader renameKey error", err);
+                Log.error("[cmd=HostKeyHeader] renameKey error", newKey, err);
+                return;
             }
-        );
+            if (res !== null && res !== undefined && res[1].length > 0) {
+                message.error(intl.get("HostKey.header.key.modify.fail.exist"));
+            } else {
+                redis.rename(this.state.oldRedisKey, newKey).then(
+                    (value) => {
+                        this.setState({
+                            oldRedisKey: newKey,
+                        });
+                        message.success(
+                            intl.get("HostKey.header.key.modify.success")
+                        );
+                    },
+                    (error) => {
+                        message.error(
+                            intl.get("HostKey.header.key.modify.fail") +
+                                " " +
+                                error
+                        );
+                    }
+                );
+            }
+        });
     }
     /**
      *更新 ttl
@@ -199,7 +206,11 @@ class HostKeyHeader extends Component {
                 message.error(
                     intl.get("HostKey.header.key.ttl.midify.fail") + err
                 );
-                Log.error("HostKeyHeader updateTtl error", err);
+                Log.error(
+                    "[cmd=HostKeyHeader] updateTtl error",
+                    this.state.oldRedisKey,
+                    err
+                );
             }
         );
     }
@@ -227,7 +238,11 @@ class HostKeyHeader extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyHeader refreshAll error", err);
+                Log.error(
+                    "[cmd=HostKeyHeader] refreshAll error",
+                    oldRedisKey,
+                    err
+                );
             }
         );
         this.props.refreshValue(oldRedisKey);

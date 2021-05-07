@@ -252,88 +252,87 @@ class HostKeyTree extends Component {
         }
         let redis = this.props.node.redis;
         let key = form.getFieldValue("key");
-        redis.get(key).then(
-            (value0) => {
-                if (value0 !== null) {
-                    message.error(
-                        intl.get("HostKey.key.exist") + ", key > " + key
-                    );
-                } else {
-                    let keyType = form.getFieldValue("keyType");
-                    if (keyType === REDIS_DATA_TYPE.STRING) {
-                        redis.set(key, "").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKeyTree okCreateKeyMadal string error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.ZSET) {
-                        redis.zadd(key, 1, "default-member").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKeyTree okCreateKeyMadal zset error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.SET) {
-                        redis.sadd(key, "default-member").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKeyTree okCreateKeyMadal set error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.HASH) {
-                        redis.hset(key, "default-member", "default-value").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKeyTree okCreateKeyMadal hash error",
-                                    err
-                                );
-                            }
-                        );
-                    } else if (keyType === REDIS_DATA_TYPE.LIST) {
-                        redis.lpush(key, "default-member").then(
-                            (value) => {
-                                this.okCreateKeyMadalSuccess(key, keyType);
-                            },
-                            (err) => {
-                                message.error("" + err);
-                                Log.error(
-                                    "HostKeyTree okCreateKeyMadal list error",
-                                    err
-                                );
-                            }
-                        );
-                    }
-                    this.searchKey(this.searchInput.current.input.value);
-                }
-            },
-            (err) => {
+        // 使用 scan 的原因：有些redis server禁用keys。
+        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
+            if (err) {
                 message.error("" + err);
                 Log.error("HostKeyTree createKey error", err);
+                return;
             }
-        );
+            if (res !== null && res !== undefined && res[1].length > 0) {
+                message.error(intl.get("HostKey.key.exist") + ", key > " + key);
+            } else {
+                let keyType = form.getFieldValue("keyType");
+                if (keyType === REDIS_DATA_TYPE.STRING) {
+                    redis.set(key, "").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "HostKeyTree okCreateKeyMadal string error",
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.ZSET) {
+                    redis.zadd(key, 1, "default-member").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "HostKeyTree okCreateKeyMadal zset error",
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.SET) {
+                    redis.sadd(key, "default-member").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "HostKeyTree okCreateKeyMadal set error",
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.HASH) {
+                    redis.hset(key, "default-member", "default-value").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "HostKeyTree okCreateKeyMadal hash error",
+                                err
+                            );
+                        }
+                    );
+                } else if (keyType === REDIS_DATA_TYPE.LIST) {
+                    redis.lpush(key, "default-member").then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "HostKeyTree okCreateKeyMadal list error",
+                                err
+                            );
+                        }
+                    );
+                }
+                this.searchKey(this.searchInput.current.input.value);
+            }
+        });
     };
     /**
      *创建KEY成功，关闭窗口，调用父组件创建key

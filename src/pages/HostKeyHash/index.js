@@ -166,7 +166,11 @@ class HostKeyHash extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyHash refreshValue error", err);
+                Log.error(
+                    "[cmd=HostKeyHash] refreshValue error",
+                    redisKey,
+                    err
+                );
             }
         );
     }
@@ -242,7 +246,10 @@ class HostKeyHash extends Component {
                 if (err) {
                     message.error("" + err);
                     Log.error(
-                        "HostKeyHash searchByPatternRecursive error",
+                        "[cmd=HostKeyHash] searchByPatternRecursive error",
+                        redisKey,
+                        cursor,
+                        pattern,
                         err
                     );
                     return;
@@ -307,7 +314,7 @@ class HostKeyHash extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyHash deleteField error", err);
+                Log.error("[cmd=HostKeyHash] deleteField error", redisKey, err);
             }
         );
     }
@@ -376,7 +383,7 @@ class HostKeyHash extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeyHash handleModalOk error", err);
+                Log.error("[cmd=HostKeyHash] handleModalOk error", err);
             }
         );
     }
