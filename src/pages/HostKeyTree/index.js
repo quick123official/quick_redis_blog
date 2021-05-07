@@ -456,7 +456,7 @@ class HostKeyTree extends Component {
     render() {
         return (
             <div>
-                <Space size="small" direction="vertical">
+                <Space size="small" direction="vertical" style={{width:"100%"}}>
                     <Button block onClick={this.openCreateKeyMadal.bind(this)}>
                         {intl.get("HostKey.create.key")}
                     </Button>
