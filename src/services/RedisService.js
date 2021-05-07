@@ -95,7 +95,6 @@ export default class RedisService {
      */
     static redisEvent(node, dispatch, callback, redis) {
         redis.once("connect", function () {
-            Log.info("[cmd=RedisService] connectRedis connect.", node);
             RedisService.dispatchSuccess(node, redis, dispatch);
             message.success(
                 intl.get("RedisService.info.connection.established.success")

@@ -124,12 +124,17 @@ const ElectronIntlUniversal = {
      * @memberof ElectronIntlUniversal
      */
     readSystemConfig: () => {
-        let filePath = ElectronIntlUniversal.getSystemConfigFilePath();
         let systemConfigData = undefined;
+        let filePath = undefined;
         try {
+            filePath = ElectronIntlUniversal.getSystemConfigFilePath();
             systemConfigData = fs.readFileSync(filePath, "utf-8");
         } catch (e) {
-            Log.error("[cmd=ElectronIntlUniversal] readSystemConfig error", langPath, e);
+            Log.error(
+                "[cmd=ElectronIntlUniversal] readSystemConfig error",
+                filePath,
+                e
+            );
         }
         if (systemConfigData !== undefined) {
             systemConfigData = JSON.parse(systemConfigData);
@@ -144,7 +149,7 @@ const ElectronIntlUniversal = {
             if (locale === undefined) {
                 locale = "en";
             }
-            systemConfigData = { lang: locale };
+            systemConfigData = { lang: locale, splitSign: ":" };
         }
         return systemConfigData;
     },
