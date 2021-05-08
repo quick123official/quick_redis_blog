@@ -38,6 +38,9 @@ Windows & Mac OS X & Linux : [https://gitee.com/quick123official/quick_redis_blo
 
 ## Software screenshot
 
+-The keys are displayed in the form of a directory
+![The keys are displayed in the form of a directory](https://quick123.net/images/introduction/show_keys_by_tree.jpg "The keys are displayed in the form of a directory")
+
 -Home page
 ![Home page](https://quick123.net/images/introduction/key-zset-value.png "Home page")
 

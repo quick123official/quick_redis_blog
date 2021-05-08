@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-    Space,
     Input,
     Button,
     Modal,
@@ -10,6 +9,8 @@ import {
     Tree,
     Dropdown,
     Menu,
+    Row,
+    Col,
 } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { message } from "antd";
@@ -50,7 +51,7 @@ class HostKeyTree extends Component {
      *
      * @memberof HostKeyTree
      */
-    splitSign = ":";
+    splitSign = "";
     /**
      * 选中的key
      *
@@ -330,7 +331,7 @@ class HostKeyTree extends Component {
                         }
                     );
                 }
-                this.searchKey(this.searchInput.current.input.value);
+                this.searchKey(this.searchInput.current.input.state.value);
             }
         });
     };
@@ -456,39 +457,50 @@ class HostKeyTree extends Component {
     render() {
         return (
             <div>
-                <Space size="small" direction="vertical">
-                    <Button block onClick={this.openCreateKeyMadal.bind(this)}>
-                        {intl.get("HostKey.create.key")}
-                    </Button>
-                    <Tooltip
-                        placement="right"
-                        title={intl.get("common.search.tooltip.limit")}
-                    >
-                        <Search
-                            ref={this.searchInput}
-                            onSearch={this.searchKey.bind(this)}
-                            enterButton={
-                                <Button icon={<SearchOutlined />}></Button>
-                            }
-                            disabled={this.state.searchDisable}
-                        />
-                    </Tooltip>
-                    <Dropdown
-                        overlay={this.showTreeRightClickMenu.bind(this)}
-                        trigger={["contextMenu"]}
-                    >
-                        <div>
-                            <DirectoryTree
-                                treeData={this.state.treeData}
-                                onSelect={this.onDirectoryTreeSelect.bind(this)}
-                                onDoubleClick={this.handleDoubleClick.bind(
-                                    this
-                                )}
-                                height={750}
-                            ></DirectoryTree>
-                        </div>
-                    </Dropdown>
-                </Space>
+                <Row gutter={[16, 6]}>
+                    <Col span={24}>
+                        <Button
+                            block
+                            onClick={this.openCreateKeyMadal.bind(this)}
+                        >
+                            {intl.get("HostKey.create.key")}
+                        </Button>
+                    </Col>
+                    <Col span={24}>
+                        <Tooltip
+                            placement="right"
+                            title={intl.get("common.search.tooltip.limit")}
+                        >
+                            <Search
+                                ref={this.searchInput}
+                                onSearch={this.searchKey.bind(this)}
+                                enterButton={
+                                    <Button icon={<SearchOutlined />}></Button>
+                                }
+                                disabled={this.state.searchDisable}
+                            />
+                        </Tooltip>
+                    </Col>
+                    <Col span={24}>
+                        <Dropdown
+                            overlay={this.showTreeRightClickMenu.bind(this)}
+                            trigger={["contextMenu"]}
+                        >
+                            <div>
+                                <DirectoryTree
+                                    treeData={this.state.treeData}
+                                    onSelect={this.onDirectoryTreeSelect.bind(
+                                        this
+                                    )}
+                                    onDoubleClick={this.handleDoubleClick.bind(
+                                        this
+                                    )}
+                                    height={750}
+                                ></DirectoryTree>
+                            </div>
+                        </Dropdown>
+                    </Col>
+                </Row>
                 <div>
                     <Modal
                         title={intl.get("HostKey.create.key")}
