@@ -88,7 +88,7 @@ class SystemConfig extends React.Component {
                             <Select
                                 key={this.state.config.lang}
                                 defaultValue={this.state.config.lang}
-                                style={{ width: 200 }}
+                                style={{ width: 300 }}
                                 onChange={this.handleLangChange.bind(this)}
                             >
                                 {options}
@@ -98,16 +98,15 @@ class SystemConfig extends React.Component {
                             {intl.get("SystemConfig.tree.split")}
                         </Col>
                         <Col span={18}>
-                            <Tooltip title="Will use the 'keys' command">
+                            <Tooltip title="When you set this value, the keys will be displayed in the form of a directory.">
                                 <Input
-                                    style={{ width: 200 }}
+                                    style={{ width: 300 }}
                                     placeholder="Input Delimiter"
                                     defaultValue={this.state.config.splitSign}
                                     value={this.state.config.splitSign}
                                     onChange={this.handleSplitSignChange}
-                                />{" "}
+                                />
                             </Tooltip>
-                            {/* , */}
                         </Col>
                     </Row>
                 </Modal>
