@@ -260,7 +260,7 @@ class HostKeyHeader extends Component {
             <div>
                 <Form initialValues={{ ...this.initValues }} ref="form">
                     <Row gutter={8}>
-                        <Col span={16}>
+                        <Col span={14}>
                             <Form.Item
                                 name="redisKey"
                                 rules={[
@@ -304,7 +304,7 @@ class HostKeyHeader extends Component {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={3}>
+                        <Col span={5}>
                             <Space>
                                 <Form.Item style={{ marginBottom: "1px" }}>
                                     <Popconfirm
