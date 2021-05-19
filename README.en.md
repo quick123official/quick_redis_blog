@@ -18,15 +18,15 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 ## Download URL 
 **Download**
 
-[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.2.0/QuickRedis-2.2.0-win.exe "Windows")
+[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.3.1/QuickRedis-2.3.1-win.exe "Windows")
 
-[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.2.0/QuickRedis-2.2.0-mac.dmg "Mac OS X")
+[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.3.1/QuickRedis-2.3.1-mac.dmg "Mac OS X")
 
-[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.2.0/QuickRedis-2.2.0-linux-x86_64.AppImage "Linux")
+[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.3.1/QuickRedis-2.3.1-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1KfTWV2nx8P7FH-emyKNjhg](https://pan.baidu.com/s/1KfTWV2nx8P7FH-emyKNjhg "百度网盘") 提取码: g85y
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1Z_CQQ7_VRtuP2moEPLlRJg](https://pan.baidu.com/s/1Z_CQQ7_VRtuP2moEPLlRJg "百度网盘") 提取码: mbie
 
 **Download from github**
 
