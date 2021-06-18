@@ -446,7 +446,8 @@ class HostKeySet extends Component {
                     onCancel={this.handleModalCancel.bind(this)}
                     okButtonProps={{ disabled: this.state.modal.type === 1 }}
                     forceRender={this.state.modal.forceRender}
-                    width={700}
+                    width={"90%"}
+                    height={"80%"}
                 >
                     <Form
                         {...this.layout}
@@ -467,7 +468,7 @@ class HostKeySet extends Component {
                                 },
                             ]}
                         >
-                            <QuickMonacoEditor height="200" />
+                            <QuickMonacoEditor height="60vh" />
                         </Form.Item>
                     </Form>
                 </Modal>
