@@ -486,7 +486,10 @@ class HostKeyHash extends Component {
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
                     forceRender={this.state.modal.forceRender}
-                    width={700}
+                    // width={700}
+                    width={"90%"}
+                    height={"90%"}
+                    bodyStyle={{backgroundColor: "red"}}
                 >
                     <Form
                         {...this.layout}
