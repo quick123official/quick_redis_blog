@@ -486,7 +486,8 @@ class HostKeyHash extends Component {
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
                     forceRender={this.state.modal.forceRender}
-                    width={700}
+                    width={"90%"}
+                    height={"80%"}
                 >
                     <Form
                         {...this.layout}
@@ -521,7 +522,7 @@ class HostKeyHash extends Component {
                                 },
                             ]}
                         >
-                            <QuickMonacoEditor height="200" />
+                            <QuickMonacoEditor height="60vh" />
                         </Form.Item>
                     </Form>
                 </Modal>
