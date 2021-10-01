@@ -144,8 +144,8 @@ class HostKey extends Component {
         }
         let redis = this.props.node.redis;
         // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
+        // COUNT 使用 100000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", key, "COUNT", 100000, (err, res) => {
             if (err) {
                 this.setState({ searchDisable: false });
                 message.error("" + err);
@@ -269,8 +269,8 @@ class HostKey extends Component {
         let redis = this.props.node.redis;
         let key = form.getFieldValue("key");
         // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
+        // COUNT 使用 100000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", key, "COUNT", 100000, (err, res) => {
             if (err) {
                 message.error("" + err);
                 Log.error("[cmd=HostKey] createKey error", key, err);
