@@ -14,6 +14,7 @@ export default class RedisCommand {
      * @memberof RedisCommand
      */
     static parseResult(command, result) {
+        Log.error("result0", result);
         let append = "";
         if (result === null) {
             append = `${null}\n`;
@@ -26,12 +27,10 @@ export default class RedisCommand {
             const isArray = !isNaN(result.length);
             for (const i in result) {
                 if (typeof result[i] === "object" && result[i] !== null) {
-                    // fix ioredis pipline result such as [[null, "v1"], [null, "v2"]]
-                    // null is the result, and v1 is the value
                     if (result[i][0] === null) {
-                        append += this.resolveResult(result[i][1]);
+                        append += this.parseResult("", result[i][1]);
                     } else {
-                        append += this.resolveResult(result[i]);
+                        append += this.parseResult("", result[i]);
                     }
                 } else {
                     append += `${(isArray ? "" : `${i}\n`) + result[i]}\n`;
