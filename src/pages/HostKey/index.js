@@ -142,47 +142,45 @@ class HostKey extends Component {
         if (key === null || key === undefined || key === "") {
             key = "*";
         }
+        this.setState({
+            tableData: [],
+            searchDisable: true,
+            currentPage: 1,
+            tableTotal: 0,
+        });
         let redis = this.props.node.redis;
-        // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 100000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", key, "COUNT", 100000, (err, res) => {
-            if (err) {
+        let directKey = "{我~~++==>>>>们}";
+        if (key.indexOf("*") == -1) {
+            directKey = key;
+        }
+        redis.keys(directKey).then(
+            (value) => {
+                let pattern = key;
+                let cursor = "0";
+                pattern = "*" + pattern + "*";
+                if (value !== null && value !== undefined && value.length > 0) {
+                    // 关键字的key，如果存在，显示在第一页第一行
+                    let data = [];
+                    data.push({
+                        key: key,
+                        name: key,
+                    });
+                    if (data.length !== 0) {
+                        let tableData = [...this.state.tableData, ...data];
+                        this.setState({
+                            tableData: tableData,
+                            tableTotal: tableData.length,
+                        });
+                    }
+                }
+                this.loadRedisDataByPattern(pattern, cursor, key);
+            },
+            (err) => {
                 this.setState({ searchDisable: false });
                 message.error("" + err);
-                Log.error("[cmd=HostKey] searchKey error", key, err);
-                return;
+                Log.error("searchKey error", key);
             }
-            this.setState({
-                tableData: [],
-                searchDisable: true,
-                currentPage: 1,
-                tableTotal: 0,
-            });
-            let pattern = key;
-            let cursor = "0";
-            pattern = "*" + pattern + "*";
-            if (
-                res !== null &&
-                res !== undefined &&
-                res[1].length > 0 &&
-                key !== "*"
-            ) {
-                // 关键字的key，如果存在，显示在第一页第一行
-                let data = [];
-                data.push({
-                    key: key,
-                    name: key,
-                });
-                if (data.length !== 0) {
-                    let tableData = [...this.state.tableData, ...data];
-                    this.setState({
-                        tableData: tableData,
-                        tableTotal: tableData.length,
-                    });
-                }
-            }
-            this.loadRedisDataByPattern(pattern, cursor, key);
-        });
+        );
     }
     /**
      *改变页码
@@ -351,14 +349,6 @@ class HostKey extends Component {
                         }
                     );
                 }
-                let tableData = [
-                    { key: key, name: key },
-                    ...this.state.tableData,
-                ];
-                this.setState({
-                    tableData: tableData,
-                    tableTotal: tableData.length,
-                });
             }
         });
     };
@@ -370,6 +360,11 @@ class HostKey extends Component {
      * @memberof HostKey
      */
     okCreateKeyMadalSuccess(key, keyType) {
+        let tableData = [{ key: key, name: key }, ...this.state.tableData];
+        this.setState({
+            tableData: tableData,
+            tableTotal: tableData.length,
+        });
         this.setState({
             createKeyMadalVisible: false,
         });

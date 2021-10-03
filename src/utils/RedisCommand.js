@@ -14,7 +14,6 @@ export default class RedisCommand {
      * @memberof RedisCommand
      */
     static parseResult(command, result) {
-        Log.error("result0", result);
         let append = "";
         if (result === null) {
             append = `${null}\n`;
