@@ -538,8 +538,8 @@ class HostKeySortSet extends Component {
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
                     forceRender={this.state.modal.forceRender}
-                    width={"90%"}
-                    height={"80%"}
+                    width={"60%"}
+                    height={"40%"}
                 >
                     <Form
                         {...this.layout}
@@ -560,7 +560,7 @@ class HostKeySortSet extends Component {
                                 },
                             ]}
                         >
-                            <QuickMonacoEditor height="60vh" />
+                            <QuickMonacoEditor height="40vh" />
                         </Form.Item>
                         <Form.Item
                             name="score"
