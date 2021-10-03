@@ -150,7 +150,7 @@ class HostKey extends Component {
         });
         let redis = this.props.node.redis;
         let directKey = "{我~~++==>>>>们}";
-        if (key.indexOf("*") == -1) {
+        if (key.indexOf("*") === -1) {
             directKey = key;
         }
         redis.keys(directKey).then(
