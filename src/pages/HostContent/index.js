@@ -73,72 +73,29 @@ class HostContent extends Component {
      */
     updateDBCount() {
         let redis = this.props.node.redis;
-        redis.config("get", "databases", (err, res) => {
-            if (res == null) {
-                message.error(
-                    "can not get db size. It may fail to connect to the redis server. Please ensure that you can connect to the redis server using redis-cli"
-                );
+        redis.info("Keyspace", (err, res) => {
+            if (err) {
+                message.error("", err);
+                Log.error("[cmd=info] Keyspace error", err);
                 return;
             }
-            if (!err && res[1]) {
-                let databasesSize = Number(res[1]);
-                let dbTabs = [];
-                // for (let i = 0; i < databasesSize; i++) {
-                //     dbTabs.push({
-                //         key: "" + i,
-                //         title: "db" + i,
-                //     });
-                // }
-                //
-                // this.setState({ dbTabs: dbTabs });
-
-                //获取dbsizes信息
-                redis.info("Keyspace").then((res) => {
-                    //拆分masters
-                    let infos = res.split("\n");
-
-                    let keyinfos = {};
-                    infos.forEach((v, i) => {
-                        if (v.startsWith("db")) {
-                            //先用 :keys 分隔,得到数据库序号
-                            let strings = v.split(":keys");
-                            let dbname = strings[0];
-                            let t1 = "keys" + strings[1];
-                            let temp = t1.split(",");
-                            let keyinfo = {
-                                number: strings[0],
-                            };
-                            temp.forEach((v1, i1) => {
-                                let key = v1.split("=")[0];
-                                let value = v1.split("=")[1];
-                                keyinfo[key] = value;
-                            });
-                            keyinfos[dbname] = keyinfo;
-                        }
-                    });
-
-                    for (let i = 0; i < databasesSize; i++) {
-                        let dbname = "db" + i;
-                        let keyinfo = keyinfos[dbname];
-                        dbTabs.push({
-                            key: "" + i,
-                            title: dbname,
-                            total:
-                                keyinfo === undefined
-                                    ? 0
-                                    : keyinfo["keys"] || 0,
-                        });
-                    }
-
-                    this.setState({ dbTabs: dbTabs });
+            let dbTabs = [];
+            let infos = res.split("\n");
+            infos.shift();
+            infos.pop();
+            infos.forEach((v, i) => {
+                //先用 :keys 分隔,得到数据库序号
+                let firstSplitString = v.split(":keys");
+                let dbname = firstSplitString[0];
+                let secondSplitString = firstSplitString[1].split(",");
+                let thirdSplitString = secondSplitString[0].split("=");
+                dbTabs.push({
+                    key: "" + i,
+                    title: dbname,
+                    total: thirdSplitString[1],
                 });
-            } else {
-                if (err) {
-                    message.error("" + err);
-                    Log.error("[cmd=HostContent] updateDBCount error", err);
-                    return;
-                }
-            }
+            });
+            this.setState({ dbTabs: dbTabs });
         });
         this.setState({ activeKey: "0" });
     }
