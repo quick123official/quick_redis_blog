@@ -1,8 +1,5 @@
 # QuickRedis
 
-## Donate（捐赠作者）
-<img src="https://quick123.net/images/juanzeng/weixin.png" alt="捐赠作者" width="280" height="280" align="bottom" />
-
 ## Introduction
 ## Official website: [https://quick123.net/](https://quick123.net/)
 QuickRedis is a **free forever** Redis Desktop manager. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Linux platform.
