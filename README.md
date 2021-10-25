@@ -1,8 +1,5 @@
 # QuickRedis
 
-## Donate（捐赠作者）
-<img src="https://quick123.net/images/juanzeng/weixin.png" alt="捐赠作者" width="280" height="280" align="bottom" />
-
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/quick123official/quick_redis_blog.svg)](https://starchart.cc/quick123official/quick_redis_blog)
