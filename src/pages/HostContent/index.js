@@ -89,8 +89,13 @@ class HostContent extends Component {
                 let dbname = firstSplitString[0];
                 let secondSplitString = firstSplitString[1].split(",");
                 let thirdSplitString = secondSplitString[0].split("=");
+                let dbIndex = i;
+                if (dbname.startsWith("db")) {
+                    dbIndex = parseInt(dbname.substring(2));
+                }
                 dbTabs.push({
                     key: "" + i,
+                    dbIndex: dbIndex,
                     title: dbname,
                     total: thirdSplitString[1],
                 });
@@ -109,8 +114,9 @@ class HostContent extends Component {
             activeKey: activeKey,
             redisKey: { key: "", type: "" },
         });
+        let dbIndex = this.state.dbTabs[activeKey].dbIndex;
         let redis = this.props.node.redis;
-        redis.select(activeKey, (err, res) => {
+        redis.select(dbIndex, (err, res) => {
             if (err) {
                 message.error("" + err);
                 Log.error(
@@ -178,7 +184,7 @@ class HostContent extends Component {
                                         HOST_KEY_SHOW_TYPE.TREE ? (
                                             <HostKeyTree
                                                 node={this.props.node}
-                                                db={tab.key}
+                                                db={tab.dbIndex}
                                                 updateHostKey={this.updateHostKey.bind(
                                                     this
                                                 )}
@@ -194,7 +200,7 @@ class HostContent extends Component {
                                         HOST_KEY_SHOW_TYPE.TABLE ? (
                                             <HostKey
                                                 node={this.props.node}
-                                                db={tab.key}
+                                                db={tab.dbIndex}
                                                 updateHostKey={this.updateHostKey.bind(
                                                     this
                                                 )}

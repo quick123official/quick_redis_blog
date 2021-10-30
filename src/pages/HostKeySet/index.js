@@ -252,6 +252,7 @@ class HostKeySet extends Component {
         } catch (err) {
             message.error("" + err);
             Log.error("HostKeySet searchSortSetByPatternRecursive error", err);
+            this.setState({ loading: false });
         }
     }
     /**
@@ -411,11 +412,12 @@ class HostKeySet extends Component {
                             defaultValue="*"
                             style={{ width: 300 }}
                             prefix="key :"
-                            enterButton={<Button>search</Button>}
+                            enterButton="Search"
                             size="middle"
                             value={this.state.search.searchMember}
                             onChange={this.onChangeSearchMember.bind(this)}
                             onSearch={this.searchSet.bind(this)}
+                            loading={this.state.loading}
                         />
                     </Tooltip>
                     <Button
