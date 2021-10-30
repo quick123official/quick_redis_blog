@@ -197,6 +197,7 @@ class HostKeySortSet extends Component {
                 (err) => {
                     message.error("" + err);
                     Log.error("HostKeySortSet fetchDataByPage error", err);
+                    this.setState({ loading: false });
                 }
             );
     }
@@ -504,11 +505,12 @@ class HostKeySortSet extends Component {
                         <Search
                             style={{ width: 300 }}
                             prefix="key :"
-                            enterButton={<Button>search</Button>}
+                            enterButton="Search"
                             size="middle"
                             value={this.state.search.searchMember}
                             onChange={this.onChangeSearchMember.bind(this)}
                             onSearch={this.searchSortSet.bind(this)}
+                            loading={this.state.loading}
                         />
                     </Tooltip>
                     <Button

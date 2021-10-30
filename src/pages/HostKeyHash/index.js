@@ -252,6 +252,7 @@ class HostKeyHash extends Component {
                         pattern,
                         err
                     );
+                    this.setState({ loading: false });
                     return;
                 }
                 let data = [];
@@ -452,11 +453,12 @@ class HostKeyHash extends Component {
                         <Search
                             style={{ width: 300 }}
                             prefix="key :"
-                            enterButton={<Button>search</Button>}
+                            enterButton="Search"
                             size="middle"
                             value={this.state.search.field}
                             onChange={this.onChangeSearch.bind(this)}
                             onSearch={this.searchField.bind(this)}
+                            loading={this.state.loading}
                         />
                     </Tooltip>
                     <Button
