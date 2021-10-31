@@ -8618,6 +8618,13 @@ moment@^2.24.0, moment@^2.25.3:
   resolved "https://registry.npm.taobao.org/moment/download/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha1-sr52n6MZQL6e7qZGnAdeNQBvo9M=
 
+monaco-editor-webpack-plugin@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmmirror.com/monaco-editor-webpack-plugin/download/monaco-editor-webpack-plugin-5.0.0.tgz#796c50fb4ce3f75f45bf18dfa3c31f85dc9a05da"
+  integrity sha1-eWxQ+0zj919Fvxjfo8MfhdyaBdo=
+  dependencies:
+    loader-utils "^2.0.0"
+
 monaco-editor@*:
   version "0.29.1"
   resolved "https://registry.npmmirror.com/monaco-editor/download/monaco-editor-0.29.1.tgz#6ee93d8a5320704d48fd7058204deed72429c020"
