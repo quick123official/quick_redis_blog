@@ -448,8 +448,8 @@ class HostKeySet extends Component {
                     onCancel={this.handleModalCancel.bind(this)}
                     okButtonProps={{ disabled: this.state.modal.type === 1 }}
                     forceRender={this.state.modal.forceRender}
-                    width={"90%"}
-                    height={"80%"}
+                    width={"60%"}
+                    height={"40%"}
                 >
                     <Form
                         {...this.layout}

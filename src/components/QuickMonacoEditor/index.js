@@ -116,7 +116,7 @@ class QuickMonacoEditor extends React.Component {
                                 <MonacoEditor
                                     ref="monacoEditor"
                                     height={this.props.height}
-                                    language="javascript"
+                                    language="json"
                                     theme="vs"
                                     value={this.props.value}
                                     defaultValue=""

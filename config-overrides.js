@@ -23,9 +23,18 @@ const path = require("path");
 function resolve(dir) {
     return path.join(__dirname, ".", dir);
 }
+/**
+ * add monaco-editor-webpack-plugin
+ */
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 module.exports = function override(config, env) {
     config.resolve.alias = {
         "@": resolve("src"),
     };
+    config.plugins.push(
+        new MonacoWebpackPlugin({
+            languages: ["json"],
+        })
+    );
     return config;
 };
