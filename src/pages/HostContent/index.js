@@ -80,26 +80,38 @@ class HostContent extends Component {
                 return;
             }
             let dbTabs = [];
-            let infos = res.split("\n");
-            infos.shift();
-            infos.pop();
-            infos.forEach((v, i) => {
-                //先用 :keys 分隔,得到数据库序号
-                let firstSplitString = v.split(":keys");
-                let dbname = firstSplitString[0];
-                let secondSplitString = firstSplitString[1].split(",");
-                let thirdSplitString = secondSplitString[0].split("=");
-                let dbIndex = i;
-                if (dbname.startsWith("db")) {
-                    dbIndex = parseInt(dbname.substring(2));
-                }
-                dbTabs.push({
-                    key: "" + i,
-                    dbIndex: dbIndex,
-                    title: dbname,
-                    total: thirdSplitString[1],
+            try {
+                let infos = res.split("\n");
+                infos.shift();
+                infos.pop();
+                infos.forEach((v, i) => {
+                    //先用 :keys 分隔,得到数据库序号
+                    let firstSplitString = v.split(":keys");
+                    let dbname = firstSplitString[0];
+                    let secondSplitString = firstSplitString[1].split(",");
+                    let thirdSplitString = secondSplitString[0].split("=");
+                    let dbIndex = i;
+                    if (dbname.startsWith("db")) {
+                        dbIndex = parseInt(dbname.substring(2));
+                    }
+                    dbTabs.push({
+                        key: "" + i,
+                        dbIndex: dbIndex,
+                        title: dbname,
+                        total: thirdSplitString[1],
+                    });
                 });
-            });
+            } catch (error) {
+                for (let i = 0; i < 16; i++) {
+                    dbTabs.push({
+                        key: "" + i,
+                        dbIndex: i,
+                        title: i,
+                        total: i,
+                    });
+                }
+                Log.error("[cmd=info] Keyspace split error", error);
+            }
             this.setState({ dbTabs: dbTabs });
         });
         this.setState({ activeKey: "0" });
