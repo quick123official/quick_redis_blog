@@ -15,15 +15,15 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 ## Download URL 
 **Download**
 
-[Windows](https://gitee.com/quick123official/quick_redis_blog/attach_files/868038/download/QuickRedis-2.4.1-win-ia32.exe "Windows")
+[Windows](https://gitee.com/quick123official/quick_redis_blog/attach_files/872927/download/QuickRedis-2.4.2-win-ia32.exe "Windows")
 
-[Mac OS X](https://gitee.com/quick123official/quick_redis_blog/attach_files/868039/download/QuickRedis-2.4.1-mac-x64.dmg "Mac OS X")
+[Mac OS X](https://gitee.com/quick123official/quick_redis_blog/attach_files/872928/download/QuickRedis-2.4.2-mac-x64.dmg "Mac OS X")
 
-[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/868040/download/QuickRedis-2.4.1-linux-x86_64.AppImage "Linux")
+[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/872926/download/QuickRedis-2.4.2-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1IH7Zq4AWMi13r1Ftx8sL7w](https://pan.baidu.com/s/1IH7Zq4AWMi13r1Ftx8sL7w "百度网盘") 提取码: k3ia
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1pMkYhuSTFkGqYKuFke56NA](https://pan.baidu.com/s/1pMkYhuSTFkGqYKuFke56NA "百度网盘") 提取码: tiqd
 
 **Download from github**
 
