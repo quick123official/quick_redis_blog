@@ -31,6 +31,11 @@
         "pack:linux": "electron-builder -l -p never",
         "pack:all": "electron-builder -mwl"
     },
+    "jest": {
+        "moduleNameMapper": {
+            "@/(.*)": "<rootDir>/src/$1"
+        }
+    },
     "build": {
         "extends": null,
         "files": [

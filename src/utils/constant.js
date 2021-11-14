@@ -63,6 +63,8 @@ export const GLOBAL_CONFIG = {
     IDENTIFIES_FILE: "identifies",
     // 系统配置文件
     SYSTEM_CONFIG_FILE: "system_config.json",
+    // 搜索关键字存储的目录
+    KEYS_HISTORY_FOLDER: "/keys_history/",
 };
 // Host tab remove type
 export const HOST_TAB_REMOVE_TYPE = {
