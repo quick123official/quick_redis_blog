@@ -120,7 +120,7 @@ class HostKeySet extends Component {
         // table 加载状态
         loading: false,
         // table 新增修改的对话框
-        modal: { forceRender: true, visible: false, type: 0 },
+        modal: { visible: false, type: 0 },
         // table 搜索key
         search: { searchMember: "*" },
         total: 0,
@@ -447,7 +447,7 @@ class HostKeySet extends Component {
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
                     okButtonProps={{ disabled: this.state.modal.type === 1 }}
-                    forceRender={this.state.modal.forceRender}
+                    forceRender={true}
                     width={"60%"}
                     height={"40%"}
                 >

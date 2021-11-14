@@ -1,6 +1,6 @@
 {
     "name": "QuickRedis",
-    "version": "2.4.2",
+    "version": "2.5.0",
     "private": true,
     "description": "QuickRedis",
     "author": "https://quick123.net/",
@@ -30,6 +30,11 @@
         "pack:win": "electron-builder -w",
         "pack:linux": "electron-builder -l -p never",
         "pack:all": "electron-builder -mwl"
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "@/(.*)": "<rootDir>/src/$1"
+        }
     },
     "build": {
         "extends": null,

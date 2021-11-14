@@ -132,7 +132,7 @@ class HostKeyHash extends Component {
         // table 加载状态
         loading: false,
         // table 新增修改的对话框
-        modal: { forceRender: true, visible: false, type: 0 },
+        modal: { visible: false, type: 0 },
         // table 搜索key
         search: { field: "*" },
         total: 0,
@@ -487,7 +487,7 @@ class HostKeyHash extends Component {
                     visible={this.state.modal.visible}
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
-                    forceRender={this.state.modal.forceRender}
+                    forceRender={true}
                     width={"60%"}
                     height={"40%"}
                 >

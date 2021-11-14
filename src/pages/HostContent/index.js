@@ -79,7 +79,7 @@ class HostContent extends Component {
                 Log.error("[cmd=info] Keyspace error", err);
                 return;
             }
-            let dbTabs = [];
+            let dbIndexMap = new Map();
             try {
                 let infos = res.split("\n");
                 infos.shift();
@@ -94,8 +94,8 @@ class HostContent extends Component {
                     if (dbname.startsWith("db")) {
                         dbIndex = parseInt(dbname.substring(2));
                     }
-                    dbTabs.push({
-                        key: "" + i,
+                    dbIndexMap.set(dbIndex, {
+                        key: "" + dbIndex,
                         dbIndex: dbIndex,
                         title: dbname,
                         total: thirdSplitString[1],
@@ -104,14 +104,19 @@ class HostContent extends Component {
             } catch (error) {
                 Log.error("[cmd=info] Keyspace split error", error);
             }
+            let dbTabs = [];
             if (dbTabs.length === 0) {
                 for (let i = 0; i < 16; i++) {
-                    dbTabs.push({
-                        key: "" + i,
-                        dbIndex: i,
-                        title: i,
-                        total: i,
-                    });
+                    let dbIndexObj = dbIndexMap.get(i);
+                    if (dbIndexObj === undefined || dbIndexObj === null) {
+                        dbIndexObj = {
+                            key: "" + i,
+                            dbIndex: i,
+                            title: "db" + i,
+                            total: 0,
+                        };
+                    }
+                    dbTabs.push(dbIndexObj);
                 }
             }
             this.setState({ dbTabs: dbTabs });
@@ -195,7 +200,7 @@ class HostContent extends Component {
                                         }}
                                     >
                                         {this.hostKeyShowType ===
-                                            HOST_KEY_SHOW_TYPE.TREE ? (
+                                        HOST_KEY_SHOW_TYPE.TREE ? (
                                             <HostKeyTree
                                                 node={this.props.node}
                                                 db={tab.dbIndex}
@@ -211,7 +216,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {this.hostKeyShowType ===
-                                            HOST_KEY_SHOW_TYPE.TABLE ? (
+                                        HOST_KEY_SHOW_TYPE.TABLE ? (
                                             <HostKey
                                                 node={this.props.node}
                                                 db={tab.dbIndex}
@@ -229,7 +234,7 @@ class HostContent extends Component {
                                     </div>
                                     <div style={{ paddingLeft: "20px" }}>
                                         {redisKeyType ===
-                                            REDIS_DATA_TYPE.STRING ? (
+                                        REDIS_DATA_TYPE.STRING ? (
                                             <HostKeyString
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -242,7 +247,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                            REDIS_DATA_TYPE.ZSET ? (
+                                        REDIS_DATA_TYPE.ZSET ? (
                                             <HostKeySortSet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -255,7 +260,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                            REDIS_DATA_TYPE.SET ? (
+                                        REDIS_DATA_TYPE.SET ? (
                                             <HostKeySet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -268,7 +273,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                            REDIS_DATA_TYPE.HASH ? (
+                                        REDIS_DATA_TYPE.HASH ? (
                                             <HostKeyHash
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -281,7 +286,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                            REDIS_DATA_TYPE.LIST ? (
+                                        REDIS_DATA_TYPE.LIST ? (
                                             <HostKeyList
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}

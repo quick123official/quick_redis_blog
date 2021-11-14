@@ -8,17 +8,19 @@ import {
     Select,
     Form,
     Tooltip,
+    AutoComplete,
 } from "antd";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { REDIS_DATA_TYPE, REDIS_DATA_SHOW } from "@/utils/constant";
-import "@/pages/CommonCss/zebra.css";
+import KeysHistoryService from "@/services/KeysHistoryService";
 import Log from "@/services/LogService";
+import "@/pages/CommonCss/zebra.css";
 import intl from "react-intl-universal";
 const { Search } = Input;
 const { Option } = Select;
 /**
- *host 管理
+ * table 显示 keys
  *
  * @class HostKey
  * @extends {Component}
@@ -60,6 +62,7 @@ class HostKey extends Component {
         searchDisable: false,
         selectedRowKey: "",
         createKeyMadal: { visible: false, keyType: REDIS_DATA_TYPE.STRING },
+        autoCompleteOptions: [],
     };
     searchInput = React.createRef();
     componentDidMount() {
@@ -87,10 +90,10 @@ class HostKey extends Component {
      *
      * @param {*} pattern
      * @param {*} cursor
-     * @param {*} existKey
+     * @param {*} originalKey
      * @memberof HostKey
      */
-    loadRedisDataByPattern(pattern, cursor, existKey) {
+    loadRedisDataByPattern(pattern, cursor, originalKey) {
         let redis = this.props.node.redis;
         redis.scan(
             cursor,
@@ -106,14 +109,14 @@ class HostKey extends Component {
                         "[cmd=HostKey] loadRedisDataByPattern error",
                         pattern,
                         cursor,
-                        existKey,
+                        originalKey,
                         err
                     );
                     return;
                 }
                 let data = [];
                 for (let i = 0; i < res[1].length; i++) {
-                    if (res[1][i] === existKey) {
+                    if (res[1][i] === originalKey) {
                         continue;
                     }
                     data.push({
@@ -127,6 +130,10 @@ class HostKey extends Component {
                         tableData: tableData,
                         tableTotal: tableData.length,
                     });
+                    // 如果key存在，则添加到搜索历史记录
+                    let host = this.props.node.data.host;
+                    let port = this.props.node.data.port;
+                    KeysHistoryService.addKeysHistory(host, port, originalKey);
                 }
                 this.setState({ searchDisable: false });
             }
@@ -165,13 +172,15 @@ class HostKey extends Component {
                         key: key,
                         name: key,
                     });
-                    if (data.length !== 0) {
-                        let tableData = [...this.state.tableData, ...data];
-                        this.setState({
-                            tableData: tableData,
-                            tableTotal: tableData.length,
-                        });
-                    }
+                    // 如果key存在，则添加到搜索历史记录
+                    let host = this.props.node.data.host;
+                    let port = this.props.node.data.port;
+                    KeysHistoryService.addKeysHistory(host, port, key);
+                    let tableData = [...this.state.tableData, ...data];
+                    this.setState({
+                        tableData: tableData,
+                        tableTotal: tableData.length,
+                    });
                 }
                 this.loadRedisDataByPattern(pattern, cursor, key);
             },
@@ -376,6 +385,19 @@ class HostKey extends Component {
         }
         form.resetFields();
     }
+
+    onAutoCompleteSelect = (data) => {
+        this.setState({ autoCompleteOptions: [] });
+    };
+
+    onAutoCompleteChange = (data) => {
+        // 如果key存在，则添加到搜索历史记录
+        let host = this.props.node.data.host;
+        let port = this.props.node.data.port;
+        let keyHistoryArr = KeysHistoryService.searchKey(host, port, data);
+        this.setState({ autoCompleteOptions: keyHistoryArr });
+    };
+
     render() {
         return (
             <div>
@@ -387,14 +409,21 @@ class HostKey extends Component {
                         placement="right"
                         title={intl.get("common.search.tooltip.limit")}
                     >
-                        <Search
-                            ref={this.searchInput}
-                            onSearch={this.searchKey.bind(this)}
-                            enterButton={
-                                <Button icon={<SearchOutlined />}></Button>
-                            }
-                            disabled={this.state.searchDisable}
-                        />
+                        <AutoComplete
+                            options={this.state.autoCompleteOptions}
+                            onSelect={this.onAutoCompleteSelect.bind(this)}
+                            onChange={this.onAutoCompleteChange.bind(this)}
+                            style={{ width: "100%" }}
+                        >
+                            <Search
+                                ref={this.searchInput}
+                                onSearch={this.searchKey.bind(this)}
+                                enterButton={
+                                    <Button icon={<SearchOutlined />}></Button>
+                                }
+                                disabled={this.state.searchDisable}
+                            />
+                        </AutoComplete>
                     </Tooltip>
                     <Table
                         // columns={columns}

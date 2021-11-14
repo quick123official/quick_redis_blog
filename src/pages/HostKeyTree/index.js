@@ -11,6 +11,7 @@ import {
     Menu,
     Row,
     Col,
+    AutoComplete,
 } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { message } from "antd";
@@ -19,13 +20,14 @@ import { REDIS_DATA_TYPE } from "@/utils/constant";
 import "@/pages/CommonCss/zebra.css";
 import uuid from "node-uuid";
 import Log from "@/services/LogService";
+import KeysHistoryService from "@/services/KeysHistoryService";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 const { Search } = Input;
 const { Option } = Select;
 const { DirectoryTree } = Tree;
 /**
- *host 管理
+ * tree 显示 keys
  *
  * @class HostKeyTree
  * @extends {Component}
@@ -73,6 +75,7 @@ class HostKeyTree extends Component {
         treeData: [],
         searchDisable: false,
         createKeyMadal: { visible: false, keyType: REDIS_DATA_TYPE.STRING },
+        autoCompleteOptions: [],
     };
     searchInput = React.createRef();
     componentDidMount() {
@@ -165,9 +168,14 @@ class HostKeyTree extends Component {
      * 加载 redis key
      * @param {*} pattern
      */
-    loadRedisKeysByPattern(pattern) {
-        if (pattern !== "*") {
-            pattern = "*" + pattern + "*";
+    loadRedisKeysByPattern(originalKey) {
+        let pattern = "*";
+        if (
+            originalKey !== null &&
+            originalKey !== undefined &&
+            originalKey !== ""
+        ) {
+            pattern = "*" + originalKey + "*";
         }
         let redis = this.props.node.redis;
         redis.keys(pattern).then(
@@ -199,6 +207,10 @@ class HostKeyTree extends Component {
                             );
                         }
                     }
+                    // 如果key存在，则添加到搜索历史记录
+                    let host = this.props.node.data.host;
+                    let port = this.props.node.data.port;
+                    KeysHistoryService.addKeysHistory(host, port, originalKey);
                     this.treeMapToTreeData(rootTreeMap, treeData, "");
                 }
                 this.setState({
@@ -219,11 +231,7 @@ class HostKeyTree extends Component {
      * @memberof HostKeyTree
      */
     searchKey(value) {
-        let pattern = "*";
-        if (value !== null && value !== undefined && value !== "") {
-            pattern = "*" + value + "*";
-        }
-        this.loadRedisKeysByPattern(pattern);
+        this.loadRedisKeysByPattern(value);
     }
     /**
      * 打开 创建key 窗口
@@ -454,6 +462,19 @@ class HostKeyTree extends Component {
             this.props.updateHostKey(orgiKey);
         }
     }
+
+    onAutoCompleteSelect = (data) => {
+        this.setState({ autoCompleteOptions: [] });
+    };
+
+    onAutoCompleteChange = (data) => {
+        // 如果key存在，则添加到搜索历史记录
+        let host = this.props.node.data.host;
+        let port = this.props.node.data.port;
+        let keyHistoryArr = KeysHistoryService.searchKey(host, port, data);
+        this.setState({ autoCompleteOptions: keyHistoryArr });
+    };
+
     render() {
         return (
             <div>
@@ -471,14 +492,23 @@ class HostKeyTree extends Component {
                             placement="right"
                             title={intl.get("common.search.tooltip.limit")}
                         >
-                            <Search
-                                ref={this.searchInput}
-                                onSearch={this.searchKey.bind(this)}
-                                enterButton={
-                                    <Button icon={<SearchOutlined />}></Button>
-                                }
-                                disabled={this.state.searchDisable}
-                            />
+                            <AutoComplete
+                                options={this.state.autoCompleteOptions}
+                                onSelect={this.onAutoCompleteSelect.bind(this)}
+                                onChange={this.onAutoCompleteChange.bind(this)}
+                                style={{ width: "100%" }}
+                            >
+                                <Search
+                                    ref={this.searchInput}
+                                    onSearch={this.searchKey.bind(this)}
+                                    enterButton={
+                                        <Button
+                                            icon={<SearchOutlined />}
+                                        ></Button>
+                                    }
+                                    disabled={this.state.searchDisable}
+                                />
+                            </AutoComplete>
                         </Tooltip>
                     </Col>
                     <Col span={24}>
