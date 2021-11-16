@@ -19,7 +19,7 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 
 [Mac OS X](https://gitee.com/quick123official/quick_redis_blog/attach_files/880532/download/QuickRedis-2.5.0-mac-x64.dmg "Mac OS X")
 
-[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/872926/download/QuickRedis-2.4.2-linux-x86_64.AppImage "Linux")
+[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/882454/download/QuickRedis-2.5.0-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
