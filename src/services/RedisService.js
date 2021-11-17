@@ -8,7 +8,7 @@ import intl from "react-intl-universal";
 
 let Redis = window.require("ioredis");
 const net = window.require("net");
-const Client = window.require("ssh2");
+const { Client } = window.require("ssh2");
 const { readFileSync } = window.require("fs");
 
 /**
@@ -304,9 +304,8 @@ export default class RedisService {
                                 let currentMaster =
                                     masters[hostinfo.masterName];
                                 if (currentMaster != null) {
-                                    let address = currentMaster.address.split(
-                                        ":"
-                                    );
+                                    let address =
+                                        currentMaster.address.split(":");
                                     let masterHost = address[0];
                                     let masterPort = address[1];
                                     const masterServer = net

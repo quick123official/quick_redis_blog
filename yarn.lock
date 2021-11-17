@@ -12084,7 +12084,7 @@ sprintf@0.1.x:
   resolved "https://registry.nlark.com/sprintf/download/sprintf-0.1.5.tgz#8f83e39a9317c1a502cb7db8050e51c679f6edcf"
   integrity sha1-j4PjmpMXwaUCy324BQ5Rxnn27c8=
 
-ssh2@^1.4.0:
+ssh2@^1.5.0:
   version "1.5.0"
   resolved "https://registry.npmmirror.com/ssh2/download/ssh2-1.5.0.tgz#4dc559ba98a1cbb420e8d42998dfe35d0eda92bc"
   integrity sha1-TcVZupihy7Qg6NQpmN/jXQ7akrw=
