@@ -73,6 +73,16 @@ class HostContent extends Component {
      */
     updateDBCount() {
         let redis = this.props.node.redis;
+        // get databases. default 16
+        let maxIndex = 16;
+        redis
+            .config("get", "databases")
+            .then((data) => {
+                maxIndex = parseInt(data[1]);
+            })
+            .catch((err) => {
+                Log.error("[cmd=config] get databases error", err);
+            });
         redis.info("Keyspace", (err, res) => {
             if (err) {
                 message.error("", err);
@@ -105,19 +115,23 @@ class HostContent extends Component {
                 Log.error("[cmd=info] Keyspace split error", error);
             }
             let dbTabs = [];
-            if (dbTabs.length === 0) {
-                for (let i = 0; i < 16; i++) {
-                    let dbIndexObj = dbIndexMap.get(i);
-                    if (dbIndexObj === undefined || dbIndexObj === null) {
-                        dbIndexObj = {
-                            key: "" + i,
-                            dbIndex: i,
-                            title: "db" + i,
-                            total: 0,
-                        };
-                    }
-                    dbTabs.push(dbIndexObj);
+            // get databases 失败，则尝试在 Keyspace 获取最大值
+            for (let [key, value] of dbIndexMap) {
+                if (value.dbIndex > maxIndex) {
+                    maxIndex = value.dbIndex;
                 }
+            }
+            for (let i = 0; i < maxIndex; i++) {
+                let dbIndexObj = dbIndexMap.get(i);
+                if (dbIndexObj === undefined || dbIndexObj === null) {
+                    dbIndexObj = {
+                        key: "" + i,
+                        dbIndex: i,
+                        title: "db" + i,
+                        total: 0,
+                    };
+                }
+                dbTabs.push(dbIndexObj);
             }
             this.setState({ dbTabs: dbTabs });
         });
