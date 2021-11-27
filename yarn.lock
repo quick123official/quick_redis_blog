@@ -12529,10 +12529,10 @@ temp-file@^3.4.0:
     async-exit-hook "^2.0.1"
     fs-extra "^10.0.0"
 
-terminal-in-react@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.nlark.com/terminal-in-react/download/terminal-in-react-4.3.1.tgz#a2e236a1e9a77fd6951bec70227aa96a1b9477c4"
-  integrity sha1-ouI2oemnf9aVG+xwInqpahuUd8Q=
+terminal-in-react-quick123@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.npmjs.org/terminal-in-react-quick123/-/terminal-in-react-quick123-4.3.5.tgz#fb2070646f5a061e29414328cec1b8273b476fef"
+  integrity sha512-9rE7E2hWG6oBJqvADXM1mpvZlYe2kViwSW7KMiHSNaXgYQwmjZaO4SyMVp3C6DYqYDp76MGF9pZkFGWHEbF0Gw==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.isequal "^4.5.0"
