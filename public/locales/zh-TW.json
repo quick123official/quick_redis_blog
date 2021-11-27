@@ -99,7 +99,7 @@
     "CheckUpdateService.end00": "#### CheckUpdateService ####",
 
     "HostTerminal.start": "#### HostTerminal ####",
-    "HostTerminal.descriptions.msg": "輸入 help 以查看幫助信息。Redis命令文檔:http://www.redis.cn/commands.html?from=QuickRedis",
+    "HostTerminal.descriptions.msg": "點擊 tab 鍵會出現命令使用方法。Redis命令參考文檔: https://redis.io/commands?from=QuickRedis",
     "HostTerminal.end00": "#### HostTerminal ####",
 
     "ResourceTree.start": "#### ResourceTree ####",
