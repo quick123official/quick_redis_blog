@@ -17,9 +17,9 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 
 [Windows](https://gitee.com/quick123official/quick_redis_blog/attach_files/880886/download/QuickRedis-2.5.0-win-ia32.exe "Windows")
 
-[Mac OS X](https://gitee.com/quick123official/quick_redis_blog/attach_files/880532/download/QuickRedis-2.5.0-mac-x64.dmg "Mac OS X")
+[Mac OS X](https://gitee.com/quick123official/quick_redis_blog/attach_files/894194/download/QuickRedis-2.6.0-mac-x64.dmg "Mac OS X")
 
-[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/882454/download/QuickRedis-2.5.0-linux-x86_64.AppImage "Linux")
+[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/894193/download/QuickRedis-2.6.0-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
