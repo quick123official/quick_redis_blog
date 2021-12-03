@@ -22,7 +22,7 @@ let initialState = {
 function delHostsByNodeName(nodeList = [], key = "") {
     if (Object.keys(nodeList).length === 0 || nodeList.length === 0) {
         // 空对象或者空串，直接返回
-        return 0;
+        return null;
     }
     let index = nodeList.findIndex((node) => node.key === key);
     if (index !== -1) {
