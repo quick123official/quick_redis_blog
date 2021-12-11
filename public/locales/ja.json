@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "言語を選択してください",
     "SystemConfig.tree.split": "区切り文字を設定する",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "システム構成",
     "SystemConfig.needRestart": "有効にするには再起動する必要があります。",
     "SystemConfig.end00": "#### SystemConfig ####",

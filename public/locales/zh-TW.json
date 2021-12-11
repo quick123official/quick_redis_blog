@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "選擇語言",
     "SystemConfig.tree.split": "設置分隔符",
+    "SystemConfig.auto.format.json": "自動格式化json",
     "SystemConfig.title": "系統配置",
     "SystemConfig.needRestart": "您需要重新啟動才能生效。",
     "SystemConfig.end00": "#### SystemConfig ####",

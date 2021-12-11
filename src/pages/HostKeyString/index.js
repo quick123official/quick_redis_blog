@@ -4,6 +4,7 @@ import HostKeyHeader from "@/pages/HostKeyHeader";
 import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
+import LocaleUtils from "@/utils/LocaleUtils";
 
 /**
  *hostkey-string-管理
@@ -43,6 +44,20 @@ class HostKeyString extends Component {
         }
         redis.get(redisKey).then(
             (value) => {
+                let autoFormatJson =
+                    LocaleUtils.readSystemConfig(false).autoFormatJson;
+                if (autoFormatJson) {
+                    try {
+                        let formatJson = JSON.stringify(
+                            JSON.parse(value),
+                            null,
+                            4
+                        );
+                        value = formatJson;
+                    } catch (error) {
+                        // 非json格式，忽略
+                    }
+                }
                 form.setFieldsValue({ value: value });
             },
             (err) => {
@@ -56,9 +71,8 @@ class HostKeyString extends Component {
      */
     saveValue() {
         // 取form的redisKey值
-        let redisKey = this.refs.hostKeyHeader.refs.form.getFieldValue(
-            "redisKey"
-        );
+        let redisKey =
+            this.refs.hostKeyHeader.refs.form.getFieldValue("redisKey");
         if (redisKey === "") {
             // 如果没有输入，则提示
             message.error(intl.get("HostKey.String.save.input.key"));

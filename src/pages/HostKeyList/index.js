@@ -16,6 +16,7 @@ import uuid from "node-uuid";
 import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
+import LocaleUtils from "@/utils/LocaleUtils";
 const { Option } = Select;
 /**
  * HostKeyList-管理
@@ -260,6 +261,20 @@ class HostKeyList extends Component {
             const obj = {};
             if (data[key]) {
                 obj[key] = data[key] || null;
+            }
+            let autoFormatJson =
+                LocaleUtils.readSystemConfig(false).autoFormatJson;
+            if (autoFormatJson) {
+                try {
+                    let formatJson = JSON.stringify(
+                        JSON.parse(obj.member),
+                        null,
+                        4
+                    );
+                    obj.member = formatJson;
+                } catch (error) {
+                    // 非json格式，忽略
+                }
             }
             form.setFieldsValue(obj);
         });

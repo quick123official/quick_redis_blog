@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Select language",
     "SystemConfig.tree.split": "Set separator",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "System configuration",
     "SystemConfig.needRestart": "You need to restart to take effect.",
     "SystemConfig.end00": "#### SystemConfig ####",
