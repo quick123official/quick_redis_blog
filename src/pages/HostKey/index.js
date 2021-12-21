@@ -12,7 +12,11 @@ import {
 } from "antd";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { REDIS_DATA_TYPE, REDIS_DATA_SHOW } from "@/utils/constant";
+import {
+    REDIS_DATA_TYPE,
+    REDIS_DATA_SHOW,
+    CONNECT_TYPE,
+} from "@/utils/constant";
 import KeysHistoryService from "@/services/KeysHistoryService";
 import Log from "@/services/LogService";
 import "@/pages/CommonCss/zebra.css";
@@ -66,17 +70,7 @@ class HostKey extends Component {
     };
     searchInput = React.createRef();
     componentDidMount() {
-        let pattern = "*";
-        let cursor = "0";
-        this.setState({ tableData: [], searchDisable: true, currentPage: 1 });
-        this.props.node.redis.select(this.props.db, (err, res) => {
-            if (err) {
-                message.error("" + err);
-                Log.error("[cmd=HostKey] componentDidMount error", err, res);
-                return;
-            }
-            this.loadRedisDataByPattern(pattern, cursor, "*");
-        });
+        this.searchKey("*");
         this.props.triggerRef(this);
     }
     /**
@@ -130,12 +124,26 @@ class HostKey extends Component {
                         tableData: tableData,
                         tableTotal: tableData.length,
                     });
-                    // 如果key存在，则添加到搜索历史记录
-                    let host = this.props.node.data.host;
-                    let port = this.props.node.data.port;
-                    KeysHistoryService.addKeysHistory(host, port, originalKey);
                 }
-                this.setState({ searchDisable: false });
+                if (
+                    this.state.tableTotal <
+                        REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
+                    res[0] !== "0"
+                ) {
+                    this.loadRedisDataByPattern(pattern, res[0], originalKey);
+                } else {
+                    // 如果key存在，则添加到搜索历史记录
+                    if (this.state.tableTotal !== 0) {
+                        let host = this.props.node.data.host;
+                        let port = this.props.node.data.port;
+                        KeysHistoryService.addKeysHistory(
+                            host,
+                            port,
+                            originalKey
+                        );
+                    }
+                    this.setState({ searchDisable: false });
+                }
             }
         );
     }
@@ -155,41 +163,53 @@ class HostKey extends Component {
             currentPage: 1,
             tableTotal: 0,
         });
-        let redis = this.props.node.redis;
         let directKey = "{我~~++==>>>>们}";
         if (key.indexOf("*") === -1) {
             directKey = key;
         }
-        redis.keys(directKey).then(
-            (value) => {
-                let pattern = key;
-                let cursor = "0";
-                pattern = "*" + pattern + "*";
-                if (value !== null && value !== undefined && value.length > 0) {
-                    // 关键字的key，如果存在，显示在第一页第一行
-                    let data = [];
-                    data.push({
-                        key: key,
-                        name: key,
-                    });
-                    // 如果key存在，则添加到搜索历史记录
-                    let host = this.props.node.data.host;
-                    let port = this.props.node.data.port;
-                    KeysHistoryService.addKeysHistory(host, port, key);
-                    let tableData = [...this.state.tableData, ...data];
-                    this.setState({
-                        tableData: tableData,
-                        tableTotal: tableData.length,
-                    });
+        let redisArr = [this.props.node.redis];
+        if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
+            redisArr = this.props.node.redis.nodes("master");
+        }
+        redisArr.map((redis) => {
+            redis.keys(directKey).then(
+                (value) => {
+                    if (
+                        value !== null &&
+                        value !== undefined &&
+                        value.length > 0
+                    ) {
+                        // 关键字的key，如果存在，显示在第一页第一行
+                        let data = [];
+                        data.push({
+                            key: key,
+                            name: key,
+                        });
+                        // 如果key存在，则添加到搜索历史记录
+                        let host = this.props.node.data.host;
+                        let port = this.props.node.data.port;
+                        KeysHistoryService.addKeysHistory(host, port, key);
+                        let tableData = [...this.state.tableData, ...data];
+                        this.setState({
+                            tableData: tableData,
+                            tableTotal: tableData.length,
+                        });
+                    }
+                    let pattern = key;
+                    let cursor = "0";
+                    pattern = "*" + pattern + "*";
+                    this.loadRedisDataByPattern(pattern, cursor, key);
+                },
+                (err) => {
+                    // keys 有可能被服务器禁用，所以即使失败，也继续进行loadRedisDataByPattern
+                    Log.error("searchKey error", key, err);
+                    let pattern = key;
+                    let cursor = "0";
+                    pattern = "*" + pattern + "*";
+                    this.loadRedisDataByPattern(pattern, cursor, key);
                 }
-                this.loadRedisDataByPattern(pattern, cursor, key);
-            },
-            (err) => {
-                this.setState({ searchDisable: false });
-                message.error("" + err);
-                Log.error("searchKey error", key);
-            }
-        );
+            );
+        });
     }
     /**
      *改变页码
@@ -419,9 +439,11 @@ class HostKey extends Component {
                                 ref={this.searchInput}
                                 onSearch={this.searchKey.bind(this)}
                                 enterButton={
-                                    <Button icon={<SearchOutlined />}></Button>
+                                    <Button
+                                        disabled={this.state.searchDisable}
+                                        icon={<SearchOutlined />}
+                                    ></Button>
                                 }
-                                disabled={this.state.searchDisable}
                             />
                         </AutoComplete>
                     </Tooltip>
