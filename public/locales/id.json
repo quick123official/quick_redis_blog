@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Pilih bahasa",
     "SystemConfig.tree.split": "Atur pemisah",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "Konfigurasi sistem",
     "SystemConfig.needRestart": "Anda perlu memulai ulang untuk menerapkannya.",
     "SystemConfig.end00": "#### SystemConfig ####",

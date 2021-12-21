@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Vyberte jazyk",
     "SystemConfig.tree.split": "Nastavit oddělovač",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "Konfigurace systému",
     "SystemConfig.needRestart": "Abyste se projevili, musíte restartovat.",
     "SystemConfig.end00": "#### SystemConfig ####",

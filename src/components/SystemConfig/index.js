@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Row, Col, Select, Input, Tooltip } from "antd";
+import { Modal, Row, Col, Select, Input, Tooltip, Checkbox } from "antd";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -10,7 +10,11 @@ const { ipcRenderer, remote } = window.require("electron");
  * 系统配置
  */
 class SystemConfig extends React.Component {
-    state = { visible: false, config: { lang: "", splitSign: "" } };
+    needRestart = false;
+    state = {
+        visible: false,
+        config: { lang: "", splitSign: "", autoFormatJson: true },
+    };
     componentDidMount() {
         // 重置连接事件
         ipcRenderer.on("system-config", (event, arg) => {
@@ -30,18 +34,22 @@ class SystemConfig extends React.Component {
             visible: false,
         });
         LocaleUtils.saveSystemConfig(this.state.config);
-        confirm({
-            title: intl.get("common.notice"),
-            icon: <ExclamationCircleOutlined />,
-            content: intl.get("SystemConfig.needRestart"),
-            onOk() {
-                remote.app.quit();
-            },
-            onCancel() {},
-        });
+        if (this.needRestart) {
+            this.needRestart = false;
+            confirm({
+                title: intl.get("common.notice"),
+                icon: <ExclamationCircleOutlined />,
+                content: intl.get("SystemConfig.needRestart"),
+                onOk() {
+                    remote.app.quit();
+                },
+                onCancel() {},
+            });
+        }
     };
 
     handleCancel = (e) => {
+        this.needRestart = false;
         this.setState({
             visible: false,
         });
@@ -56,6 +64,7 @@ class SystemConfig extends React.Component {
         this.setState({
             config: { ...this.state.config, lang: val },
         });
+        this.needRestart = true;
     }
     /**
      *修改分隔符
@@ -65,6 +74,20 @@ class SystemConfig extends React.Component {
     handleSplitSignChange = (event) => {
         this.setState({
             config: { ...this.state.config, splitSign: event.target.value },
+        });
+        this.needRestart = true;
+    };
+    /**
+     *修改自动格式化json
+     *
+     * @memberof SystemConfig
+     */
+    handleAutoFormatJsonChange = (event) => {
+        this.setState({
+            config: {
+                ...this.state.config,
+                autoFormatJson: event.target.checked,
+            },
         });
     };
 
@@ -107,6 +130,15 @@ class SystemConfig extends React.Component {
                                     onChange={this.handleSplitSignChange}
                                 />
                             </Tooltip>
+                        </Col>
+                        <Col span={6}>
+                            {intl.get("SystemConfig.auto.format.json")}
+                        </Col>
+                        <Col span={18}>
+                            <Checkbox
+                                onChange={this.handleAutoFormatJsonChange}
+                                checked={this.state.config.autoFormatJson}
+                            ></Checkbox>
                         </Col>
                     </Row>
                 </Modal>

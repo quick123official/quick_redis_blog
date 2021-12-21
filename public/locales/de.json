@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Sprache auswählen",
     "SystemConfig.tree.split": "Trennzeichen einstellen",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "Systemkonfiguration",
     "SystemConfig.needRestart": "Sie müssen neu starten, um wirksam zu werden.",
     "SystemConfig.end00": "#### SystemConfig ####",

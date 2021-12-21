@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "언어 선택",
     "SystemConfig.tree.split": "구분자 설정",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "시스템 구성",
     "SystemConfig.needRestart": "적용하려면 다시 시작해야합니다.",
     "SystemConfig.end00": "#### SystemConfig ####",

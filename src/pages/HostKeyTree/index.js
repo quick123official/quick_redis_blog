@@ -16,7 +16,7 @@ import {
 import { DeleteTwoTone } from "@ant-design/icons";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { REDIS_DATA_TYPE } from "@/utils/constant";
+import { REDIS_DATA_TYPE, CONNECT_TYPE } from "@/utils/constant";
 import "@/pages/CommonCss/zebra.css";
 import uuid from "node-uuid";
 import Log from "@/services/LogService";
@@ -81,18 +81,7 @@ class HostKeyTree extends Component {
     componentDidMount() {
         // 获取配置的key分割符
         this.splitSign = LocaleUtils.readSystemConfig().splitSign;
-        this.setState({
-            treeData: [],
-            searchDisable: true,
-        });
-        this.props.node.redis.select(this.props.db, (err, res) => {
-            if (err) {
-                message.error("" + err);
-                Log.error("HostKeyTree componentDidMount error", err, res);
-                return;
-            }
-            this.loadRedisKeysByPattern("*");
-        });
+        this.searchKey("*");
         this.props.triggerRef(this);
     }
     /**
@@ -177,52 +166,61 @@ class HostKeyTree extends Component {
         ) {
             pattern = "*" + originalKey + "*";
         }
-        let redis = this.props.node.redis;
-        redis.keys(pattern).then(
-            (res) => {
-                this.setState({
-                    treeData: [],
-                    searchDisable: true,
-                });
-                let treeData = [];
-                if (res !== null && res !== undefined && res.length !== 0) {
-                    let rootTreeMap = new Map();
-                    for (let i = 0; i < res.length; i++) {
-                        let key = res[i];
-                        let childKeyArr = key.split(this.splitSign);
-                        let childMap = rootTreeMap.get(childKeyArr[0]);
-                        if (childMap === null || childMap === undefined) {
-                            childMap = new Map();
+        let redisArr = [this.props.node.redis];
+        if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
+            redisArr = this.props.node.redis.nodes("master");
+        }
+        redisArr.map((redis) => {
+            redis.keys(pattern).then(
+                (res) => {
+                    this.setState({
+                        treeData: [],
+                        searchDisable: true,
+                    });
+                    let treeData = [];
+                    if (res !== null && res !== undefined && res.length !== 0) {
+                        let rootTreeMap = new Map();
+                        for (let i = 0; i < res.length; i++) {
+                            let key = res[i];
+                            let childKeyArr = key.split(this.splitSign);
+                            let childMap = rootTreeMap.get(childKeyArr[0]);
+                            if (childMap === null || childMap === undefined) {
+                                childMap = new Map();
+                            }
+                            rootTreeMap.set(childKeyArr[0], childMap);
+                            if (childKeyArr.length > 1) {
+                                this.keyArrToTreeMap(
+                                    childMap,
+                                    childKeyArr.slice(1, childKeyArr.length)
+                                );
+                            } else {
+                                rootTreeMap.set(
+                                    childKeyArr[0] + this.splitEndSign,
+                                    undefined
+                                );
+                            }
                         }
-                        rootTreeMap.set(childKeyArr[0], childMap);
-                        if (childKeyArr.length > 1) {
-                            this.keyArrToTreeMap(
-                                childMap,
-                                childKeyArr.slice(1, childKeyArr.length)
-                            );
-                        } else {
-                            rootTreeMap.set(
-                                childKeyArr[0] + this.splitEndSign,
-                                undefined
-                            );
-                        }
+                        // 如果key存在，则添加到搜索历史记录
+                        let host = this.props.node.data.host;
+                        let port = this.props.node.data.port;
+                        KeysHistoryService.addKeysHistory(
+                            host,
+                            port,
+                            originalKey
+                        );
+                        this.treeMapToTreeData(rootTreeMap, treeData, "");
                     }
-                    // 如果key存在，则添加到搜索历史记录
-                    let host = this.props.node.data.host;
-                    let port = this.props.node.data.port;
-                    KeysHistoryService.addKeysHistory(host, port, originalKey);
-                    this.treeMapToTreeData(rootTreeMap, treeData, "");
+                    this.setState({
+                        treeData: treeData,
+                        searchDisable: false,
+                    });
+                },
+                (err) => {
+                    message.error("loadRedisKeysByPattern error" + err);
+                    Log.error("HostKeyTree loadRedisKeysByPattern error", err);
                 }
-                this.setState({
-                    treeData: treeData,
-                    searchDisable: false,
-                });
-            },
-            (err) => {
-                message.error("loadRedisKeysByPattern error" + err);
-                Log.error("HostKeyTree loadRedisKeysByPattern error", err);
-            }
-        );
+            );
+        });
     }
     /**
      *搜索key

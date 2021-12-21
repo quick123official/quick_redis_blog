@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Selecteer taal",
     "SystemConfig.tree.split": "Scheidingsteken instellen",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "Systeemconfiguratie",
     "SystemConfig.needRestart": "U moet opnieuw opstarten om van kracht te worden.",
     "SystemConfig.end00": "#### SystemConfig ####",

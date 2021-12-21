@@ -18,6 +18,7 @@ import uuid from "node-uuid";
 import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
+import LocaleUtils from "@/utils/LocaleUtils";
 const { Search } = Input;
 /**
  * HostKeyHash-管理
@@ -347,6 +348,20 @@ class HostKeyHash extends Component {
             const obj = {};
             if (data[key]) {
                 obj[key] = data[key] || null;
+            }
+            let autoFormatJson =
+                LocaleUtils.readSystemConfig(false).autoFormatJson;
+            if (autoFormatJson) {
+                try {
+                    let formatJson = JSON.stringify(
+                        JSON.parse(obj.value),
+                        null,
+                        4
+                    );
+                    obj.value = formatJson;
+                } catch (error) {
+                    // 非json格式，忽略
+                }
             }
             form.setFieldsValue(obj);
         });

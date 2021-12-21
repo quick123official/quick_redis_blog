@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Chọn ngôn ngữ",
     "SystemConfig.tree.split": "Đặt dấu phân cách",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "Cấu hình hệ thống",
     "SystemConfig.needRestart": "Bạn cần khởi động lại để có hiệu lực.",
     "SystemConfig.end00": "#### SystemConfig ####",
