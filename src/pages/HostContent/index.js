@@ -32,7 +32,7 @@ class HostContent extends Component {
     hostKeyShowType = HOST_KEY_SHOW_TYPE.TREE;
     componentDidMount() {
         this.updateDBCount();
-        let splitSign = LocaleUtils.readSystemConfig().splitSign;
+        let splitSign = LocaleUtils.readSystemConfig(false).splitSign;
         if (splitSign === "" || splitSign === undefined || splitSign === null) {
             this.hostKeyShowType = HOST_KEY_SHOW_TYPE.TABLE;
         }
@@ -73,72 +73,67 @@ class HostContent extends Component {
      */
     updateDBCount() {
         let redis = this.props.node.redis;
-        redis.config("get", "databases", (err, res) => {
-            if (res == null) {
-                message.error(
-                    "can not get db size. It may fail to connect to the redis server. Please ensure that you can connect to the redis server using redis-cli"
-                );
+        // get databases. default 16
+        let maxIndex = 16;
+        redis
+            .config("get", "databases")
+            .then((data) => {
+                maxIndex = parseInt(data[1]);
+            })
+            .catch((err) => {
+                Log.error("[cmd=config] get databases error", err);
+            });
+        redis.info("Keyspace", (err, res) => {
+            if (err) {
+                message.error("", err);
+                Log.error("[cmd=info] Keyspace error", err);
                 return;
             }
-            if (!err && res[1]) {
-                let databasesSize = Number(res[1]);
-                let dbTabs = [];
-                // for (let i = 0; i < databasesSize; i++) {
-                //     dbTabs.push({
-                //         key: "" + i,
-                //         title: "db" + i,
-                //     });
-                // }
-                //
-                // this.setState({ dbTabs: dbTabs });
-
-                //获取dbsizes信息
-                redis.info("Keyspace").then((res) => {
-                    //拆分masters
-                    let infos = res.split("\n");
-
-                    let keyinfos = {};
-                    infos.forEach((v, i) => {
-                        if (v.startsWith("db")) {
-                            //先用 :keys 分隔,得到数据库序号
-                            let strings = v.split(":keys");
-                            let dbname = strings[0];
-                            let t1 = "keys" + strings[1];
-                            let temp = t1.split(",");
-                            let keyinfo = {
-                                number: strings[0],
-                            };
-                            temp.forEach((v1, i1) => {
-                                let key = v1.split("=")[0];
-                                let value = v1.split("=")[1];
-                                keyinfo[key] = value;
-                            });
-                            keyinfos[dbname] = keyinfo;
-                        }
-                    });
-
-                    for (let i = 0; i < databasesSize; i++) {
-                        let dbname = "db" + i;
-                        let keyinfo = keyinfos[dbname];
-                        dbTabs.push({
-                            key: "" + i,
-                            title: dbname,
-                            total:
-                                keyinfo === undefined
-                                    ? 0
-                                    : keyinfo["keys"] || 0,
-                        });
+            let dbIndexMap = new Map();
+            try {
+                let infos = res.split("\n");
+                infos.shift();
+                infos.pop();
+                infos.forEach((v, i) => {
+                    //先用 :keys 分隔,得到数据库序号
+                    let firstSplitString = v.split(":keys");
+                    let dbname = firstSplitString[0];
+                    let secondSplitString = firstSplitString[1].split(",");
+                    let thirdSplitString = secondSplitString[0].split("=");
+                    let dbIndex = i;
+                    if (dbname.startsWith("db")) {
+                        dbIndex = parseInt(dbname.substring(2));
                     }
-
-                    this.setState({ dbTabs: dbTabs });
+                    dbIndexMap.set(dbIndex, {
+                        key: "" + dbIndex,
+                        dbIndex: dbIndex,
+                        title: dbname,
+                        total: thirdSplitString[1],
+                    });
                 });
-            } else {
-                if (err) {
-                    message.error("" + err);
-                    Log.error("[cmd=HostContent] updateDBCount error", err);
-                    return;
+            } catch (error) {
+                Log.error("[cmd=info] Keyspace split error", error);
+            }
+            let dbTabs = [];
+            // get databases 失败，则尝试在 Keyspace 获取最大值
+            for (let [key, value] of dbIndexMap) {
+                if (value.dbIndex > maxIndex) {
+                    maxIndex = value.dbIndex;
                 }
             }
+            for (let i = 0; i < maxIndex; i++) {
+                let dbIndexObj = dbIndexMap.get(i);
+                if (dbIndexObj === undefined || dbIndexObj === null) {
+                    dbIndexObj = {
+                        key: "" + i,
+                        dbIndex: i,
+                        title: "db" + i,
+                        total: 0,
+                    };
+                }
+                dbTabs.push(dbIndexObj);
+            }
+            this.setState({ dbTabs: dbTabs });
         });
         this.setState({ activeKey: "0" });
     }
@@ -152,8 +147,9 @@ class HostContent extends Component {
             activeKey: activeKey,
             redisKey: { key: "", type: "" },
         });
+        let dbIndex = this.state.dbTabs[activeKey].dbIndex;
         let redis = this.props.node.redis;
-        redis.select(activeKey, (err, res) => {
+        redis.select(dbIndex, (err, res) => {
             if (err) {
                 message.error("" + err);
                 Log.error(
@@ -221,7 +217,7 @@ class HostContent extends Component {
                                         HOST_KEY_SHOW_TYPE.TREE ? (
                                             <HostKeyTree
                                                 node={this.props.node}
-                                                db={tab.key}
+                                                db={tab.dbIndex}
                                                 updateHostKey={this.updateHostKey.bind(
                                                     this
                                                 )}
@@ -237,7 +233,7 @@ class HostContent extends Component {
                                         HOST_KEY_SHOW_TYPE.TABLE ? (
                                             <HostKey
                                                 node={this.props.node}
-                                                db={tab.key}
+                                                db={tab.dbIndex}
                                                 updateHostKey={this.updateHostKey.bind(
                                                     this
                                                 )}

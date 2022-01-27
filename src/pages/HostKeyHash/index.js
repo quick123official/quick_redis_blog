@@ -18,6 +18,7 @@ import uuid from "node-uuid";
 import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
+import LocaleUtils from "@/utils/LocaleUtils";
 const { Search } = Input;
 /**
  * HostKeyHash-管理
@@ -132,7 +133,7 @@ class HostKeyHash extends Component {
         // table 加载状态
         loading: false,
         // table 新增修改的对话框
-        modal: { forceRender: true, visible: false, type: 0 },
+        modal: { visible: false, type: 0 },
         // table 搜索key
         search: { field: "*" },
         total: 0,
@@ -252,6 +253,7 @@ class HostKeyHash extends Component {
                         pattern,
                         err
                     );
+                    this.setState({ loading: false });
                     return;
                 }
                 let data = [];
@@ -346,6 +348,20 @@ class HostKeyHash extends Component {
             const obj = {};
             if (data[key]) {
                 obj[key] = data[key] || null;
+            }
+            let autoFormatJson =
+                LocaleUtils.readSystemConfig(false).autoFormatJson;
+            if (autoFormatJson) {
+                try {
+                    let formatJson = JSON.stringify(
+                        JSON.parse(obj.value),
+                        null,
+                        4
+                    );
+                    obj.value = formatJson;
+                } catch (error) {
+                    // 非json格式，忽略
+                }
             }
             form.setFieldsValue(obj);
         });
@@ -452,11 +468,12 @@ class HostKeyHash extends Component {
                         <Search
                             style={{ width: 300 }}
                             prefix="key :"
-                            enterButton={<Button>search</Button>}
+                            enterButton="Search"
                             size="middle"
                             value={this.state.search.field}
                             onChange={this.onChangeSearch.bind(this)}
                             onSearch={this.searchField.bind(this)}
+                            loading={this.state.loading}
                         />
                     </Tooltip>
                     <Button
@@ -485,9 +502,9 @@ class HostKeyHash extends Component {
                     visible={this.state.modal.visible}
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
-                    forceRender={this.state.modal.forceRender}
-                    width={"90%"}
-                    height={"80%"}
+                    forceRender={true}
+                    width={"60%"}
+                    height={"40%"}
                 >
                     <Form
                         {...this.layout}
@@ -522,7 +539,7 @@ class HostKeyHash extends Component {
                                 },
                             ]}
                         >
-                            <QuickMonacoEditor height="60vh" />
+                            <QuickMonacoEditor height="40vh" />
                         </Form.Item>
                     </Form>
                 </Modal>

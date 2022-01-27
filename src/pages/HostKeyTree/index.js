@@ -11,21 +11,23 @@ import {
     Menu,
     Row,
     Col,
+    AutoComplete,
 } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { REDIS_DATA_TYPE } from "@/utils/constant";
+import { REDIS_DATA_TYPE, CONNECT_TYPE } from "@/utils/constant";
 import "@/pages/CommonCss/zebra.css";
 import uuid from "node-uuid";
 import Log from "@/services/LogService";
+import KeysHistoryService from "@/services/KeysHistoryService";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 const { Search } = Input;
 const { Option } = Select;
 const { DirectoryTree } = Tree;
 /**
- *host 管理
+ * tree 显示 keys
  *
  * @class HostKeyTree
  * @extends {Component}
@@ -73,23 +75,13 @@ class HostKeyTree extends Component {
         treeData: [],
         searchDisable: false,
         createKeyMadal: { visible: false, keyType: REDIS_DATA_TYPE.STRING },
+        autoCompleteOptions: [],
     };
     searchInput = React.createRef();
     componentDidMount() {
         // 获取配置的key分割符
         this.splitSign = LocaleUtils.readSystemConfig().splitSign;
-        this.setState({
-            treeData: [],
-            searchDisable: true,
-        });
-        this.props.node.redis.select(this.props.db, (err, res) => {
-            if (err) {
-                message.error("" + err);
-                Log.error("HostKeyTree componentDidMount error", err, res);
-                return;
-            }
-            this.loadRedisKeysByPattern("*");
-        });
+        this.searchKey("*");
         this.props.triggerRef(this);
     }
     /**
@@ -165,52 +157,70 @@ class HostKeyTree extends Component {
      * 加载 redis key
      * @param {*} pattern
      */
-    loadRedisKeysByPattern(pattern) {
-        if (pattern !== "*") {
-            pattern = "*" + pattern + "*";
+    loadRedisKeysByPattern(originalKey) {
+        let pattern = "*";
+        if (
+            originalKey !== null &&
+            originalKey !== undefined &&
+            originalKey !== ""
+        ) {
+            pattern = "*" + originalKey + "*";
         }
-        let redis = this.props.node.redis;
-        redis.keys(pattern).then(
-            (res) => {
-                this.setState({
-                    treeData: [],
-                    searchDisable: true,
-                });
-                let treeData = [];
-                if (res !== null && res !== undefined && res.length !== 0) {
-                    let rootTreeMap = new Map();
-                    for (let i = 0; i < res.length; i++) {
-                        let key = res[i];
-                        let childKeyArr = key.split(this.splitSign);
-                        let childMap = rootTreeMap.get(childKeyArr[0]);
-                        if (childMap === null || childMap === undefined) {
-                            childMap = new Map();
+        let redisArr = [this.props.node.redis];
+        if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
+            redisArr = this.props.node.redis.nodes("master");
+        }
+        redisArr.map((redis) => {
+            redis.keys(pattern).then(
+                (res) => {
+                    this.setState({
+                        treeData: [],
+                        searchDisable: true,
+                    });
+                    let treeData = [];
+                    if (res !== null && res !== undefined && res.length !== 0) {
+                        let rootTreeMap = new Map();
+                        for (let i = 0; i < res.length; i++) {
+                            let key = res[i];
+                            let childKeyArr = key.split(this.splitSign);
+                            let childMap = rootTreeMap.get(childKeyArr[0]);
+                            if (childMap === null || childMap === undefined) {
+                                childMap = new Map();
+                            }
+                            rootTreeMap.set(childKeyArr[0], childMap);
+                            if (childKeyArr.length > 1) {
+                                this.keyArrToTreeMap(
+                                    childMap,
+                                    childKeyArr.slice(1, childKeyArr.length)
+                                );
+                            } else {
+                                rootTreeMap.set(
+                                    childKeyArr[0] + this.splitEndSign,
+                                    undefined
+                                );
+                            }
                         }
-                        rootTreeMap.set(childKeyArr[0], childMap);
-                        if (childKeyArr.length > 1) {
-                            this.keyArrToTreeMap(
-                                childMap,
-                                childKeyArr.slice(1, childKeyArr.length)
-                            );
-                        } else {
-                            rootTreeMap.set(
-                                childKeyArr[0] + this.splitEndSign,
-                                undefined
-                            );
-                        }
+                        // 如果key存在，则添加到搜索历史记录
+                        let host = this.props.node.data.host;
+                        let port = this.props.node.data.port;
+                        KeysHistoryService.addKeysHistory(
+                            host,
+                            port,
+                            originalKey
+                        );
+                        this.treeMapToTreeData(rootTreeMap, treeData, "");
                     }
-                    this.treeMapToTreeData(rootTreeMap, treeData, "");
+                    this.setState({
+                        treeData: treeData,
+                        searchDisable: false,
+                    });
+                },
+                (err) => {
+                    message.error("loadRedisKeysByPattern error" + err);
+                    Log.error("HostKeyTree loadRedisKeysByPattern error", err);
                 }
-                this.setState({
-                    treeData: treeData,
-                    searchDisable: false,
-                });
-            },
-            (err) => {
-                message.error("loadRedisKeysByPattern error" + err);
-                Log.error("HostKeyTree loadRedisKeysByPattern error", err);
-            }
-        );
+            );
+        });
     }
     /**
      *搜索key
@@ -219,11 +229,7 @@ class HostKeyTree extends Component {
      * @memberof HostKeyTree
      */
     searchKey(value) {
-        let pattern = "*";
-        if (value !== null && value !== undefined && value !== "") {
-            pattern = "*" + value + "*";
-        }
-        this.loadRedisKeysByPattern(pattern);
+        this.loadRedisKeysByPattern(value);
     }
     /**
      * 打开 创建key 窗口
@@ -254,8 +260,8 @@ class HostKeyTree extends Component {
         let redis = this.props.node.redis;
         let key = form.getFieldValue("key");
         // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
+        // COUNT 使用 100000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", key, "COUNT", 100000, (err, res) => {
             if (err) {
                 message.error("" + err);
                 Log.error("HostKeyTree createKey error", err);
@@ -454,6 +460,19 @@ class HostKeyTree extends Component {
             this.props.updateHostKey(orgiKey);
         }
     }
+
+    onAutoCompleteSelect = (data) => {
+        this.setState({ autoCompleteOptions: [] });
+    };
+
+    onAutoCompleteChange = (data) => {
+        // 如果key存在，则添加到搜索历史记录
+        let host = this.props.node.data.host;
+        let port = this.props.node.data.port;
+        let keyHistoryArr = KeysHistoryService.searchKey(host, port, data);
+        this.setState({ autoCompleteOptions: keyHistoryArr });
+    };
+
     render() {
         return (
             <div>
@@ -471,14 +490,23 @@ class HostKeyTree extends Component {
                             placement="right"
                             title={intl.get("common.search.tooltip.limit")}
                         >
-                            <Search
-                                ref={this.searchInput}
-                                onSearch={this.searchKey.bind(this)}
-                                enterButton={
-                                    <Button icon={<SearchOutlined />}></Button>
-                                }
-                                disabled={this.state.searchDisable}
-                            />
+                            <AutoComplete
+                                options={this.state.autoCompleteOptions}
+                                onSelect={this.onAutoCompleteSelect.bind(this)}
+                                onChange={this.onAutoCompleteChange.bind(this)}
+                                style={{ width: "100%" }}
+                            >
+                                <Search
+                                    ref={this.searchInput}
+                                    onSearch={this.searchKey.bind(this)}
+                                    enterButton={
+                                        <Button
+                                            icon={<SearchOutlined />}
+                                        ></Button>
+                                    }
+                                    disabled={this.state.searchDisable}
+                                />
+                            </AutoComplete>
                         </Tooltip>
                     </Col>
                     <Col span={24}>

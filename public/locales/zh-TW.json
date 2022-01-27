@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "選擇語言",
     "SystemConfig.tree.split": "設置分隔符",
+    "SystemConfig.auto.format.json": "自動格式化json",
     "SystemConfig.title": "系統配置",
     "SystemConfig.needRestart": "您需要重新啟動才能生效。",
     "SystemConfig.end00": "#### SystemConfig ####",
@@ -99,7 +100,7 @@
     "CheckUpdateService.end00": "#### CheckUpdateService ####",
 
     "HostTerminal.start": "#### HostTerminal ####",
-    "HostTerminal.descriptions.msg": "輸入 help 以查看幫助信息。Redis命令文檔:http://www.redis.cn/commands.html?from=QuickRedis",
+    "HostTerminal.descriptions.msg": "點擊 tab 鍵會出現命令使用方法。Redis命令參考文檔: https://redis.io/commands?from=QuickRedis",
     "HostTerminal.end00": "#### HostTerminal ####",
 
     "ResourceTree.start": "#### ResourceTree ####",

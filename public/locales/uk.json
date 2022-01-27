@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Вибрати мову",
     "SystemConfig.tree.split": "Встановити роздільник",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "Конфігурація системи",
     "SystemConfig.needRestart": "Вам потрібно перезапуститися, щоб набути чинності.",
     "SystemConfig.end00": "#### SystemConfig ####",

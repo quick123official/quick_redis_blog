@@ -16,6 +16,7 @@ import uuid from "node-uuid";
 import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
+import LocaleUtils from "@/utils/LocaleUtils";
 const { Option } = Select;
 /**
  * HostKeyList-管理
@@ -119,7 +120,7 @@ class HostKeyList extends Component {
         // table 加载状态
         loading: false,
         // table 新增修改的对话框
-        modal: { forceRender: true, visible: false, type: 0 },
+        modal: { visible: false, type: 0 },
         total: 0,
     };
     /**
@@ -261,6 +262,20 @@ class HostKeyList extends Component {
             if (data[key]) {
                 obj[key] = data[key] || null;
             }
+            let autoFormatJson =
+                LocaleUtils.readSystemConfig(false).autoFormatJson;
+            if (autoFormatJson) {
+                try {
+                    let formatJson = JSON.stringify(
+                        JSON.parse(obj.member),
+                        null,
+                        4
+                    );
+                    obj.member = formatJson;
+                } catch (error) {
+                    // 非json格式，忽略
+                }
+            }
             form.setFieldsValue(obj);
         });
         this.setState({ modal: { visible: true, type: 1 } });
@@ -310,14 +325,20 @@ class HostKeyList extends Component {
                 .lpush(redisKey, member)
                 .then(this.pushMemberCallBack(redisKey), (err) => {
                     message.error("" + err);
-                    Log.error("[cmd=HostKeyList] handleModalOk lpush error", err);
+                    Log.error(
+                        "[cmd=HostKeyList] handleModalOk lpush error",
+                        err
+                    );
                 });
         } else if (insertType === "1") {
             redis
                 .rpush(redisKey, member)
                 .then(this.pushMemberCallBack(redisKey), (err) => {
                     message.error("" + err);
-                    Log.error("[cmd=HostKeyList] handleModalOk rpush error", err);
+                    Log.error(
+                        "[cmd=HostKeyList] handleModalOk rpush error",
+                        err
+                    );
                 });
         }
     }
@@ -330,7 +351,6 @@ class HostKeyList extends Component {
         // 关闭modal
         this.setState({
             modal: {
-                forceRender: true,
                 visible: false,
                 type: this.state.modal.type,
             },
@@ -414,9 +434,9 @@ class HostKeyList extends Component {
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
                     okButtonProps={{ disabled: this.state.modal.type === 1 }}
-                    forceRender={this.state.modal.forceRender}
-                    width={"90%"}
-                    height={"80%"}
+                    forceRender={true}
+                    width={"60%"}
+                    height={"40%"}
                 >
                     <Form
                         {...this.layout}

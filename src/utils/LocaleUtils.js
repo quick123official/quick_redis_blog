@@ -92,22 +92,33 @@ export default class LocaleUtils {
         let filePath = userDataPath + "/" + GLOBAL_CONFIG.SYSTEM_CONFIG_FILE;
         return filePath;
     }
+    static systemConfigData = null;
     /**
      *读取系统配置文件
      *
      * @static
+     * @param {*} forceIo true表示强制读取本地文件
+     * @returns
      * @memberof LocaleUtils
      */
-    static readSystemConfig() {
-        let filePath = this.getSystemConfigFilePath();
-        let systemConfigData = undefined;
-        try {
-            systemConfigData = fs.readFileSync(filePath, "utf-8");
-        } catch (e) {
-            Log.error("[cmd=LocaleUtils] readSystemConfig error", filePath, e);
+    static readSystemConfig(forceIo) {
+        if (this.systemConfigData !== null && forceIo === false) {
+            return this.systemConfigData;
         }
-        if (systemConfigData !== undefined) {
-            systemConfigData = JSON.parse(systemConfigData);
+        let filePath = this.getSystemConfigFilePath();
+        let systemConfigDataTemp = undefined;
+        try {
+            systemConfigDataTemp = fs.readFileSync(filePath, "utf-8");
+        } catch (e) {
+            Log.error(
+                "[cmd=LocaleUtils] readSystemConfig error",
+                filePath,
+                forceIo,
+                e
+            );
+        }
+        if (systemConfigDataTemp !== undefined) {
+            systemConfigDataTemp = JSON.parse(systemConfigDataTemp);
         } else {
             let userLocale = remote.app.getLocale();
             let locale = undefined;
@@ -120,10 +131,15 @@ export default class LocaleUtils {
                 locale = "en";
             }
             // splitSign 默认设置为 :
-            systemConfigData = { lang: locale, splitSign: ":" };
-            this.saveSystemConfig(systemConfigData);
+            systemConfigDataTemp = {
+                lang: locale,
+                splitSign: ":",
+                autoFormatJson: true,
+            };
+            this.saveSystemConfig(systemConfigDataTemp);
         }
-        return systemConfigData;
+        this.systemConfigData = systemConfigDataTemp;
+        return this.systemConfigData;
     }
     /**
      * 保存系统配置文件
@@ -140,5 +156,6 @@ export default class LocaleUtils {
         } catch (e) {
             Log.error("[cmd=LocaleUtils] saveSystemConfig error", filePath, e);
         }
+        this.readSystemConfig(true);
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "QuickRedis",
-    "version": "2.3.1",
+    "version": "2.6.2",
     "private": true,
     "description": "QuickRedis",
     "author": "https://quick123.net/",
@@ -11,13 +11,13 @@
         "circular-json": "^0.5.9",
         "electron-log": "^4.2.2",
         "getmac": "^1.2.1",
-        "ioredis": "^4.17.3",
+        "ioredis": "^4.27.9",
         "lodash": "^4.17.19",
         "react-intl-universal": "^2.2.5",
         "react-monaco-editor": "^0.36.0",
         "redis-splitargs": "^1.0.1",
         "socksv5-fixed": "0.0.6",
-        "ssh2": "^0.8.9"
+        "ssh2": "^1.5.0"
     },
     "scripts": {
         "start1": "react-app-rewired start",
@@ -30,6 +30,11 @@
         "pack:win": "electron-builder -w",
         "pack:linux": "electron-builder -l -p never",
         "pack:all": "electron-builder -mwl"
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "@/(.*)": "<rootDir>/src/$1"
+        }
     },
     "build": {
         "extends": null,
@@ -80,12 +85,13 @@
         "babel-plugin-import": "^1.13.0",
         "customize-cra": "^1.0.0",
         "devtron": "^1.4.0",
-        "electron": "^9.1.0",
+        "electron": "11.5.0",
         "electron-builder": "^22.6.1",
         "electron-devtools-installer": "^3.1.1",
         "global": "^4.4.0",
         "less": "^3.10.3",
         "less-loader": "^5.0.0",
+        "monaco-editor-webpack-plugin": "^5.0.0",
         "node-uuid": "^1.4.8",
         "react": "^16.13.1",
         "react-app-rewired": "^2.1.8",
@@ -97,7 +103,7 @@
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
         "run-electron": "^1.0.0",
-        "terminal-in-react": "^4.3.1"
+        "terminal-in-react-quick123": "^4.3.5"
     },
     "browserslist": {
         "production": [

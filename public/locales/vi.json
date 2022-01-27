@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Chọn ngôn ngữ",
     "SystemConfig.tree.split": "Đặt dấu phân cách",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "Cấu hình hệ thống",
     "SystemConfig.needRestart": "Bạn cần khởi động lại để có hiệu lực.",
     "SystemConfig.end00": "#### SystemConfig ####",
@@ -99,7 +100,7 @@
     "CheckUpdateService.end00": "#### CheckUpdateService ####",
 
     "HostTerminal.start": "#### HostTerminal ####",
-    "HostTerminal.descriptions.msg": "Nhập help để xem thông tin trợ giúp. Tài liệu lệnh của Redis: http://www.redis.cn/commands.html?from=QuickRedis",
+    "HostTerminal.descriptions.msg": "Nhấp vào phím tab để hiển thị phương pháp sử dụng lệnh. Tài liệu tham khảo lệnh Redis: https://redis.io/commands?from=QuickRedis",
     "HostTerminal.end00": "#### HostTerminal ####",
 
     "ResourceTree.start": "#### ResourceTree ####",

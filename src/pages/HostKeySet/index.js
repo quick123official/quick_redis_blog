@@ -18,6 +18,7 @@ import uuid from "node-uuid";
 import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
+import LocaleUtils from "@/utils/LocaleUtils";
 const { Search } = Input;
 /**
  * HostKeySet-管理
@@ -120,7 +121,7 @@ class HostKeySet extends Component {
         // table 加载状态
         loading: false,
         // table 新增修改的对话框
-        modal: { forceRender: true, visible: false, type: 0 },
+        modal: { visible: false, type: 0 },
         // table 搜索key
         search: { searchMember: "*" },
         total: 0,
@@ -252,6 +253,7 @@ class HostKeySet extends Component {
         } catch (err) {
             message.error("" + err);
             Log.error("HostKeySet searchSortSetByPatternRecursive error", err);
+            this.setState({ loading: false });
         }
     }
     /**
@@ -304,6 +306,20 @@ class HostKeySet extends Component {
             const obj = {};
             if (data[key]) {
                 obj[key] = data[key] || null;
+            }
+            let autoFormatJson =
+                LocaleUtils.readSystemConfig(false).autoFormatJson;
+            if (autoFormatJson) {
+                try {
+                    let formatJson = JSON.stringify(
+                        JSON.parse(obj.member),
+                        null,
+                        4
+                    );
+                    obj.member = formatJson;
+                } catch (error) {
+                    // 非json格式，忽略
+                }
             }
             form.setFieldsValue(obj);
         });
@@ -411,11 +427,12 @@ class HostKeySet extends Component {
                             defaultValue="*"
                             style={{ width: 300 }}
                             prefix="key :"
-                            enterButton={<Button>search</Button>}
+                            enterButton="Search"
                             size="middle"
                             value={this.state.search.searchMember}
                             onChange={this.onChangeSearchMember.bind(this)}
                             onSearch={this.searchSet.bind(this)}
+                            loading={this.state.loading}
                         />
                     </Tooltip>
                     <Button
@@ -445,9 +462,9 @@ class HostKeySet extends Component {
                     onOk={this.handleModalOk.bind(this)}
                     onCancel={this.handleModalCancel.bind(this)}
                     okButtonProps={{ disabled: this.state.modal.type === 1 }}
-                    forceRender={this.state.modal.forceRender}
-                    width={"90%"}
-                    height={"80%"}
+                    forceRender={true}
+                    width={"60%"}
+                    height={"40%"}
                 >
                     <Form
                         {...this.layout}

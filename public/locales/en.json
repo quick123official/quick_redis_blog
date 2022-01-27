@@ -42,6 +42,7 @@
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Select language",
     "SystemConfig.tree.split": "Set separator",
+    "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "System configuration",
     "SystemConfig.needRestart": "You need to restart to take effect.",
     "SystemConfig.end00": "#### SystemConfig ####",
@@ -99,7 +100,7 @@
     "CheckUpdateService.end00": "#### CheckUpdateService ####",
 
     "HostTerminal.start": "#### HostTerminal ####",
-    "HostTerminal.descriptions.msg": "Type help to view the help info. Redis command document: http://www.redis.cn/commands.html?from=QuickRedis",
+    "HostTerminal.descriptions.msg": "Click the tab key to display the command usage method. Redis command reference document: https://redis.io/commands?from=QuickRedis",
     "HostTerminal.end00": "#### HostTerminal ####",
 
     "ResourceTree.start": "#### ResourceTree ####",

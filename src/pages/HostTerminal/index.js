@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Terminal from "terminal-in-react";
+import Terminal from "terminal-in-react-quick123";
 import RedisCommand from "@/utils/RedisCommand";
 import intl from "react-intl-universal";
 /**

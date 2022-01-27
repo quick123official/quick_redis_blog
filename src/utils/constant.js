@@ -26,9 +26,9 @@ export const REDIS_DATA_TYPE = {
 // redis 数据显示组件使用
 export const REDIS_DATA_SHOW = {
     // 批量获取数据的大小
-    FETCH_DATA_SIZE: 10000,
+    FETCH_DATA_SIZE: 5000,
     // 查询最大的条数
-    MAX_SEARCH_DATA_SIZE: 1000,
+    MAX_SEARCH_DATA_SIZE: 10000,
     // redis处理返回的成功的值
     REDIS_HANDLE_SUCCESS: 1,
     // redis处理返回的失败的值
@@ -63,6 +63,8 @@ export const GLOBAL_CONFIG = {
     IDENTIFIES_FILE: "identifies",
     // 系统配置文件
     SYSTEM_CONFIG_FILE: "system_config.json",
+    // 搜索关键字存储的目录
+    KEYS_HISTORY_FOLDER: "/keys_history/",
 };
 // Host tab remove type
 export const HOST_TAB_REMOVE_TYPE = {

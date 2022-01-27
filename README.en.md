@@ -1,8 +1,5 @@
 # QuickRedis
 
-## Donate（捐赠作者）
-<img src="https://quick123.net/images/juanzeng/weixin.png" alt="捐赠作者" width="280" height="280" align="bottom" />
-
 ## Introduction
 ## Official website: [https://quick123.net/](https://quick123.net/)
 QuickRedis is a **free forever** Redis Desktop manager. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Linux platform.
@@ -18,15 +15,15 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 ## Download URL 
 **Download**
 
-[Windows](https://github.com/quick123official/quick_redis_blog/releases/download/v2.3.1/QuickRedis-2.3.1-win.exe "Windows")
+[Windows](https://gitee.com/quick123official/quick_redis_blog/attach_files/901467/download/QuickRedis-2.6.1-win-ia32.exe "Windows")
 
-[Mac OS X](https://github.com/quick123official/quick_redis_blog/releases/download/v2.3.1/QuickRedis-2.3.1-mac.dmg "Mac OS X")
+[Mac OS X](https://gitee.com/quick123official/quick_redis_blog/attach_files/902626/download/QuickRedis-2.6.1-mac-x64.dmg "Mac OS X")
 
-[Linux](https://github.com/quick123official/quick_redis_blog/releases/download/v2.3.1/QuickRedis-2.3.1-linux-x86_64.AppImage "Linux")
+[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/902625/download/QuickRedis-2.6.1-linux-x86_64.AppImage "Linux")
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1Z_CQQ7_VRtuP2moEPLlRJg](https://pan.baidu.com/s/1Z_CQQ7_VRtuP2moEPLlRJg "百度网盘") 提取码: mbie
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/10MbD-yzd3Eimkau0PBBE1w](https://pan.baidu.com/s/10MbD-yzd3Eimkau0PBBE1w "百度网盘") 提取码: 7dvu
 
 **Download from github**
 

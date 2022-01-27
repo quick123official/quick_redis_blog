@@ -8,17 +8,23 @@ import {
     Select,
     Form,
     Tooltip,
+    AutoComplete,
 } from "antd";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { REDIS_DATA_TYPE, REDIS_DATA_SHOW } from "@/utils/constant";
-import "@/pages/CommonCss/zebra.css";
+import {
+    REDIS_DATA_TYPE,
+    REDIS_DATA_SHOW,
+    CONNECT_TYPE,
+} from "@/utils/constant";
+import KeysHistoryService from "@/services/KeysHistoryService";
 import Log from "@/services/LogService";
+import "@/pages/CommonCss/zebra.css";
 import intl from "react-intl-universal";
 const { Search } = Input;
 const { Option } = Select;
 /**
- *host 管理
+ * table 显示 keys
  *
  * @class HostKey
  * @extends {Component}
@@ -60,20 +66,11 @@ class HostKey extends Component {
         searchDisable: false,
         selectedRowKey: "",
         createKeyMadal: { visible: false, keyType: REDIS_DATA_TYPE.STRING },
+        autoCompleteOptions: [],
     };
     searchInput = React.createRef();
     componentDidMount() {
-        let pattern = "*";
-        let cursor = "0";
-        this.setState({ tableData: [], searchDisable: true, currentPage: 1 });
-        this.props.node.redis.select(this.props.db, (err, res) => {
-            if (err) {
-                message.error("" + err);
-                Log.error("[cmd=HostKey] componentDidMount error", err, res);
-                return;
-            }
-            this.loadRedisDataByPattern(pattern, cursor, "*");
-        });
+        this.searchKey("*");
         this.props.triggerRef(this);
     }
     /**
@@ -87,10 +84,10 @@ class HostKey extends Component {
      *
      * @param {*} pattern
      * @param {*} cursor
-     * @param {*} existKey
+     * @param {*} originalKey
      * @memberof HostKey
      */
-    loadRedisDataByPattern(pattern, cursor, existKey) {
+    loadRedisDataByPattern(pattern, cursor, originalKey) {
         let redis = this.props.node.redis;
         redis.scan(
             cursor,
@@ -106,14 +103,14 @@ class HostKey extends Component {
                         "[cmd=HostKey] loadRedisDataByPattern error",
                         pattern,
                         cursor,
-                        existKey,
+                        originalKey,
                         err
                     );
                     return;
                 }
                 let data = [];
                 for (let i = 0; i < res[1].length; i++) {
-                    if (res[1][i] === existKey) {
+                    if (res[1][i] === originalKey) {
                         continue;
                     }
                     data.push({
@@ -128,7 +125,25 @@ class HostKey extends Component {
                         tableTotal: tableData.length,
                     });
                 }
-                this.setState({ searchDisable: false });
+                if (
+                    this.state.tableTotal <
+                        REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
+                    res[0] !== "0"
+                ) {
+                    this.loadRedisDataByPattern(pattern, res[0], originalKey);
+                } else {
+                    // 如果key存在，则添加到搜索历史记录
+                    if (this.state.tableTotal !== 0) {
+                        let host = this.props.node.data.host;
+                        let port = this.props.node.data.port;
+                        KeysHistoryService.addKeysHistory(
+                            host,
+                            port,
+                            originalKey
+                        );
+                    }
+                    this.setState({ searchDisable: false });
+                }
             }
         );
     }
@@ -142,46 +157,58 @@ class HostKey extends Component {
         if (key === null || key === undefined || key === "") {
             key = "*";
         }
-        let redis = this.props.node.redis;
-        // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
-            if (err) {
-                this.setState({ searchDisable: false });
-                message.error("" + err);
-                Log.error("[cmd=HostKey] searchKey error", key, err);
-                return;
-            }
-            this.setState({
-                tableData: [],
-                searchDisable: true,
-                currentPage: 1,
-                tableTotal: 0,
-            });
-            let pattern = key;
-            let cursor = "0";
-            pattern = "*" + pattern + "*";
-            if (
-                res !== null &&
-                res !== undefined &&
-                res[1].length > 0 &&
-                key !== "*"
-            ) {
-                // 关键字的key，如果存在，显示在第一页第一行
-                let data = [];
-                data.push({
-                    key: key,
-                    name: key,
-                });
-                if (data.length !== 0) {
-                    let tableData = [...this.state.tableData, ...data];
-                    this.setState({
-                        tableData: tableData,
-                        tableTotal: tableData.length,
-                    });
+        this.setState({
+            tableData: [],
+            searchDisable: true,
+            currentPage: 1,
+            tableTotal: 0,
+        });
+        let directKey = "{我~~++==>>>>们}";
+        if (key.indexOf("*") === -1) {
+            directKey = key;
+        }
+        let redisArr = [this.props.node.redis];
+        if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
+            redisArr = this.props.node.redis.nodes("master");
+        }
+        redisArr.map((redis) => {
+            redis.keys(directKey).then(
+                (value) => {
+                    if (
+                        value !== null &&
+                        value !== undefined &&
+                        value.length > 0
+                    ) {
+                        // 关键字的key，如果存在，显示在第一页第一行
+                        let data = [];
+                        data.push({
+                            key: key,
+                            name: key,
+                        });
+                        // 如果key存在，则添加到搜索历史记录
+                        let host = this.props.node.data.host;
+                        let port = this.props.node.data.port;
+                        KeysHistoryService.addKeysHistory(host, port, key);
+                        let tableData = [...this.state.tableData, ...data];
+                        this.setState({
+                            tableData: tableData,
+                            tableTotal: tableData.length,
+                        });
+                    }
+                    let pattern = key;
+                    let cursor = "0";
+                    pattern = "*" + pattern + "*";
+                    this.loadRedisDataByPattern(pattern, cursor, key);
+                },
+                (err) => {
+                    // keys 有可能被服务器禁用，所以即使失败，也继续进行loadRedisDataByPattern
+                    Log.error("searchKey error", key, err);
+                    let pattern = key;
+                    let cursor = "0";
+                    pattern = "*" + pattern + "*";
+                    this.loadRedisDataByPattern(pattern, cursor, key);
                 }
-            }
-            this.loadRedisDataByPattern(pattern, cursor, key);
+            );
         });
     }
     /**
@@ -269,8 +296,8 @@ class HostKey extends Component {
         let redis = this.props.node.redis;
         let key = form.getFieldValue("key");
         // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 10000000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", key, "COUNT", 10000000, (err, res) => {
+        // COUNT 使用 100000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
+        redis.scan(0, "MATCH", key, "COUNT", 100000, (err, res) => {
             if (err) {
                 message.error("" + err);
                 Log.error("[cmd=HostKey] createKey error", key, err);
@@ -351,14 +378,6 @@ class HostKey extends Component {
                         }
                     );
                 }
-                let tableData = [
-                    { key: key, name: key },
-                    ...this.state.tableData,
-                ];
-                this.setState({
-                    tableData: tableData,
-                    tableTotal: tableData.length,
-                });
             }
         });
     };
@@ -370,6 +389,11 @@ class HostKey extends Component {
      * @memberof HostKey
      */
     okCreateKeyMadalSuccess(key, keyType) {
+        let tableData = [{ key: key, name: key }, ...this.state.tableData];
+        this.setState({
+            tableData: tableData,
+            tableTotal: tableData.length,
+        });
         this.setState({
             createKeyMadalVisible: false,
         });
@@ -381,6 +405,19 @@ class HostKey extends Component {
         }
         form.resetFields();
     }
+
+    onAutoCompleteSelect = (data) => {
+        this.setState({ autoCompleteOptions: [] });
+    };
+
+    onAutoCompleteChange = (data) => {
+        // 如果key存在，则添加到搜索历史记录
+        let host = this.props.node.data.host;
+        let port = this.props.node.data.port;
+        let keyHistoryArr = KeysHistoryService.searchKey(host, port, data);
+        this.setState({ autoCompleteOptions: keyHistoryArr });
+    };
+
     render() {
         return (
             <div>
@@ -392,14 +429,23 @@ class HostKey extends Component {
                         placement="right"
                         title={intl.get("common.search.tooltip.limit")}
                     >
-                        <Search
-                            ref={this.searchInput}
-                            onSearch={this.searchKey.bind(this)}
-                            enterButton={
-                                <Button icon={<SearchOutlined />}></Button>
-                            }
-                            disabled={this.state.searchDisable}
-                        />
+                        <AutoComplete
+                            options={this.state.autoCompleteOptions}
+                            onSelect={this.onAutoCompleteSelect.bind(this)}
+                            onChange={this.onAutoCompleteChange.bind(this)}
+                            style={{ width: "100%" }}
+                        >
+                            <Search
+                                ref={this.searchInput}
+                                onSearch={this.searchKey.bind(this)}
+                                enterButton={
+                                    <Button
+                                        disabled={this.state.searchDisable}
+                                        icon={<SearchOutlined />}
+                                    ></Button>
+                                }
+                            />
+                        </AutoComplete>
                     </Tooltip>
                     <Table
                         // columns={columns}

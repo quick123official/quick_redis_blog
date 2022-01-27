@@ -689,7 +689,6 @@ class ResourceTree extends Component {
                                 let sourceNode = info.dragNode;
                                 let targetNode = info.node;
                                 if (
-                                    sourceNode.isLeaf === true &&
                                     targetNode.isLeaf === false
                                 ) {
                                     this.props.modifyHostPosition(
