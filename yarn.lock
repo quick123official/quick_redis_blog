@@ -1803,10 +1803,10 @@
   resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.11.0.tgz#4b95f2327bacd1ef8f08d8ceda193039c5d7f52e"
   integrity sha1-S5XyMnus0e+PCNjO2hkwOcXX9S4=
 
-"@types/node@^12.0.12":
-  version "12.20.33"
-  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-12.20.33.tgz#24927446e8b7669d10abacedd16077359678f436"
-  integrity sha1-JJJ0Rui3Zp0Qq6zt0WB3NZZ49DY=
+"@types/node@^14.6.2":
+  version "14.18.12"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-14.18.12.tgz#0d4557fd3b94497d793efd4e7d92df2f83b4ef24"
+  integrity sha512-q4jlIR71hUpWTnGhXWcakgkZeHa3CCjcQcnuzU8M891BAWA2jHiziiWEPEkdS5pFsz7H9HJiy8BrK7tBRNrY7A==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -4923,13 +4923,13 @@ electron-to-chromium@^1.3.378, electron-to-chromium@^1.3.867:
   resolved "https://registry.npmmirror.com/electron-to-chromium/download/electron-to-chromium-1.3.870.tgz#c15c921e66a46985181b261f8093b91c2abb6604"
   integrity sha1-wVySHmakaYUYGyYfgJO5HCq7ZgQ=
 
-electron@11.5.0:
-  version "11.5.0"
-  resolved "https://registry.npmmirror.com/electron/download/electron-11.5.0.tgz?cache=0&sync_timestamp=1637029455356&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Felectron%2Fdownload%2Felectron-11.5.0.tgz#f1650543b9d8f2047d3807755bdb120153ed210f"
-  integrity sha1-8WUFQ7nY8gR9OAd1W9sSAVPtIQ8=
+electron@13.6.6:
+  version "13.6.6"
+  resolved "https://registry.npmmirror.com/electron/-/electron-13.6.6.tgz#ebd4754b2b55d54a2e8e9cdc3d0a2bb6b7053827"
+  integrity sha512-TP2Bl1nTxaH1yRmlYiF7imzvKE/NASE0cl6wOYA3AaP/UrBGc4L3NwJfn5Z55o+1t4TH8vCRxENufESyb32HhA==
   dependencies:
     "@electron/get" "^1.0.1"
-    "@types/node" "^12.0.12"
+    "@types/node" "^14.6.2"
     extract-zip "^1.0.3"
 
 elliptic@^6.5.3:
