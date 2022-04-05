@@ -57,6 +57,7 @@ function createWindow() {
             preload: path.join(__dirname, "./preload.js"),
             devTools: openDevTools,
             enableRemoteModule: true,
+            contextIsolation: false, 
         },
         backgroundColor: "#EBEBEB",
     });
