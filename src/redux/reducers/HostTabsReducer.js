@@ -95,6 +95,7 @@ const HostTabsReducer = (state = initialState, action) => {
                     title: action.payload.node.title,
                     content: action.payload.node.title,
                     key: action.payload.node.key,
+                    closable: action.payload.node.closable,
                     node: action.payload.node,
                 });
             }

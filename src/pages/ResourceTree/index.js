@@ -39,16 +39,21 @@ let resourceTreeSelectKeys = [];
  */
 class ResourceTree extends Component {
     componentDidMount() {
-        let node = { title: "Home", type: OPEN_TAB_TYPE.URL };
+        let node = {
+            title: "Home",
+            type: OPEN_TAB_TYPE.URL,
+            closable: false,
+        };
         this.openTabByType(node);
         // 渲染事件
         // 导入连接事件
         ipcRenderer.on("import-hosts-data", (event, arg) => {
             let hostsFilePath = arg;
             if (hostsFilePath) {
-                let result = HostsFileService.importHostsDataByHostFilePath(
-                    hostsFilePath
-                );
+                let result =
+                    HostsFileService.importHostsDataByHostFilePath(
+                        hostsFilePath
+                    );
                 if (result) {
                     // 获取 redis hosts 数据
                     this.props.getHostsData();
@@ -70,9 +75,10 @@ class ResourceTree extends Component {
         ipcRenderer.on("export-hosts-data", (event, arg) => {
             let exportHostsFilePath = arg;
             if (exportHostsFilePath) {
-                let result = HostsFileService.exportHostsDataToHostFilePath(
-                    exportHostsFilePath
-                );
+                let result =
+                    HostsFileService.exportHostsDataToHostFilePath(
+                        exportHostsFilePath
+                    );
                 if (result) {
                     // 获取 redis hosts 数据
                     this.props.getHostsData();
@@ -688,9 +694,7 @@ class ResourceTree extends Component {
                             onDrop={(info) => {
                                 let sourceNode = info.dragNode;
                                 let targetNode = info.node;
-                                if (
-                                    targetNode.isLeaf === false
-                                ) {
+                                if (targetNode.isLeaf === false) {
                                     this.props.modifyHostPosition(
                                         sourceNode.key,
                                         targetNode.key
