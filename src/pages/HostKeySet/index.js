@@ -36,15 +36,17 @@ class HostKeySet extends Component {
         this.refreshValue(redisKey);
     }
     /**
-     * 在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。
+     *组件更新
      *
-     * @param {*} nextProps
+     * @param {*} prevProps
      * @memberof HostKeyString
      */
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.props = nextProps;
-        let redisKey = this.props.redisKey;
-        this.refreshValue(redisKey);
+    componentDidUpdate(prevProps) {
+        if (this.props.redisKey !== prevProps.redisKey) {
+            this.props = prevProps;
+            let redisKey = this.props.redisKey;
+            this.refreshValue(redisKey);
+        }
     }
     /**
      * table columns
