@@ -1,90 +1,71 @@
 # QuickRedis
-
-## Introduction
-## Official website: [https://quick123.net/](https://quick123.net/)
-QuickRedis is a **free forever** Redis Desktop manager. It supports direct connection, sentinel, and cluster mode, **supports multiple languages**, supports hundreds of millions of keys, and has an amazing UI. Supports both Windows, Mac OS X and Linux platform.
-
-QuickRedis is an efficiency tool, **when others are trying to type commands, and you are already drinking coffee.**
-
-(
+## 介绍
 QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支持**直连、哨兵、集群**模式，支持亿万数量级的 key，还有令人兴奋的 UI。QuickRedis 支持 Windows 、 Mac OS X 和 Linux 下运行。
 
-QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。** 
-)
+QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。**
 
-## Download URL 
-**Download**
+## 下载地址
 
-[Windows](https://gitee.com/quick123official/quick_redis_blog/attach_files/932412/download/QuickRedis-2.6.2-win-ia32.exe "Windows")
+[https://gitee.com/quick123official/quick_redis_blog/releases/](https://gitee.com/quick123official/quick_redis_blog/releases/ "https://gitee.com/quick123official/quick_redis_blog/releases/")
 
-[Mac OS X](https://gitee.com/quick123official/quick_redis_blog/attach_files/932224/download/QuickRedis-2.6.2-mac-x64.dmg "Mac OS X")
-
-[Linux](https://gitee.com/quick123official/quick_redis_blog/attach_files/932223/download/QuickRedis-2.6.2-linux-x86_64.AppImage "Linux")
+[https://github.com/quick123official/quick_redis_blog/releases/](https://github.com/quick123official/quick_redis_blog/releases/ "https://github.com/quick123official/quick_redis_blog/releases/")
 
 **使用 百度网盘 下载**
 
 Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/10MbD-yzd3Eimkau0PBBE1w](https://pan.baidu.com/s/1zmQTzGtgAfV8gdF-TgFW6g?pwd=3qhv "百度网盘") 提取码: 3qhv
 
-**Download from github**
+## 软件截图
 
-Windows & Mac OS X & Linux : [https://github.com/quick123official/quick_redis_blog/](https://github.com/quick123official/quick_redis_blog/ "github")
+-树形展示keys
+![树形展示keys](https://quick123.net/images/introduction/show_keys_by_tree.jpg "树形展示keys")
 
-**Download from gitee**
+-首页
+![首页](https://quick123.net/images/introduction/key-zset-value.png "首页")
 
-Windows & Mac OS X & Linux : [https://gitee.com/quick123official/quick_redis_blog/](https://gitee.com/quick123official/quick_redis_blog/ "gitee")
+-连接管理菜单（支持多目录管理、支持复制连接、拖动连接到目录）
+![连接管理菜单](https://quick123.net/images/introduction/host-menu.png "连接管理菜单")
 
-## Software screenshot
+-多语言（简体中文、繁体中文、英文、日语、法语）
+![多语言](https://quick123.net/images/introduction/muti-language.png "多语言")
 
--The keys are displayed in the form of a directory
-![The keys are displayed in the form of a directory](https://quick123.net/images/introduction/show_keys_by_tree.jpg "The keys are displayed in the form of a directory")
+-快速关闭多个 TAB
+![快速关闭多个 TAB](https://quick123.net/images/introduction/fast-close.png "快速关闭多个 TAB")
 
--Home page
-![Home page](https://quick123.net/images/introduction/key-zset-value.png "Home page")
+-直连模式配置
+![直连模式配置](https://quick123.net/images/introduction/direct-config.png "直连模式配置")
 
--Connection management menu (support multi-directory management, support copy connection, support drag connection to directory)
-![Connection Management Menu](https://quick123.net/images/introduction/host-menu.png "Connection Management Menu")
+-哨兵模式配置
+![哨兵模式配置](https://quick123.net/images/introduction/sentinel-config.png "哨兵模式配置")
 
--Multilingual (Simplified Chinese, Traditional Chinese, English, Japanese, French)
-![Multilingual](https://quick123.net/images/introduction/muti-language.png "Multilingual")
+-集群模式配置
+![集群模式配置](https://quick123.net/images/introduction/cluster-config.png "集群模式配置")
 
--Quickly close multiple tabs
-![Quickly close multiple tabs](https://quick123.net/images/introduction/fast-close.png "Quickly close multiple tabs")
+-命令行
+![命令行](https://quick123.net/images/introduction/command-line.png "命令行")
 
--Direct connection mode configuration
-![Direct Connection Mode Configuration](https://quick123.net/images/introduction/direct-config.png "Direct Connection Mode Configuration")
+-string 类型管理（支持值的json格式化、修改key、修改ttl、删除key）
+![string 类型管理](https://quick123.net/images/introduction/key-string-value-json.png "string 类型管理")
 
--Sentinel mode configuration
-![Sentinel Mode Configuration](https://quick123.net/images/introduction/sentinel-config.png "Sentinel Mode Configuration")
+-list 类型管理（支持 list 分页查询、新增、删除）
+![list类型管理](https://quick123.net/images/introduction/key-list-value.png "list 类型管理")
 
--Cluster mode configuration
-![Cluster Mode Configuration](https://quick123.net/images/introduction/cluster-config.png "Cluster Mode Configuration")
+-set 类型管理（支持 set 分页查询、新增、删除）
+![set 类型管理](https://quick123.net/images/introduction/key-set-value.png "set 类型管理")
 
--Command Line
-![Command line](https://quick123.net/images/introduction/command-line.png "Command line")
+-hash 类型管理（支持 hash 分页查询、新增、删除、修改）
+![hash 类型管理](https://quick123.net/images/introduction/key-hash-value.png "hash 类型管理")
 
--String type management (support value json formatting, key modification, ttl modification, key deletion)
-![string type management](https://quick123.net/images/introduction/key-string-value-json.png "string type management")
+## FAQ 
+如果你有任何使用方面的问题，请通过下面方式留言：
 
--List type management (support list paging query, add, delete)
-![list type management](https://quick123.net/images/introduction/key-list-value.png "list type management")
-
--Set type management (support set paging query, add, delete)
-![set type management](https://quick123.net/images/introduction/key-set-value.png "set type management")
-
--Hash type management (support hash paging query, add, delete, modify)
-![hash type management](https://quick123.net/images/introduction/key-hash-value.png "hash type management")
-
-## FAQ
-If you have any questions about usage, please feel free to leave a message in the following ways:
-
-### github address
-[https://github.com/quick123official/quick_redis_blog/issues](https://github.com/quick123official/quick_redis_blog/issues)
-
-### gitee address
+###  **gitee 地址** 
 
 [https://gitee.com/quick123official/quick_redis_blog/issues](https://gitee.com/quick123official/quick_redis_blog/issues)
 
-## Open source code we used
+###  **github地址：**
+[https://github.com/quick123official/quick_redis_blog/issues](https://github.com/quick123official/quick_redis_blog/issues)
+
+## 使用到的开源代码
 
 [ANTD](https://ant.design/index-cn)  [ioredis](https://github.com/luin/ioredis) [react](https://reactjs.org/) [react-intl-universal](https://github.com/alibaba/react-intl-universal) [redux](https://redux.js.org/) [less](http://lesscss.org/features/)
 
