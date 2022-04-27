@@ -4,6 +4,8 @@ QuickRedis 是一款 **永久免费** 的 Redis 可视化管理工具。它支�
 
 QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而你已经在喝茶。**
 
+QQ群：1103435496
+
 ## 下载地址
 
 [https://gitee.com/quick123official/quick_redis_blog/releases/](https://gitee.com/quick123official/quick_redis_blog/releases/ "https://gitee.com/quick123official/quick_redis_blog/releases/")
