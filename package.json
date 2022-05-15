@@ -1,6 +1,6 @@
 {
     "name": "QuickRedis",
-    "version": "2.6.2",
+    "version": "2.6.3",
     "license": "MIT",
     "private": true,
     "description": "QuickRedis",
@@ -87,7 +87,7 @@
         "customize-cra": "^1.0.0",
         "devtron": "^1.4.0",
         "electron": "13.6.6",
-        "electron-builder": "^22.6.1",
+        "electron-builder": "^23.0.2",
         "electron-devtools-installer": "^3.1.1",
         "global": "^4.4.0",
         "less": "^3.10.3",
