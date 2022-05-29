@@ -190,8 +190,8 @@ class HostKeySortSet extends Component {
                         data.push({
                             key: uuid.v4(),
                             score: Number(list[i + 1]),
-                            member: BufferUtils.bufToString(list[i]),
-                            binaryM: BufferUtils.bufVisible(list[i]),
+                            member: BufferUtils.bufferToString(list[i]),
+                            binaryM: BufferUtils.bufferVisible(list[i]),
                         });
                     }
                     this.setState({ data: data });

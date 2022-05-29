@@ -17,6 +17,7 @@ import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
 import LocaleUtils from "@/utils/LocaleUtils";
+import BufferUtils from "@/utils/BufferUtils";
 const { Option } = Select;
 /**
  * HostKeyList-管理
@@ -135,9 +136,10 @@ class HostKeyList extends Component {
      * @param {*} redisKey
      * @memberof HostKeyList
      */
-    refreshValue(redisKey) {
+    refreshValue(key) {
         let redis = this.props.node.redis;
-        redis.llen(redisKey).then(
+        let bufferKey = BufferUtils.hexToBuffer(key);
+        redis.llen(bufferKey).then(
             (value) => {
                 this.setState({ total: value });
                 let pagination = this.state.pagination;
@@ -145,7 +147,7 @@ class HostKeyList extends Component {
                 this.setState({
                     pagination: pagination,
                 });
-                this.fetchDataByPage(redisKey, 1);
+                this.fetchDataByPage(bufferKey, 1);
             },
             (err) => {
                 message.error("" + err);
@@ -160,16 +162,20 @@ class HostKeyList extends Component {
      * @param {*} current
      * @memberof HostKeyList
      */
-    fetchDataByPage(redisKey, current) {
+    fetchDataByPage(bufferKey, current) {
         this.setState({ loading: true });
         let redis = this.props.node.redis;
         let pageSize = this.state.pagination.pageSize;
         let startIndex = (current - 1) * pageSize;
         let endIndex = startIndex + pageSize - 1;
-        redis.lrange(redisKey, startIndex, endIndex, (err, list) => {
+        redis.lrange(bufferKey, startIndex, endIndex, (err, list) => {
             if (err) {
                 message.error("" + err);
-                Log.error("[cmd=HostKeyList] fetchDataByPage error", err);
+                Log.error(
+                    "[cmd=HostKeyList] fetchDataByPage error",
+                    bufferKey,
+                    err
+                );
                 return;
             }
             let data = [];

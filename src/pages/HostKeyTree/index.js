@@ -23,6 +23,7 @@ import Log from "@/services/LogService";
 import KeysHistoryService from "@/services/KeysHistoryService";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
+import BufferUtils from "@/utils/BufferUtils";
 const { Search } = Input;
 const { Option } = Select;
 const { DirectoryTree } = Tree;
@@ -157,79 +158,70 @@ class HostKeyTree extends Component {
      * 加载 redis key
      * @param {*} pattern
      */
-    loadRedisKeysByPattern(originalKey) {
+    loadRedisKeysByPattern(key) {
         let pattern = "*";
-        if (
-            originalKey !== null &&
-            originalKey !== undefined &&
-            originalKey !== ""
-        ) {
-            pattern = "*" + originalKey + "*";
+        if (key !== null && key !== undefined && key !== "") {
+            pattern = "*" + key + "*";
         }
         let redisArr = [this.props.node.redis];
         if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
             redisArr = this.props.node.redis.nodes("master");
         }
-        redisArr.map((redis) => {
-            redis.keys(pattern).then(
-                (res) => {
-                    this.setState({
-                        treeData: [],
-                        searchDisable: true,
-                    });
-                    let treeData = [];
-                    if (res !== null && res !== undefined && res.length !== 0) {
-                        let rootTreeMap = new Map();
-                        for (let i = 0; i < res.length; i++) {
-                            let key = res[i];
-                            let childKeyArr = key.split(this.splitSign);
-                            let childMap = rootTreeMap.get(childKeyArr[0]);
-                            if (childMap === null || childMap === undefined) {
-                                childMap = new Map();
-                            }
-                            rootTreeMap.set(childKeyArr[0], childMap);
-                            if (childKeyArr.length > 1) {
-                                this.keyArrToTreeMap(
-                                    childMap,
-                                    childKeyArr.slice(1, childKeyArr.length)
-                                );
-                            } else {
-                                rootTreeMap.set(
-                                    childKeyArr[0] + this.splitEndSign,
-                                    undefined
-                                );
-                            }
+        let keyBuffer = BufferUtils.hexToBuffer(pattern);
+        redisArr[0].keysBuffer(keyBuffer).then(
+            (res) => {
+                this.setState({
+                    treeData: [],
+                    searchDisable: true,
+                });
+                let treeData = [];
+                if (res !== null && res !== undefined && res.length !== 0) {
+                    let rootTreeMap = new Map();
+                    for (let i = 0; i < res.length; i++) {
+                        let keyTemp = BufferUtils.bufferToString(res[i]);
+                        let childKeyArr = keyTemp.split(this.splitSign);
+                        let childMap = rootTreeMap.get(childKeyArr[0]);
+                        if (childMap === null || childMap === undefined) {
+                            childMap = new Map();
                         }
-                        // 如果key存在，则添加到搜索历史记录
-                        let host = this.props.node.data.host;
-                        let port = this.props.node.data.port;
-                        KeysHistoryService.addKeysHistory(
-                            host,
-                            port,
-                            originalKey
-                        );
-                        this.treeMapToTreeData(rootTreeMap, treeData, "");
+                        rootTreeMap.set(childKeyArr[0], childMap);
+                        if (childKeyArr.length > 1) {
+                            this.keyArrToTreeMap(
+                                childMap,
+                                childKeyArr.slice(1, childKeyArr.length)
+                            );
+                        } else {
+                            rootTreeMap.set(
+                                childKeyArr[0] + this.splitEndSign,
+                                undefined
+                            );
+                        }
                     }
-                    this.setState({
-                        treeData: treeData,
-                        searchDisable: false,
-                    });
-                },
-                (err) => {
-                    message.error("loadRedisKeysByPattern error" + err);
-                    Log.error("HostKeyTree loadRedisKeysByPattern error", err);
+                    // 如果key存在，则添加到搜索历史记录
+                    let host = this.props.node.data.host;
+                    let port = this.props.node.data.port;
+                    KeysHistoryService.addKeysHistory(host, port, key);
+                    this.treeMapToTreeData(rootTreeMap, treeData, "");
                 }
-            );
-        });
+                this.setState({
+                    treeData: treeData,
+                    searchDisable: false,
+                });
+            },
+            (err) => {
+                message.error("loadRedisKeysByPattern error" + err);
+                Log.error("HostKeyTree loadRedisKeysByPattern error", err);
+            }
+        );
     }
     /**
      *搜索key
      *
-     * @param {*} value
+     * @param {*} key
      * @memberof HostKeyTree
      */
-    searchKey(value) {
-        this.loadRedisKeysByPattern(value);
+    searchKey(key) {
+        this.loadRedisKeysByPattern(key);
     }
     /**
      * 打开 创建key 窗口
@@ -259,87 +251,86 @@ class HostKeyTree extends Component {
         }
         let redis = this.props.node.redis;
         let key = form.getFieldValue("key");
-        // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 100000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", key, "COUNT", 100000, (err, res) => {
+        let keyType = form.getFieldValue("keyType");
+        let keyBuffer = BufferUtils.hexToBuffer(key);
+        redis.type(keyBuffer, (err, retKeyType) => {
             if (err) {
                 message.error("" + err);
-                Log.error("HostKeyTree createKey error", err);
+                Log.error("HostKeyTree create key error", key, err);
                 return;
             }
-            if (res !== null && res !== undefined && res[1].length > 0) {
+            if (retKeyType !== "none") {
                 message.error(intl.get("HostKey.key.exist") + ", key > " + key);
-            } else {
-                let keyType = form.getFieldValue("keyType");
-                if (keyType === REDIS_DATA_TYPE.STRING) {
-                    redis.set(key, "").then(
-                        (value) => {
-                            this.okCreateKeyMadalSuccess(key, keyType);
-                        },
-                        (err) => {
-                            message.error("" + err);
-                            Log.error(
-                                "HostKeyTree okCreateKeyMadal string error",
-                                err
-                            );
-                        }
-                    );
-                } else if (keyType === REDIS_DATA_TYPE.ZSET) {
-                    redis.zadd(key, 1, "default-member").then(
-                        (value) => {
-                            this.okCreateKeyMadalSuccess(key, keyType);
-                        },
-                        (err) => {
-                            message.error("" + err);
-                            Log.error(
-                                "HostKeyTree okCreateKeyMadal zset error",
-                                err
-                            );
-                        }
-                    );
-                } else if (keyType === REDIS_DATA_TYPE.SET) {
-                    redis.sadd(key, "default-member").then(
-                        (value) => {
-                            this.okCreateKeyMadalSuccess(key, keyType);
-                        },
-                        (err) => {
-                            message.error("" + err);
-                            Log.error(
-                                "HostKeyTree okCreateKeyMadal set error",
-                                err
-                            );
-                        }
-                    );
-                } else if (keyType === REDIS_DATA_TYPE.HASH) {
-                    redis.hset(key, "default-member", "default-value").then(
-                        (value) => {
-                            this.okCreateKeyMadalSuccess(key, keyType);
-                        },
-                        (err) => {
-                            message.error("" + err);
-                            Log.error(
-                                "HostKeyTree okCreateKeyMadal hash error",
-                                err
-                            );
-                        }
-                    );
-                } else if (keyType === REDIS_DATA_TYPE.LIST) {
-                    redis.lpush(key, "default-member").then(
-                        (value) => {
-                            this.okCreateKeyMadalSuccess(key, keyType);
-                        },
-                        (err) => {
-                            message.error("" + err);
-                            Log.error(
-                                "HostKeyTree okCreateKeyMadal list error",
-                                err
-                            );
-                        }
-                    );
-                }
-                this.searchKey(this.searchInput.current.input.value);
+                return;
+            }
+            if (keyType === REDIS_DATA_TYPE.STRING) {
+                redis.set(keyBuffer, "").then(
+                    (value) => {
+                        this.okCreateKeyMadalSuccess(key, keyType);
+                    },
+                    (err) => {
+                        message.error("" + err);
+                        Log.error(
+                            "HostKeyTree okCreateKeyMadal string error",
+                            err
+                        );
+                    }
+                );
+            } else if (keyType === REDIS_DATA_TYPE.ZSET) {
+                redis.zadd(keyBuffer, 1, "default-member").then(
+                    (value) => {
+                        this.okCreateKeyMadalSuccess(key, keyType);
+                    },
+                    (err) => {
+                        message.error("" + err);
+                        Log.error(
+                            "HostKeyTree okCreateKeyMadal zset error",
+                            err
+                        );
+                    }
+                );
+            } else if (keyType === REDIS_DATA_TYPE.SET) {
+                redis.sadd(keyBuffer, "default-member").then(
+                    (value) => {
+                        this.okCreateKeyMadalSuccess(key, keyType);
+                    },
+                    (err) => {
+                        message.error("" + err);
+                        Log.error(
+                            "HostKeyTree okCreateKeyMadal set error",
+                            err
+                        );
+                    }
+                );
+            } else if (keyType === REDIS_DATA_TYPE.HASH) {
+                redis.hset(keyBuffer, "default-member", "default-value").then(
+                    (value) => {
+                        this.okCreateKeyMadalSuccess(key, keyType);
+                    },
+                    (err) => {
+                        message.error("" + err);
+                        Log.error(
+                            "HostKeyTree okCreateKeyMadal hash error",
+                            err
+                        );
+                    }
+                );
+            } else if (keyType === REDIS_DATA_TYPE.LIST) {
+                redis.lpush(keyBuffer, "default-member").then(
+                    (value) => {
+                        this.okCreateKeyMadalSuccess(key, keyType);
+                    },
+                    (err) => {
+                        message.error("" + err);
+                        Log.error(
+                            "HostKeyTree okCreateKeyMadal list error",
+                            err
+                        );
+                    }
+                );
             }
         });
+        this.searchKey(this.searchInput.current.input.value);
     };
     /**
      *创建KEY成功，关闭窗口，调用父组件创建key
@@ -401,7 +392,7 @@ class HostKeyTree extends Component {
             pattern = pattern + this.splitSign + "*";
         }
         let redis = this.props.node.redis;
-        redis.keys(pattern).then(
+        redis.keysBuffer(pattern).then(
             (res) => {
                 if (res !== null && res !== undefined && res.length !== 0) {
                     for (let i = 0; i < res.length; i++) {
@@ -444,7 +435,7 @@ class HostKeyTree extends Component {
                 this.splitSign.length,
                 currentKey.length
             );
-            this.props.updateHostKey(orgiKey);
+            this.props.updateHostKey(orgiKey + "");
         }
     };
     /**

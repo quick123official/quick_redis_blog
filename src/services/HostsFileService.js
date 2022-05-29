@@ -100,6 +100,8 @@ export default class HostsFileService {
             } else if (n.isLeaf) {
                 // m不是叶子，n是叶子
                 return -1;
+            } else {
+                return -1;
             }
         });
         for (let i = 0; i < children.length; i++) {

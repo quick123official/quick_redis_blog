@@ -19,6 +19,7 @@ import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
 import LocaleUtils from "@/utils/LocaleUtils";
+import BufferUtils from "@/utils/BufferUtils";
 const { Search } = Input;
 /**
  * HostKeyHash-管理
@@ -157,9 +158,10 @@ class HostKeyHash extends Component {
      * @param {*} redisKey
      * @memberof HostKeyHash
      */
-    refreshValue(redisKey) {
+    refreshValue(key) {
         let redis = this.props.node.redis;
-        redis.hlen(redisKey).then(
+        let bufferKey = BufferUtils.hexToBuffer(key);
+        redis.hlen(bufferKey).then(
             (value) => {
                 this.setState({ total: value });
                 let pagination = this.state.pagination;
@@ -173,7 +175,7 @@ class HostKeyHash extends Component {
                 message.error("" + err);
                 Log.error(
                     "[cmd=HostKeyHash] refreshValue error",
-                    redisKey,
+                    key,
                     err
                 );
             }

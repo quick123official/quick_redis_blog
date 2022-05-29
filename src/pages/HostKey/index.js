@@ -20,23 +20,16 @@ import {
 import KeysHistoryService from "@/services/KeysHistoryService";
 import Log from "@/services/LogService";
 import "@/pages/CommonCss/zebra.css";
+import BufferUtils from "@/utils/BufferUtils";
 import intl from "react-intl-universal";
 const { Search } = Input;
 const { Option } = Select;
 /**
- * table 显示 keys
+ * 表格显示 keys
  *
  * @class HostKey
  * @extends {Component}
  */
-// let columns = [
-//     {
-//         title: `keys 共${this.state.tableTotal || 0}条`,
-//         dataIndex: "name",
-//         key: "key",
-//         ellipsis: "true",
-//     },
-// ];
 class HostKey extends Component {
     /**
      * table layout
@@ -89,7 +82,7 @@ class HostKey extends Component {
      */
     loadRedisDataByPattern(pattern, cursor, originalKey) {
         let redis = this.props.node.redis;
-        redis.scan(
+        redis.scanBuffer(
             cursor,
             "MATCH",
             pattern,
@@ -110,12 +103,13 @@ class HostKey extends Component {
                 }
                 let data = [];
                 for (let i = 0; i < res[1].length; i++) {
-                    if (res[1][i] === originalKey) {
+                    if (BufferUtils.bufferToString(res[1][i]) === originalKey) {
                         continue;
                     }
                     data.push({
-                        key: res[1][i],
-                        name: res[1][i],
+                        key: BufferUtils.bufferToString(res[1][i]),
+                        name: BufferUtils.bufferToString(res[1][i]),
+                        keyBuffer: res[1][i],
                     });
                 }
                 if (data.length !== 0) {
@@ -125,10 +119,11 @@ class HostKey extends Component {
                         tableTotal: tableData.length,
                     });
                 }
+                let retCursor = BufferUtils.bufferToString(res[0]);
                 if (
                     this.state.tableTotal <
                         REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
-                    res[0] !== "0"
+                    retCursor !== "0"
                 ) {
                     this.loadRedisDataByPattern(pattern, res[0], originalKey);
                 } else {
@@ -171,45 +166,60 @@ class HostKey extends Component {
         if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
             redisArr = this.props.node.redis.nodes("master");
         }
-        redisArr.map((redis) => {
-            redis.keys(directKey).then(
-                (value) => {
-                    if (
-                        value !== null &&
-                        value !== undefined &&
-                        value.length > 0
-                    ) {
-                        // 关键字的key，如果存在，显示在第一页第一行
-                        let data = [];
-                        data.push({
-                            key: key,
-                            name: key,
-                        });
-                        // 如果key存在，则添加到搜索历史记录
-                        let host = this.props.node.data.host;
-                        let port = this.props.node.data.port;
-                        KeysHistoryService.addKeysHistory(host, port, key);
-                        let tableData = [...this.state.tableData, ...data];
-                        this.setState({
-                            tableData: tableData,
-                            tableTotal: tableData.length,
-                        });
-                    }
-                    let pattern = key;
-                    let cursor = "0";
-                    pattern = "*" + pattern + "*";
-                    this.loadRedisDataByPattern(pattern, cursor, key);
-                },
-                (err) => {
-                    // keys 有可能被服务器禁用，所以即使失败，也继续进行loadRedisDataByPattern
-                    Log.error("searchKey error", key, err);
-                    let pattern = key;
-                    let cursor = "0";
-                    pattern = "*" + pattern + "*";
-                    this.loadRedisDataByPattern(pattern, cursor, key);
+        redisArr[0].get(directKey).then(
+            (value) => {
+                if (value !== null && value !== undefined && value.length > 0) {
+                    // 关键字的key，如果存在，显示在第一页第一行
+                    let data = [];
+                    data.push({
+                        key: key,
+                        name: key,
+                        keyBuffer: BufferUtils.hexToBuffer(key),
+                    });
+                    // 如果key存在，则添加到搜索历史记录
+                    let host = this.props.node.data.host;
+                    let port = this.props.node.data.port;
+                    KeysHistoryService.addKeysHistory(host, port, key);
+                    let tableData = [...this.state.tableData, ...data];
+                    this.setState({
+                        tableData: tableData,
+                        tableTotal: tableData.length,
+                    });
                 }
-            );
-        });
+                let pattern = key;
+                let cursor = "0";
+                pattern = "*" + pattern + "*";
+                this.loadRedisDataByPattern(pattern, cursor, key);
+            },
+            (err) => {
+                let value = null;
+                if (err.message.indexOf("wrong kind of value")) {
+                    value = key;
+                }
+                if (value !== null && value !== undefined && value.length > 0) {
+                    // 关键字的key，如果存在，显示在第一页第一行
+                    let data = [];
+                    data.push({
+                        key: key,
+                        name: key,
+                        keyBuffer: BufferUtils.hexToBuffer(key),
+                    });
+                    // 如果key存在，则添加到搜索历史记录
+                    let host = this.props.node.data.host;
+                    let port = this.props.node.data.port;
+                    KeysHistoryService.addKeysHistory(host, port, key);
+                    let tableData = [...this.state.tableData, ...data];
+                    this.setState({
+                        tableData: tableData,
+                        tableTotal: tableData.length,
+                    });
+                }
+                let pattern = key;
+                let cursor = "0";
+                pattern = "*" + pattern + "*";
+                this.loadRedisDataByPattern(pattern, cursor, key);
+            }
+        );
     }
     /**
      *改变页码
@@ -263,7 +273,7 @@ class HostKey extends Component {
                 this.setState({
                     selectedRowKey: record.key,
                 });
-                this.props.updateHostKey(record.key);
+                this.props.updateHostKey(record.keyBuffer);
             },
         };
     }

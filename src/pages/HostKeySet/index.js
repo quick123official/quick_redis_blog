@@ -19,6 +19,7 @@ import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
 import LocaleUtils from "@/utils/LocaleUtils";
+import BufferUtils from "@/utils/BufferUtils";
 const { Search } = Input;
 /**
  * HostKeySet-管理
@@ -140,16 +141,17 @@ class HostKeySet extends Component {
      * @param {*} redisKey
      * @memberof HostKeySet
      */
-    refreshValue(redisKey) {
+    refreshValue(key) {
         let redis = this.props.node.redis;
-        redis.scard(redisKey).then(
+        let bufferKey = BufferUtils.hexToBuffer(key);
+        redis.scard(bufferKey).then(
             (value) => {
                 this.setState({ total: value });
                 this.searchSet(this.state.search.searchMember);
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeySet refreshValue error", err);
+                Log.error("HostKeySet refreshValue error", bufferKey, err);
             }
         );
     }
