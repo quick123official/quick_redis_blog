@@ -209,10 +209,12 @@ class HostKeySet extends Component {
         this.setState({ loading: true });
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
+        let newKeyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let cursorBuffer = BufferUtils.hexToBuffer(cursor);
         try {
-            redis.sscan(
-                redisKey,
-                cursor,
+            redis.sscanBuffer(
+                newKeyBuffer,
+                cursorBuffer,
                 "MATCH",
                 pattern,
                 "COUNT",
@@ -222,7 +224,7 @@ class HostKeySet extends Component {
                     for (let i = 0; i < results.length; i++) {
                         data.push({
                             key: uuid.v4(),
-                            member: results[i],
+                            member: BufferUtils.bufferToString(results[i]),
                         });
                     }
                     let dataTmp = [...this.state.data, ...data];
@@ -239,14 +241,15 @@ class HostKeySet extends Component {
                             total: dataTmp.length,
                         },
                     });
+                    let strCursor = BufferUtils.bufferToString(cursor);
                     if (
-                        cursor !== "0" &&
+                        strCursor !== "0" &&
                         this.state.data.length <
                             REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE
                     ) {
                         this.searchSortSetByPatternRecursive(
                             pattern,
-                            cursor,
+                            strCursor,
                             maxRecords
                         );
                     } else {
