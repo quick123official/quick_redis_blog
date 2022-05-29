@@ -192,6 +192,28 @@ class HostKeyHeader extends Component {
             );
             return;
         }
+        let newKeyBuffer = BufferUtils.hexToBuffer(this.state.oldRedisKey);
+        if (ttl === -1) {
+            redis.persist(newKeyBuffer).then(
+                (res) => {
+                    this.setState({ ttl: this.state.ttl });
+                    message.info(
+                        intl.get("HostKey.header.key.ttl.midify.success")
+                    );
+                },
+                (err) => {
+                    message.error(
+                        intl.get("HostKey.header.key.ttl.midify.fail") + err
+                    );
+                    Log.error(
+                        "[cmd=HostKeyHeader] updateTtl persist error",
+                        this.state.oldRedisKey,
+                        err
+                    );
+                }
+            );
+            return;
+        }
         if (ttl <= 5) {
             message.error(
                 intl.get("HostKey.header.key.ttl.midify.illegal.value.2")
@@ -199,7 +221,6 @@ class HostKeyHeader extends Component {
             return;
         }
         form.setFieldsValue({ ttl: ttl });
-        let newKeyBuffer = BufferUtils.hexToBuffer(this.state.oldRedisKey);
         redis.expire(newKeyBuffer, ttl).then(
             (res) => {
                 this.setState({ ttl: this.state.ttl });
