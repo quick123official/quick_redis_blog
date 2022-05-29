@@ -1,6 +1,6 @@
 {
     "name": "QuickRedis",
-    "version": "2.6.3",
+    "version": "2.7.0",
     "license": "MIT",
     "private": true,
     "description": "QuickRedis",
