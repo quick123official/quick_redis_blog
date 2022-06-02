@@ -139,7 +139,7 @@ class HostKeyList extends Component {
     refreshValue(key) {
         let redis = this.props.node.redis;
         let bufferKey = BufferUtils.hexToBuffer(key);
-        redis.llen(bufferKey).then(
+        redis.llenBuffer(bufferKey).then(
             (value) => {
                 this.setState({ total: value });
                 let pagination = this.state.pagination;
@@ -147,7 +147,7 @@ class HostKeyList extends Component {
                 this.setState({
                     pagination: pagination,
                 });
-                this.fetchDataByPage(bufferKey, 1);
+                this.fetchDataByPage(key, 1);
             },
             (err) => {
                 message.error("" + err);
@@ -168,7 +168,8 @@ class HostKeyList extends Component {
         let pageSize = this.state.pagination.pageSize;
         let startIndex = (current - 1) * pageSize;
         let endIndex = startIndex + pageSize - 1;
-        redis.lrange(bufferKey, startIndex, endIndex, (err, list) => {
+        let keyBuffer = BufferUtils.hexToBuffer(bufferKey);
+        redis.lrangeBuffer(keyBuffer, startIndex, endIndex, (err, list) => {
             if (err) {
                 message.error("" + err);
                 Log.error(
@@ -182,7 +183,7 @@ class HostKeyList extends Component {
             for (let i = 0; i < list.length; i++) {
                 data.push({
                     key: uuid.v4(),
-                    member: list[i],
+                    member: BufferUtils.bufferToString(list[i]),
                 });
             }
             this.setState({ data: data });
@@ -222,11 +223,13 @@ class HostKeyList extends Component {
         }
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
         // 执行删除
-        redis.lrem(redisKey, 1, member).then(
+        redis.lremBuffer(keyBuffer, 1, memberBuffer).then(
             (value) => {
                 // 查询总数
-                redis.llen(redisKey).then((value) => {
+                redis.llenBuffer(keyBuffer).then((value) => {
                     this.setState({ total: value });
                 });
                 this.fetchDataByPage(
@@ -291,7 +294,8 @@ class HostKeyList extends Component {
         this.setState({ modal: { visible: false } });
         // 查询总数
         let redis = this.props.node.redis;
-        redis.llen(redisKey).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        redis.llenBuffer(keyBuffer).then(
             (value) => {
                 this.setState({ total: value });
             },
@@ -326,9 +330,11 @@ class HostKeyList extends Component {
         let insertType = form.getFieldValue("insertType");
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
         if (insertType === "0") {
             redis
-                .lpush(redisKey, member)
+                .lpushBuffer(keyBuffer, memberBuffer)
                 .then(this.pushMemberCallBack(redisKey), (err) => {
                     message.error("" + err);
                     Log.error(
@@ -338,7 +344,7 @@ class HostKeyList extends Component {
                 });
         } else if (insertType === "1") {
             redis
-                .rpush(redisKey, member)
+                .rpushBuffer(keyBuffer, memberBuffer)
                 .then(this.pushMemberCallBack(redisKey), (err) => {
                     message.error("" + err);
                     Log.error(
