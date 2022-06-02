@@ -44,7 +44,6 @@ class HostKeySet extends Component {
      */
     componentDidUpdate(prevProps) {
         if (this.props.redisKey !== prevProps.redisKey) {
-            this.props = prevProps;
             let redisKey = this.props.redisKey;
             this.refreshValue(redisKey);
         }
@@ -144,7 +143,7 @@ class HostKeySet extends Component {
     refreshValue(key) {
         let redis = this.props.node.redis;
         let bufferKey = BufferUtils.hexToBuffer(key);
-        redis.scard(bufferKey).then(
+        redis.scardBuffer(bufferKey).then(
             (value) => {
                 this.setState({ total: value });
                 this.searchSet(this.state.search.searchMember);
@@ -209,17 +208,17 @@ class HostKeySet extends Component {
         this.setState({ loading: true });
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        let newKeyBuffer = BufferUtils.hexToBuffer(redisKey);
-        let cursorBuffer = BufferUtils.hexToBuffer(cursor);
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let patternBuffer = BufferUtils.hexToBuffer(pattern);
         try {
             redis.sscanBuffer(
-                newKeyBuffer,
-                cursorBuffer,
+                keyBuffer,
+                cursor,
                 "MATCH",
-                pattern,
+                patternBuffer,
                 "COUNT",
                 maxRecords,
-                (_, [cursor, results]) => {
+                (_, [retBufferCursor, results]) => {
                     let data = [];
                     for (let i = 0; i < results.length; i++) {
                         data.push({
@@ -241,15 +240,16 @@ class HostKeySet extends Component {
                             total: dataTmp.length,
                         },
                     });
-                    let strCursor = BufferUtils.bufferToString(cursor);
+                    let strRetBufferCursor =
+                        BufferUtils.bufferToString(retBufferCursor);
                     if (
-                        strCursor !== "0" &&
+                        strRetBufferCursor !== "0" &&
                         this.state.data.length <
                             REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE
                     ) {
                         this.searchSortSetByPatternRecursive(
                             pattern,
-                            strCursor,
+                            strRetBufferCursor,
                             maxRecords
                         );
                     } else {
@@ -276,7 +276,9 @@ class HostKeySet extends Component {
         }
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.srem(redisKey, member).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
+        redis.sremBuffer(keyBuffer, memberBuffer).then(
             (value) => {
                 this.refreshValue(redisKey);
             },
@@ -349,7 +351,9 @@ class HostKeySet extends Component {
         let member = form.getFieldValue("member");
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.sadd(redisKey, member).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
+        redis.saddBuffer(keyBuffer, memberBuffer).then(
             (value) => {
                 // 关闭modal
                 this.setState({ modal: { visible: false } });
