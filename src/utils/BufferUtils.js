@@ -55,15 +55,19 @@ export default class BufferUtils {
      * @memberof BufferUtils
      */
     static hexToBuffer(str) {
-        let result = "";
-        for (var i = 0; i < str.length; ) {
-            if (str.substr(i, 2) === "\\x") {
-                result += str.substr(i + 2, 2);
-                i += 4;
-            } else {
-                result += Buffer.from(str[i++]).toString("hex");
+        try {
+            let result = "";
+            for (var i = 0; i < str.length; ) {
+                if (str.substr(i, 2) === "\\x") {
+                    result += str.substr(i + 2, 2);
+                    i += 4;
+                } else {
+                    result += Buffer.from(str[i++]).toString("hex");
+                }
             }
+            return Buffer.from(result, "hex");
+        } catch (error) {
+            return str;
         }
-        return Buffer.from(result, "hex");
     }
 }

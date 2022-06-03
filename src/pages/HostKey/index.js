@@ -82,10 +82,11 @@ class HostKey extends Component {
      */
     loadRedisDataByPattern(pattern, cursor, originalKey) {
         let redis = this.props.node.redis;
+        let patternBuffer = BufferUtils.hexToBuffer(pattern);
         redis.scanBuffer(
             cursor,
             "MATCH",
-            pattern,
+            patternBuffer,
             "COUNT",
             REDIS_DATA_SHOW.FETCH_DATA_SIZE,
             (err, res) => {
@@ -119,13 +120,17 @@ class HostKey extends Component {
                         tableTotal: tableData.length,
                     });
                 }
-                let retCursor = BufferUtils.bufferToString(res[0]);
+                let retBufferCursor = BufferUtils.bufferToString(res[0]);
                 if (
                     this.state.tableTotal <
                         REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
-                    retCursor !== "0"
+                    retBufferCursor !== "0"
                 ) {
-                    this.loadRedisDataByPattern(pattern, res[0], originalKey);
+                    this.loadRedisDataByPattern(
+                        pattern,
+                        retBufferCursor,
+                        originalKey
+                    );
                 } else {
                     // 如果key存在，则添加到搜索历史记录
                     if (this.state.tableTotal !== 0) {
@@ -166,7 +171,11 @@ class HostKey extends Component {
         if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
             redisArr = this.props.node.redis.nodes("master");
         }
-        redisArr[0].get(directKey).then(
+        let keyBuffer = BufferUtils.hexToBuffer(directKey);
+        redis.type(keyBuffer, (err, retKeyType) => {
+            
+        });
+        redisArr[0].type(keyBuffer).then(
             (value) => {
                 if (value !== null && value !== undefined && value.length > 0) {
                     // 关键字的key，如果存在，显示在第一页第一行
@@ -174,7 +183,6 @@ class HostKey extends Component {
                     data.push({
                         key: key,
                         name: key,
-                        keyBuffer: BufferUtils.hexToBuffer(key),
                     });
                     // 如果key存在，则添加到搜索历史记录
                     let host = this.props.node.data.host;
