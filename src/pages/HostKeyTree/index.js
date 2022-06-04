@@ -253,18 +253,19 @@ class HostKeyTree extends Component {
         let key = form.getFieldValue("key");
         let keyType = form.getFieldValue("keyType");
         let keyBuffer = BufferUtils.hexToBuffer(key);
-        redis.type(keyBuffer, (err, retKeyType) => {
+        redis.typeBuffer(keyBuffer, (err, retKeyType) => {
             if (err) {
                 message.error("" + err);
                 Log.error("HostKeyTree create key error", key, err);
                 return;
             }
-            if (retKeyType !== "none") {
+            let strRetKeyType = BufferUtils.bufferToString(retKeyType);
+            if (strRetKeyType !== "none") {
                 message.error(intl.get("HostKey.key.exist") + ", key > " + key);
                 return;
             }
             if (keyType === REDIS_DATA_TYPE.STRING) {
-                redis.set(keyBuffer, "").then(
+                redis.setBuffer(keyBuffer, "").then(
                     (value) => {
                         this.okCreateKeyMadalSuccess(key, keyType);
                     },
@@ -277,7 +278,7 @@ class HostKeyTree extends Component {
                     }
                 );
             } else if (keyType === REDIS_DATA_TYPE.ZSET) {
-                redis.zadd(keyBuffer, 1, "default-member").then(
+                redis.zaddBuffer(keyBuffer, 1, "default-member").then(
                     (value) => {
                         this.okCreateKeyMadalSuccess(key, keyType);
                     },
@@ -290,7 +291,7 @@ class HostKeyTree extends Component {
                     }
                 );
             } else if (keyType === REDIS_DATA_TYPE.SET) {
-                redis.sadd(keyBuffer, "default-member").then(
+                redis.saddBuffer(keyBuffer, "default-member").then(
                     (value) => {
                         this.okCreateKeyMadalSuccess(key, keyType);
                     },
@@ -303,7 +304,7 @@ class HostKeyTree extends Component {
                     }
                 );
             } else if (keyType === REDIS_DATA_TYPE.HASH) {
-                redis.hset(keyBuffer, "default-member", "default-value").then(
+                redis.hsetBuffer(keyBuffer, "default-member", "default-value").then(
                     (value) => {
                         this.okCreateKeyMadalSuccess(key, keyType);
                     },
@@ -316,7 +317,7 @@ class HostKeyTree extends Component {
                     }
                 );
             } else if (keyType === REDIS_DATA_TYPE.LIST) {
-                redis.lpush(keyBuffer, "default-member").then(
+                redis.lpushBuffer(keyBuffer, "default-member").then(
                     (value) => {
                         this.okCreateKeyMadalSuccess(key, keyType);
                     },
@@ -398,15 +399,15 @@ class HostKeyTree extends Component {
                     for (let i = 0; i < res.length; i++) {
                         let key = res[i];
                         redis.del(key).then(
-                            (value) => {},
+                            (value) => { },
                             (err) => {
                                 message.error(
                                     "del key error. key: " + key + ". " + err
                                 );
                                 Log.error(
                                     "clickTreeRightClickMenu del key error. key: " +
-                                        key +
-                                        ". ",
+                                    key +
+                                    ". ",
                                     err
                                 );
                             }

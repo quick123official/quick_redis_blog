@@ -52,16 +52,17 @@ class HostContent extends Component {
     updateHostKey(key) {
         let redis = this.props.node.redis;
         let keyBuffer = BufferUtils.hexToBuffer(key);
-        redis.type(keyBuffer, (err, keyType) => {
+        redis.typeBuffer(keyBuffer, (err, keyType) => {
             if (err) {
                 message.error("" + err);
                 Log.error("[cmd=HostContent] updateHostKey error", key, err);
                 return;
             }
-            if (keyType === "none") {
-                keyType = "";
+            let strKeyType = BufferUtils.bufferToString(keyType)
+            if (strKeyType === "none") {
+                strKeyType = "";
             }
-            this.setState({ redisKey: { key: key, type: keyType } });
+            this.setState({ redisKey: { key: key, type: strKeyType } });
         });
     }
     /**
@@ -218,7 +219,7 @@ class HostContent extends Component {
                                         }}
                                     >
                                         {this.hostKeyShowType ===
-                                        HOST_KEY_SHOW_TYPE.TREE ? (
+                                            HOST_KEY_SHOW_TYPE.TREE ? (
                                             <HostKeyTree
                                                 node={this.props.node}
                                                 db={tab.dbIndex}
@@ -234,7 +235,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {this.hostKeyShowType ===
-                                        HOST_KEY_SHOW_TYPE.TABLE ? (
+                                            HOST_KEY_SHOW_TYPE.TABLE ? (
                                             <HostKey
                                                 node={this.props.node}
                                                 db={tab.dbIndex}
@@ -252,7 +253,7 @@ class HostContent extends Component {
                                     </div>
                                     <div style={{ paddingLeft: "20px" }}>
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.STRING ? (
+                                            REDIS_DATA_TYPE.STRING ? (
                                             <HostKeyString
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -265,7 +266,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.ZSET ? (
+                                            REDIS_DATA_TYPE.ZSET ? (
                                             <HostKeySortSet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -278,7 +279,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.SET ? (
+                                            REDIS_DATA_TYPE.SET ? (
                                             <HostKeySet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -291,7 +292,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.HASH ? (
+                                            REDIS_DATA_TYPE.HASH ? (
                                             <HostKeyHash
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -304,7 +305,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.LIST ? (
+                                            REDIS_DATA_TYPE.LIST ? (
                                             <HostKeyList
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}

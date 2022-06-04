@@ -182,7 +182,6 @@ class HostKeySortSet extends Component {
         let startIndex = (current - 1) * pageSize;
         let endIndex = startIndex + pageSize - 1;
         let keyBuffer = BufferUtils.hexToBuffer(redisKey);
-        console.info("redisKey", current, pageSize, startIndex, endIndex);
         redis
             .zrevrangeBuffer([keyBuffer, startIndex, endIndex, "WITHSCORES"])
             .then(
