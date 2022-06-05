@@ -22,6 +22,7 @@ import Log from "@/services/LogService";
 import "@/pages/CommonCss/zebra.css";
 import BufferUtils from "@/utils/BufferUtils";
 import intl from "react-intl-universal";
+var lodash = window.require("lodash");
 const { Search } = Input;
 const { Option } = Select;
 /**
@@ -123,7 +124,7 @@ class HostKey extends Component {
                 let strCursor = BufferUtils.bufferToString(res[0]);
                 if (
                     this.state.tableTotal <
-                    REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
+                        REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
                     strCursor !== "0"
                 ) {
                     this.loadRedisDataByPattern(
@@ -133,6 +134,18 @@ class HostKey extends Component {
                         originalKey
                     );
                 } else {
+                    let firstTableDataNode = [];
+                    let tableDataTmp = tableData;
+                    if (tableData[0].isHit) {
+                        firstTableDataNode.push(tableData[0]);
+                        tableDataTmp = tableData.slice(1, tableData.length);
+                    }
+                    tableDataTmp = lodash.orderBy(
+                        tableDataTmp,
+                        ["key"],
+                        ["asc"]
+                    );
+                    tableData = [...firstTableDataNode, ...tableDataTmp];
                     this.setState({
                         tableData: tableData,
                         tableTotal: tableData.length,
@@ -167,20 +180,17 @@ class HostKey extends Component {
             if (err) {
                 this.setState({ searchDisable: false });
                 message.error("" + err);
-                Log.error(
-                    "[cmd=HostKey] type error",
-                    key,
-                    err
-                );
+                Log.error("[cmd=HostKey] type error", key, err);
                 return;
             }
-            let strKeyType = BufferUtils.bufferToString(keyType)
+            let strKeyType = BufferUtils.bufferToString(keyType);
             let tableData = [];
             if (strKeyType !== "none") {
                 // 关键字的key，如果存在，显示在第一页第一行
                 tableData.push({
                     key: key,
                     name: key,
+                    isHit: true,
                 });
             }
             let pattern = "*" + key + "*";
@@ -328,19 +338,21 @@ class HostKey extends Component {
                     }
                 );
             } else if (keyType === REDIS_DATA_TYPE.HASH) {
-                redis.hsetBuffer(keyBuffer, "default-member", "default-value").then(
-                    (value) => {
-                        this.okCreateKeyMadalSuccess(key, keyType);
-                    },
-                    (err) => {
-                        message.error("" + err);
-                        Log.error(
-                            "[cmd=HostKey] okCreateKeyMadal hash error",
-                            key,
-                            err
-                        );
-                    }
-                );
+                redis
+                    .hsetBuffer(keyBuffer, "default-member", "default-value")
+                    .then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "[cmd=HostKey] okCreateKeyMadal hash error",
+                                key,
+                                err
+                            );
+                        }
+                    );
             } else if (keyType === REDIS_DATA_TYPE.LIST) {
                 redis.lpushBuffer(keyBuffer, "default-member").then(
                     (value) => {
