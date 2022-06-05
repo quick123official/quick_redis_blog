@@ -177,6 +177,7 @@ class HostKeyTree extends Component {
                 });
                 let treeData = [];
                 if (res !== null && res !== undefined && res.length !== 0) {
+                    // 先对key进行排序
                     res = lodash.orderBy(
                         res
                     );
