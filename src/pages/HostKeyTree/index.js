@@ -24,6 +24,7 @@ import KeysHistoryService from "@/services/KeysHistoryService";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 import BufferUtils from "@/utils/BufferUtils";
+var lodash = window.require("lodash");
 const { Search } = Input;
 const { Option } = Select;
 const { DirectoryTree } = Tree;
@@ -176,6 +177,9 @@ class HostKeyTree extends Component {
                 });
                 let treeData = [];
                 if (res !== null && res !== undefined && res.length !== 0) {
+                    res = lodash.orderBy(
+                        res
+                    );
                     let rootTreeMap = new Map();
                     for (let i = 0; i < res.length; i++) {
                         let keyTemp = BufferUtils.bufferToString(res[i]);

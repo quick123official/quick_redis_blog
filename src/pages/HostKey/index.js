@@ -124,7 +124,7 @@ class HostKey extends Component {
                 let strCursor = BufferUtils.bufferToString(res[0]);
                 if (
                     this.state.tableTotal <
-                        REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
+                    REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE &&
                     strCursor !== "0"
                 ) {
                     this.loadRedisDataByPattern(
@@ -136,7 +136,7 @@ class HostKey extends Component {
                 } else {
                     let firstTableDataNode = [];
                     let tableDataTmp = tableData;
-                    if (tableData[0].isHit) {
+                    if (tableData[0] != undefined && tableData[0].isHit) {
                         firstTableDataNode.push(tableData[0]);
                         tableDataTmp = tableData.slice(1, tableData.length);
                     }
@@ -149,8 +149,8 @@ class HostKey extends Component {
                     this.setState({
                         tableData: tableData,
                         tableTotal: tableData.length,
+                        searchDisable: false
                     });
-                    this.setState({ searchDisable: false });
                 }
             }
         );
