@@ -1,6 +1,6 @@
 {
     "name": "QuickRedis",
-    "version": "2.6.3",
+    "version": "2.7.0",
     "license": "MIT",
     "private": true,
     "description": "QuickRedis",
@@ -12,7 +12,7 @@
         "circular-json": "^0.5.9",
         "electron-log": "^4.2.2",
         "getmac": "^1.2.1",
-        "ioredis": "^4.27.9",
+        "ioredis": "^4.28.5",
         "lodash": "^4.17.19",
         "react-intl-universal": "^2.2.5",
         "react-monaco-editor": "^0.36.0",

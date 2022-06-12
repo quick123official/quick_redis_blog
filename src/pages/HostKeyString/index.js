@@ -5,6 +5,8 @@ import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
 import LocaleUtils from "@/utils/LocaleUtils";
+import BufferUtils from "@/utils/BufferUtils";
+var lodash = window.require("lodash");
 
 /**
  *hostkey-string-管理
@@ -36,14 +38,23 @@ class HostKeyString extends Component {
     /**
      * 刷新 value
      */
-    refreshValue(redisKey) {
+    refreshValue(key) {
         let redis = this.props.node.redis;
         let form = this.refs.form;
         if (form === undefined) {
             return;
         }
-        redis.get(redisKey).then(
+        let bufferKey = BufferUtils.hexToBuffer(key);
+        redis.getBuffer(bufferKey).then(
             (value) => {
+                if (value === null || value === undefined) {
+                    value = "";
+                }
+                value = BufferUtils.bufferToString(value);
+                value = lodash.truncate(value, {
+                    length: 102400,
+                    omission: "......",
+                });
                 let autoFormatJson =
                     LocaleUtils.readSystemConfig(false).autoFormatJson;
                 if (autoFormatJson) {
@@ -86,7 +97,9 @@ class HostKeyString extends Component {
             return;
         }
         let newValue = form.getFieldValue("value");
-        redis.set(redisKey, newValue).then(
+        let newKeyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let newValueBuffer = BufferUtils.hexToBuffer(newValue);
+        redis.set(newKeyBuffer, newValueBuffer).then(
             (value) => {
                 message.info(intl.get("common.save.success"));
             },

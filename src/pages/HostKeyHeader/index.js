@@ -16,6 +16,7 @@ import {
 } from "@ant-design/icons";
 import Log from "@/services/LogService";
 import intl from "react-intl-universal";
+import BufferUtils from "@/utils/BufferUtils";
 const { Search } = Input;
 
 /**
@@ -93,7 +94,8 @@ class HostKeyHeader extends Component {
             return;
         }
         let redis = this.props.node.redis;
-        redis.del(this.state.oldRedisKey).then(
+        let keyBuffer = BufferUtils.hexToBuffer(this.state.oldRedisKey);
+        redis.del(keyBuffer).then(
             (value) => {
                 this.setState({ oldRedisKey: "" });
                 let form = this.refs.form;
@@ -119,45 +121,45 @@ class HostKeyHeader extends Component {
      * 重命名key
      */
     renameKey() {
-        if (this.state.oldRedisKey === "") {
-            message.error(intl.get("HostKey.header.save.notice"));
-            return;
-        }
         let redis = this.props.node.redis;
         let form = this.refs.form;
         if (form === undefined) {
             return;
         }
         let newKey = form.getFieldValue("redisKey");
-        // 使用 scan 的原因：有些redis server禁用keys。
-        // COUNT 使用 100000 的原因：数据量比较大的时候，COUNT 太小有可能搜索不到key。
-        redis.scan(0, "MATCH", newKey, "COUNT", 100000, (err, res) => {
+        let newKeyBuffer = BufferUtils.hexToBuffer(newKey);
+        redis.type(newKeyBuffer, (err, retKeyType) => {
             if (err) {
                 message.error("" + err);
                 Log.error("[cmd=HostKeyHeader] renameKey error", newKey, err);
                 return;
             }
-            if (res !== null && res !== undefined && res[1].length > 0) {
-                message.error(intl.get("HostKey.header.key.modify.fail.exist"));
-            } else {
-                redis.rename(this.state.oldRedisKey, newKey).then(
-                    (value) => {
-                        this.setState({
-                            oldRedisKey: newKey,
-                        });
-                        message.success(
-                            intl.get("HostKey.header.key.modify.success")
-                        );
-                    },
-                    (error) => {
-                        message.error(
-                            intl.get("HostKey.header.key.modify.fail") +
-                                " " +
-                                error
-                        );
-                    }
+            if (retKeyType !== "none") {
+                message.error(
+                    intl.get("HostKey.header.key.modify.fail.exist") +
+                        ", key > " +
+                        newKey
                 );
+                return;
             }
+            let oldRedisKeyBuffer = BufferUtils.hexToBuffer(
+                this.state.oldRedisKey
+            );
+            redis.rename(oldRedisKeyBuffer, newKeyBuffer).then(
+                (value) => {
+                    this.setState({
+                        oldRedisKey: newKey,
+                    });
+                    message.success(
+                        intl.get("HostKey.header.key.modify.success")
+                    );
+                },
+                (error) => {
+                    message.error(
+                        intl.get("HostKey.header.key.modify.fail") + " " + error
+                    );
+                }
+            );
         });
     }
     /**
@@ -190,6 +192,28 @@ class HostKeyHeader extends Component {
             );
             return;
         }
+        let newKeyBuffer = BufferUtils.hexToBuffer(this.state.oldRedisKey);
+        if (ttl === -1) {
+            redis.persist(newKeyBuffer).then(
+                (res) => {
+                    this.setState({ ttl: this.state.ttl });
+                    message.info(
+                        intl.get("HostKey.header.key.ttl.midify.success")
+                    );
+                },
+                (err) => {
+                    message.error(
+                        intl.get("HostKey.header.key.ttl.midify.fail") + err
+                    );
+                    Log.error(
+                        "[cmd=HostKeyHeader] updateTtl persist error",
+                        this.state.oldRedisKey,
+                        err
+                    );
+                }
+            );
+            return;
+        }
         if (ttl <= 5) {
             message.error(
                 intl.get("HostKey.header.key.ttl.midify.illegal.value.2")
@@ -197,7 +221,7 @@ class HostKeyHeader extends Component {
             return;
         }
         form.setFieldsValue({ ttl: ttl });
-        redis.expire(this.state.oldRedisKey, ttl).then(
+        redis.expire(newKeyBuffer, ttl).then(
             (res) => {
                 this.setState({ ttl: this.state.ttl });
                 message.info(intl.get("HostKey.header.key.ttl.midify.success"));
@@ -231,7 +255,8 @@ class HostKeyHeader extends Component {
             return;
         }
         form.setFieldsValue({ redisKey: oldRedisKey });
-        redis.ttl(oldRedisKey).then(
+        let newKeyBuffer = BufferUtils.hexToBuffer(this.state.oldRedisKey);
+        redis.ttl(newKeyBuffer).then(
             (value) => {
                 this.setState({ ttl: value });
                 form.setFieldsValue({ ttl: value });
