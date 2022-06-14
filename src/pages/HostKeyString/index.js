@@ -52,7 +52,7 @@ class HostKeyString extends Component {
                 }
                 value = BufferUtils.bufferToString(value);
                 value = lodash.truncate(value, {
-                    length: 102400,
+                    length: 40960,
                     omission: "......",
                 });
                 let autoFormatJson =
