@@ -14,7 +14,7 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 
 **使用 百度网盘 下载**
 
-Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/10MbD-yzd3Eimkau0PBBE1w](https://pan.baidu.com/s/1zmQTzGtgAfV8gdF-TgFW6g?pwd=3qhv "百度网盘") 提取码: 3qhv
+Windows & Mac OS X & Linux ：链接: [https://pan.baidu.com/s/1z1kALlTLIALCH4OwOd1W5g?pwd=54bh](https://pan.baidu.com/s/1z1kALlTLIALCH4OwOd1W5g?pwd=54bh)
 
 ## 软件截图
 
