@@ -7,7 +7,7 @@ QuickRedis 是一个效率工具，**当别人在努力敲命令的时候，而�
 **QQ群：1103435496**
 
 ## 下载地址
-
+## 重要提示：mac 打开失败，提示“已损坏，无法打开。 您应该将它移到废纸篓。”。则需要先执行命令：sudo xattr -rd com.apple.quarantine /Applications/QuickRedis.app。
 [https://gitee.com/quick123official/quick_redis_blog/releases/](https://gitee.com/quick123official/quick_redis_blog/releases/ "https://gitee.com/quick123official/quick_redis_blog/releases/")
 
 [https://github.com/quick123official/quick_redis_blog/releases/](https://github.com/quick123official/quick_redis_blog/releases/ "https://github.com/quick123official/quick_redis_blog/releases/")
