@@ -19,6 +19,7 @@ import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
 import LocaleUtils from "@/utils/LocaleUtils";
+import BufferUtils from "@/utils/BufferUtils";
 const { Search } = Input;
 /**
  * HostKeyHash-管理
@@ -35,17 +36,20 @@ class HostKeyHash extends Component {
         let redisKey = this.props.redisKey;
         this.refreshValue(redisKey);
     }
+
     /**
-     * 在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。
+     *组件更新
      *
-     * @param {*} nextProps
-     * @memberof HostKeyHash
+     * @param {*} prevProps
+     * @memberof HostKeyString
      */
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.props = nextProps;
-        let redisKey = this.props.redisKey;
-        this.refreshValue(redisKey);
+    componentDidUpdate(prevProps) {
+        if (this.props.redisKey !== prevProps.redisKey) {
+            let redisKey = this.props.redisKey;
+            this.refreshValue(redisKey);
+        }
     }
+
     /**
      * table columns
      *
@@ -153,9 +157,10 @@ class HostKeyHash extends Component {
      * @param {*} redisKey
      * @memberof HostKeyHash
      */
-    refreshValue(redisKey) {
+    refreshValue(key) {
         let redis = this.props.node.redis;
-        redis.hlen(redisKey).then(
+        let bufferKey = BufferUtils.hexToBuffer(key);
+        redis.hlenBuffer(bufferKey).then(
             (value) => {
                 this.setState({ total: value });
                 let pagination = this.state.pagination;
@@ -167,11 +172,7 @@ class HostKeyHash extends Component {
             },
             (err) => {
                 message.error("" + err);
-                Log.error(
-                    "[cmd=HostKeyHash] refreshValue error",
-                    redisKey,
-                    err
-                );
+                Log.error("[cmd=HostKeyHash] refreshValue error", key, err);
             }
         );
     }
@@ -236,11 +237,13 @@ class HostKeyHash extends Component {
         this.setState({ loading: true });
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.hscan(
-            redisKey,
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let patternBuffer = BufferUtils.hexToBuffer(pattern);
+        redis.hscanBuffer(
+            keyBuffer,
             cursor,
             "MATCH",
-            pattern,
+            patternBuffer,
             "COUNT",
             maxRecords,
             (err, res) => {
@@ -261,8 +264,8 @@ class HostKeyHash extends Component {
                 for (let i = 0; i < list.length; i += 2) {
                     data.push({
                         key: uuid.v4(),
-                        field: list[i],
-                        value: list[i + 1],
+                        field: BufferUtils.bufferToString(list[i]),
+                        value: BufferUtils.bufferToString(list[i + 1]),
                     });
                 }
                 let dataTmp = [...this.tableDataTmp, ...data];
@@ -273,12 +276,17 @@ class HostKeyHash extends Component {
                     );
                 }
                 this.tableDataTmp = dataTmp;
+                let strRetCursor = BufferUtils.bufferToString(res[0]);
                 if (
-                    res[0] !== "0" &&
+                    strRetCursor !== "0" &&
                     this.state.data.length <
                         REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE
                 ) {
-                    this.searchByPatternRecursive(pattern, res[0], maxRecords);
+                    this.searchByPatternRecursive(
+                        pattern,
+                        strRetCursor,
+                        maxRecords
+                    );
                 } else {
                     let tableDataTmpLength = this.tableDataTmp.length;
                     let firstPageData = this.tableDataTmp.slice(
@@ -310,7 +318,9 @@ class HostKeyHash extends Component {
         }
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.hdel(redisKey, field).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let fieldBuffer = BufferUtils.hexToBuffer(field);
+        redis.hdelBuffer(keyBuffer, fieldBuffer).then(
             (value) => {
                 this.refreshValue(redisKey);
             },
@@ -385,7 +395,10 @@ class HostKeyHash extends Component {
         let value = form.getFieldValue("value");
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.hset(redisKey, field, value).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let fieldBuffer = BufferUtils.hexToBuffer(field);
+        let valueBuffer = BufferUtils.hexToBuffer(value);
+        redis.hsetBuffer(keyBuffer, fieldBuffer, valueBuffer).then(
             (value) => {
                 // 关闭modal
                 this.setState({ modal: { visible: false } });
@@ -394,7 +407,6 @@ class HostKeyHash extends Component {
                     return;
                 }
                 // 搜索
-                let redisKey = this.refs.hostKeyHeader.getRedisKey();
                 this.refreshValue(redisKey);
             },
             (err) => {

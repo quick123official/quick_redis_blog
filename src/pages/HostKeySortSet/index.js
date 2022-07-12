@@ -37,15 +37,16 @@ class HostKeySortSet extends Component {
         this.refreshValue(redisKey);
     }
     /**
-     * 在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。
+     *组件更新
      *
-     * @param {*} nextProps
+     * @param {*} prevProps
      * @memberof HostKeyString
      */
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.props = nextProps;
-        let redisKey = this.props.redisKey;
-        this.refreshValue(redisKey);
+    componentDidUpdate(prevProps) {
+        if (this.props.redisKey !== prevProps.redisKey) {
+            let redisKey = this.props.redisKey;
+            this.refreshValue(redisKey);
+        }
     }
     /**
      * table columns
@@ -150,7 +151,8 @@ class HostKeySortSet extends Component {
     refreshValue(redisKey) {
         this.setState({ search: { searchMember: "", isSearchIng: false } });
         let redis = this.props.node.redis;
-        redis.zcard(redisKey).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        redis.zcardBuffer(keyBuffer).then(
             (value) => {
                 this.setState({ total: value });
                 let pagination = this.state.pagination;
@@ -179,8 +181,9 @@ class HostKeySortSet extends Component {
         let pageSize = this.state.pagination.pageSize;
         let startIndex = (current - 1) * pageSize;
         let endIndex = startIndex + pageSize - 1;
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
         redis
-            .zrevrangeBuffer([redisKey, startIndex, endIndex, "WITHSCORES"])
+            .zrevrangeBuffer([keyBuffer, startIndex, endIndex, "WITHSCORES"])
             .then(
                 (list) => {
                     let data = [];
@@ -188,8 +191,7 @@ class HostKeySortSet extends Component {
                         data.push({
                             key: uuid.v4(),
                             score: Number(list[i + 1]),
-                            member: BufferUtils.bufToString(list[i]),
-                            binaryM: BufferUtils.bufVisible(list[i]),
+                            member: BufferUtils.bufferToString(list[i]),
                         });
                     }
                     this.setState({ data: data });
@@ -276,11 +278,13 @@ class HostKeySortSet extends Component {
         this.setState({ loading: true });
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.zscan(
-            redisKey,
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let patternBuffer = BufferUtils.hexToBuffer(pattern);
+        redis.zscanBuffer(
+            keyBuffer,
             cursor,
             "MATCH",
-            pattern,
+            patternBuffer,
             "COUNT",
             maxRecords,
             (err, res) => {
@@ -298,8 +302,7 @@ class HostKeySortSet extends Component {
                     data.push({
                         key: uuid.v4(),
                         score: Number(list[i + 1]),
-                        member: list[i],
-                        binaryM: list[i],
+                        member: BufferUtils.bufferToString(list[i]),
                     });
                 }
                 let dataTmp = [...this.state.data, ...data];
@@ -310,16 +313,17 @@ class HostKeySortSet extends Component {
                     );
                 }
                 this.setState({ data: dataTmp });
+                let pagination = this.state.pagination;
+                pagination.current = 1;
+                pagination.total = dataTmp.length;
                 this.setState({
-                    pagination: {
-                        current: 1,
-                        total: dataTmp.length,
-                    },
+                    pagination: pagination,
                 });
-                if (res[0] !== "0" && this.state.data.length < 1000) {
+                let retBufferCursor = BufferUtils.bufferToString(res[0]);
+                if (retBufferCursor !== "0" && this.state.data.length < 1000) {
                     this.searchSortSetByPatternRecursive(
                         pattern,
-                        res[0],
+                        retBufferCursor,
                         maxRecords
                     );
                 } else {
@@ -341,7 +345,9 @@ class HostKeySortSet extends Component {
         }
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.zrem(redisKey, member).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
+        redis.zremBuffer(keyBuffer, memberBuffer).then(
             (value) => {
                 // 判断搜索
                 this.judgeSearchOnEvent();
@@ -435,7 +441,9 @@ class HostKeySortSet extends Component {
         let score = form.getFieldValue("score");
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.zadd(redisKey, score, member).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
+        redis.zaddBuffer(keyBuffer, score, memberBuffer).then(
             (value) => {
                 // 关闭modal
                 this.setState({ modal: { visible: false } });

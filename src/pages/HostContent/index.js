@@ -11,13 +11,16 @@ import HostKeyHash from "@/pages/HostKeyHash";
 import HostKeyNotExist from "@/pages/HostKeyNotExist";
 import { REDIS_DATA_TYPE, HOST_KEY_SHOW_TYPE } from "@/utils/constant";
 import LocaleUtils from "@/utils/LocaleUtils";
+import BufferUtils from "@/utils/BufferUtils";
 import Log from "@/services/LogService";
 import SplitPane from "react-split-pane";
 const { TabPane } = Tabs;
 
 /**
- *host 管理
- *
+ * host 整体界面
+ * // Tabs -> TabPane -> SplitPane -> HostKeyTree(树型展示key)/HostKey（表格展示key）
+ * // Tabs -> TabPane -> SplitPane -> HostKeyString/HostKeySortSet/HostKeySet/HostKeyHash/HostKeyList/HostKeyNotExist
+ * // Tabs -> TabPane -> SplitPane -> HostKeyString/HostKeySortSet/HostKeySet/HostKeyHash/HostKeyList/HostKeyNotExist -> HostKeyHeader+content
  * @class HostContent
  * @extends {Component}
  */
@@ -48,16 +51,18 @@ class HostContent extends Component {
      */
     updateHostKey(key) {
         let redis = this.props.node.redis;
-        redis.type(key, (err, keyType) => {
+        let keyBuffer = BufferUtils.hexToBuffer(key);
+        redis.typeBuffer(keyBuffer, (err, keyType) => {
             if (err) {
                 message.error("" + err);
                 Log.error("[cmd=HostContent] updateHostKey error", key, err);
                 return;
             }
-            if (keyType === "none") {
-                keyType = "";
+            let strKeyType = BufferUtils.bufferToString(keyType)
+            if (strKeyType === "none") {
+                strKeyType = "";
             }
-            this.setState({ redisKey: { key: key, type: keyType } });
+            this.setState({ redisKey: { key: key, type: strKeyType } });
         });
     }
     /**
@@ -116,7 +121,7 @@ class HostContent extends Component {
             }
             let dbTabs = [];
             // get databases 失败，则尝试在 Keyspace 获取最大值
-            for (let [key, value] of dbIndexMap) {
+            for (let [, value] of dbIndexMap) {
                 if (value.dbIndex > maxIndex) {
                     maxIndex = value.dbIndex;
                 }
@@ -214,7 +219,7 @@ class HostContent extends Component {
                                         }}
                                     >
                                         {this.hostKeyShowType ===
-                                        HOST_KEY_SHOW_TYPE.TREE ? (
+                                            HOST_KEY_SHOW_TYPE.TREE ? (
                                             <HostKeyTree
                                                 node={this.props.node}
                                                 db={tab.dbIndex}
@@ -230,7 +235,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {this.hostKeyShowType ===
-                                        HOST_KEY_SHOW_TYPE.TABLE ? (
+                                            HOST_KEY_SHOW_TYPE.TABLE ? (
                                             <HostKey
                                                 node={this.props.node}
                                                 db={tab.dbIndex}
@@ -248,7 +253,7 @@ class HostContent extends Component {
                                     </div>
                                     <div style={{ paddingLeft: "20px" }}>
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.STRING ? (
+                                            REDIS_DATA_TYPE.STRING ? (
                                             <HostKeyString
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -261,7 +266,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.ZSET ? (
+                                            REDIS_DATA_TYPE.ZSET ? (
                                             <HostKeySortSet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -274,7 +279,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.SET ? (
+                                            REDIS_DATA_TYPE.SET ? (
                                             <HostKeySet
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -287,7 +292,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.HASH ? (
+                                            REDIS_DATA_TYPE.HASH ? (
                                             <HostKeyHash
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}
@@ -300,7 +305,7 @@ class HostContent extends Component {
                                             ""
                                         )}
                                         {redisKeyType ===
-                                        REDIS_DATA_TYPE.LIST ? (
+                                            REDIS_DATA_TYPE.LIST ? (
                                             <HostKeyList
                                                 redisKey={redisKey}
                                                 redisKeyType={redisKeyType}

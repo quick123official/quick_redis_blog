@@ -19,6 +19,7 @@ import Log from "@/services/LogService";
 import QuickMonacoEditor from "@/components/QuickMonacoEditor";
 import intl from "react-intl-universal";
 import LocaleUtils from "@/utils/LocaleUtils";
+import BufferUtils from "@/utils/BufferUtils";
 const { Search } = Input;
 /**
  * HostKeySet-管理
@@ -36,15 +37,16 @@ class HostKeySet extends Component {
         this.refreshValue(redisKey);
     }
     /**
-     * 在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。
+     *组件更新
      *
-     * @param {*} nextProps
+     * @param {*} prevProps
      * @memberof HostKeyString
      */
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.props = nextProps;
-        let redisKey = this.props.redisKey;
-        this.refreshValue(redisKey);
+    componentDidUpdate(prevProps) {
+        if (this.props.redisKey !== prevProps.redisKey) {
+            let redisKey = this.props.redisKey;
+            this.refreshValue(redisKey);
+        }
     }
     /**
      * table columns
@@ -138,16 +140,17 @@ class HostKeySet extends Component {
      * @param {*} redisKey
      * @memberof HostKeySet
      */
-    refreshValue(redisKey) {
+    refreshValue(key) {
         let redis = this.props.node.redis;
-        redis.scard(redisKey).then(
+        let bufferKey = BufferUtils.hexToBuffer(key);
+        redis.scardBuffer(bufferKey).then(
             (value) => {
                 this.setState({ total: value });
                 this.searchSet(this.state.search.searchMember);
             },
             (err) => {
                 message.error("" + err);
-                Log.error("HostKeySet refreshValue error", err);
+                Log.error("HostKeySet refreshValue error", bufferKey, err);
             }
         );
     }
@@ -205,20 +208,22 @@ class HostKeySet extends Component {
         this.setState({ loading: true });
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let patternBuffer = BufferUtils.hexToBuffer(pattern);
         try {
-            redis.sscan(
-                redisKey,
+            redis.sscanBuffer(
+                keyBuffer,
                 cursor,
                 "MATCH",
-                pattern,
+                patternBuffer,
                 "COUNT",
                 maxRecords,
-                (_, [cursor, results]) => {
+                (_, [retBufferCursor, results]) => {
                     let data = [];
                     for (let i = 0; i < results.length; i++) {
                         data.push({
                             key: uuid.v4(),
-                            member: results[i],
+                            member: BufferUtils.bufferToString(results[i]),
                         });
                     }
                     let dataTmp = [...this.state.data, ...data];
@@ -235,14 +240,16 @@ class HostKeySet extends Component {
                             total: dataTmp.length,
                         },
                     });
+                    let strRetBufferCursor =
+                        BufferUtils.bufferToString(retBufferCursor);
                     if (
-                        cursor !== "0" &&
+                        strRetBufferCursor !== "0" &&
                         this.state.data.length <
                             REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE
                     ) {
                         this.searchSortSetByPatternRecursive(
                             pattern,
-                            cursor,
+                            strRetBufferCursor,
                             maxRecords
                         );
                     } else {
@@ -269,7 +276,9 @@ class HostKeySet extends Component {
         }
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.srem(redisKey, member).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
+        redis.sremBuffer(keyBuffer, memberBuffer).then(
             (value) => {
                 this.refreshValue(redisKey);
             },
@@ -342,7 +351,9 @@ class HostKeySet extends Component {
         let member = form.getFieldValue("member");
         let redis = this.props.node.redis;
         let redisKey = this.refs.hostKeyHeader.getRedisKey();
-        redis.sadd(redisKey, member).then(
+        let keyBuffer = BufferUtils.hexToBuffer(redisKey);
+        let memberBuffer = BufferUtils.hexToBuffer(member);
+        redis.saddBuffer(keyBuffer, memberBuffer).then(
             (value) => {
                 // 关闭modal
                 this.setState({ modal: { visible: false } });

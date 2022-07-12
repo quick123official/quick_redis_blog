@@ -62,7 +62,7 @@ class HostTag extends Component {
             <div>
                 <Tabs
                     onTabClick={this.onTabClick}
-                    hideAdd="true"
+                    hideAdd
                     activeKey={this.props.hostTabsReducer.activeKey}
                     type="editable-card"
                     onEdit={this.onEdit}
@@ -72,6 +72,7 @@ class HostTag extends Component {
                             tab={this.HostTagMenuDropdown(tab.title)}
                             key={tab.key}
                             style={{ background: "#fff" }}
+                            closable={tab.closable}
                         >
                             <div
                                 style={{
