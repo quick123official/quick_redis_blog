@@ -29,6 +29,8 @@ export const REDIS_DATA_SHOW = {
     FETCH_DATA_SIZE: 5000,
     // 查询最大的条数
     MAX_SEARCH_DATA_SIZE: 10000,
+    // 查询最大的条数-树型组件
+    MAX_SEARCH_DATA_SIZE_TREE: 20000,
     // redis处理返回的成功的值
     REDIS_HANDLE_SUCCESS: 1,
     // redis处理返回的失败的值

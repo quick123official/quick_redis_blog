@@ -16,14 +16,19 @@ import {
 import { DeleteTwoTone } from "@ant-design/icons";
 import { message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { REDIS_DATA_TYPE, CONNECT_TYPE } from "@/utils/constant";
+import {
+    REDIS_DATA_TYPE,
+    CONNECT_TYPE,
+    REDIS_DATA_SHOW,
+} from "@/utils/constant";
 import "@/pages/CommonCss/zebra.css";
 import uuid from "node-uuid";
 import Log from "@/services/LogService";
 import KeysHistoryService from "@/services/KeysHistoryService";
 import LocaleUtils from "@/utils/LocaleUtils";
-import intl from "react-intl-universal";
 import BufferUtils from "@/utils/BufferUtils";
+import { notification } from "antd";
+import intl from "react-intl-universal";
 var lodash = window.require("lodash");
 const { Search } = Input;
 const { Option } = Select;
@@ -156,6 +161,123 @@ class HostKeyTree extends Component {
         }
     }
     /**
+     *加载 redis key
+     *
+     * @param {*} pattern
+     * @param {*} cursor
+     * @param {*} originalKey
+     * @memberof HostKeyTree
+     */
+    loadRedisDataByPattern(tableData, pattern, cursor, originalKey) {
+        let redisArr = [this.props.node.redis];
+        if (this.props.node.data.connectType === CONNECT_TYPE.CLUSTER) {
+            redisArr = this.props.node.redis.nodes("master");
+        }
+        let patternBuffer = BufferUtils.hexToBuffer(pattern);
+        redisArr[0].scanBuffer(
+            cursor,
+            "MATCH",
+            patternBuffer,
+            "COUNT",
+            REDIS_DATA_SHOW.FETCH_DATA_SIZE,
+            (err, res) => {
+                if (err) {
+                    this.setState({ searchDisable: false });
+                    message.error("" + err);
+                    Log.error(
+                        "[cmd=HostKeyTree] loadRedisDataByPattern error",
+                        pattern,
+                        cursor,
+                        originalKey,
+                        err
+                    );
+                    return;
+                }
+                let data = [];
+                for (let i = 0; i < res[1].length; i++) {
+                    let strRes = BufferUtils.bufferToString(res[1][i]);
+                    if (strRes === originalKey) {
+                        continue;
+                    }
+                    data.push(strRes);
+                }
+                if (data.length !== 0) {
+                    tableData = [...tableData, ...data];
+                    // 如果key存在，则添加到搜索历史记录
+                    let host = this.props.node.data.host;
+                    let port = this.props.node.data.port;
+                    KeysHistoryService.addKeysHistory(host, port, originalKey);
+                }
+                let strCursor = BufferUtils.bufferToString(res[0]);
+                if (
+                    tableData.length <
+                        REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE_TREE &&
+                    strCursor !== "0"
+                ) {
+                    this.loadRedisDataByPattern(
+                        tableData,
+                        pattern,
+                        strCursor,
+                        originalKey
+                    );
+                } else {
+                    if (
+                        tableData.length >=
+                        REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE_TREE
+                    ) {
+                        message.info(
+                            "符合条件的数据条数太大。只显示：" +
+                                REDIS_DATA_SHOW.MAX_SEARCH_DATA_SIZE_TREE
+                        );
+                    }
+                    let treeData = [];
+                    if (
+                        tableData !== null &&
+                        tableData !== undefined &&
+                        tableData.length !== 0
+                    ) {
+                        // 先对key进行排序
+                        tableData = lodash.orderBy(tableData);
+                        let rootTreeMap = new Map();
+                        for (let i = 0; i < tableData.length; i++) {
+                            let keyTemp = tableData[i];
+                            let childKeyArr = keyTemp.split(this.splitSign);
+                            let childMap = rootTreeMap.get(childKeyArr[0]);
+                            if (childMap === null || childMap === undefined) {
+                                childMap = new Map();
+                            }
+                            rootTreeMap.set(childKeyArr[0], childMap);
+                            if (childKeyArr.length > 1) {
+                                this.keyArrToTreeMap(
+                                    childMap,
+                                    childKeyArr.slice(1, childKeyArr.length)
+                                );
+                            } else {
+                                rootTreeMap.set(
+                                    childKeyArr[0] + this.splitEndSign,
+                                    undefined
+                                );
+                            }
+                        }
+                        // 如果key存在，则添加到搜索历史记录
+                        let host = this.props.node.data.host;
+                        let port = this.props.node.data.port;
+                        KeysHistoryService.addKeysHistory(
+                            host,
+                            port,
+                            originalKey
+                        );
+                        this.treeMapToTreeData(rootTreeMap, treeData, "");
+                    }
+                    this.setState({
+                        treeData: treeData,
+                        searchDisable: false,
+                    });
+                }
+            }
+        );
+    }
+    /**
      * 加载 redis key
      * @param {*} pattern
      */
@@ -178,9 +300,7 @@ class HostKeyTree extends Component {
                 let treeData = [];
                 if (res !== null && res !== undefined && res.length !== 0) {
                     // 先对key进行排序
-                    res = lodash.orderBy(
-                        res
-                    );
+                    res = lodash.orderBy(res);
                     let rootTreeMap = new Map();
                     for (let i = 0; i < res.length; i++) {
                         let keyTemp = BufferUtils.bufferToString(res[i]);
@@ -226,7 +346,17 @@ class HostKeyTree extends Component {
      * @memberof HostKeyTree
      */
     searchKey(key) {
-        this.loadRedisKeysByPattern(key);
+        if (key === null || key === undefined || key === "") {
+            key = "*";
+        }
+        this.setState({
+            treeData: [],
+            searchDisable: true,
+        });
+        let tableData = [];
+        let pattern = "*" + key + "*";
+        let cursor = "0";
+        this.loadRedisDataByPattern(tableData, pattern, cursor, key);
     }
     /**
      * 打开 创建key 窗口
@@ -309,18 +439,20 @@ class HostKeyTree extends Component {
                     }
                 );
             } else if (keyType === REDIS_DATA_TYPE.HASH) {
-                redis.hsetBuffer(keyBuffer, "default-member", "default-value").then(
-                    (value) => {
-                        this.okCreateKeyMadalSuccess(key, keyType);
-                    },
-                    (err) => {
-                        message.error("" + err);
-                        Log.error(
-                            "HostKeyTree okCreateKeyMadal hash error",
-                            err
-                        );
-                    }
-                );
+                redis
+                    .hsetBuffer(keyBuffer, "default-member", "default-value")
+                    .then(
+                        (value) => {
+                            this.okCreateKeyMadalSuccess(key, keyType);
+                        },
+                        (err) => {
+                            message.error("" + err);
+                            Log.error(
+                                "HostKeyTree okCreateKeyMadal hash error",
+                                err
+                            );
+                        }
+                    );
             } else if (keyType === REDIS_DATA_TYPE.LIST) {
                 redis.lpushBuffer(keyBuffer, "default-member").then(
                     (value) => {
@@ -404,15 +536,15 @@ class HostKeyTree extends Component {
                     for (let i = 0; i < res.length; i++) {
                         let key = res[i];
                         redis.del(key).then(
-                            (value) => { },
+                            (value) => {},
                             (err) => {
                                 message.error(
                                     "del key error. key: " + key + ". " + err
                                 );
                                 Log.error(
                                     "clickTreeRightClickMenu del key error. key: " +
-                                    key +
-                                    ". ",
+                                        key +
+                                        ". ",
                                     err
                                 );
                             }
