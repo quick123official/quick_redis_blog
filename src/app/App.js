@@ -8,8 +8,6 @@ import SplitPane from "react-split-pane";
 import HeartbeatService from "@/services/HeartbeatService";
 import CheckUpdateService from "@/services/CheckUpdateService";
 import "@/app/index.css";
-import { notification } from "antd";
-import intl from "react-intl-universal";
 
 class App extends Component {
     // left width = 300(minSize)+15(line)+
@@ -18,14 +16,6 @@ class App extends Component {
         this.resize();
         HeartbeatService.start();
         CheckUpdateService.start();
-
-        notification.open({
-            message: intl.get("notification.support.host.key.tree.title"),
-            description: intl.get(
-                "notification.support.host.key.tree.description"
-            ),
-            onClick: () => {},
-        });
     }
     resize() {
         this.refs.hostTagDiv.style.width =
