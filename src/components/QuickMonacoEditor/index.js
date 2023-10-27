@@ -2,6 +2,8 @@ import MonacoEditor from "react-monaco-editor";
 import { Row, Col, Button, Space, message } from "antd";
 import React from "react";
 import intl from "react-intl-universal";
+const pako = require('pako');
+
 /**
  * 扩展 MonacoEditor
  *
@@ -96,6 +98,39 @@ class QuickMonacoEditor extends React.Component {
             message.error("Json format error：" + error);
         }
     }
+
+    /**
+     * 解压gzip
+     */
+    ungzip() {
+        try {
+            let targetData = this.props.value;
+            // 将base64编码的数据转换成原始的压缩数据
+            const compressedData = new Uint8Array(atob(targetData).split('').map(char => char.charCodeAt()));
+            console.log(compressedData);
+            // 对压缩数据进行解压缩处理
+            const data = pako.ungzip(compressedData, { to: 'string' });
+            this.props.onChange(data);
+        } catch (error) {
+            message.error("Json format error：" + error);
+        }
+    }
+
+    /**
+     * 压缩gzip
+     */
+    gzip() {
+        try {
+            let oriData = this.props.value;
+            const compressedData = pako.gzip(oriData);
+            const base64Data = btoa(String.fromCharCode.apply(null, compressedData));
+            this.props.onChange(base64Data);
+        } catch (error) {
+            message.error("Json format error：" + error);
+        }
+
+    }
+
     render() {
         return (
             <div>
@@ -108,6 +143,12 @@ class QuickMonacoEditor extends React.Component {
                                 </Button>
                                 <Button onClick={this.delBlankJson.bind(this)}>
                                     {intl.get("QuickMonacoEditor.delformat")}
+                                </Button>
+                                <Button onClick={this.ungzip.bind(this)}>
+                                    {intl.get("QuickMonacoEditor.ungzip")}
+                                </Button>
+                                <Button onClick={this.gzip.bind(this)}>
+                                    {intl.get("QuickMonacoEditor.gzip")}
                                 </Button>
                             </Space>
                         </Col>

@@ -38,6 +38,8 @@
     "QuickMonacoEditor.format": "Định dạng json",
     "QuickMonacoEditor.delformat": "Xóa khoảng trắng json",
     "QuickMonacoEditor.end00": "#### QuickMonacoEditor ####",
+    "QuickMonacoEditor.gzip": "Giải GZip",
+    "QuickMonacoEditor.ungzip": "nén GZip",
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Chọn ngôn ngữ",

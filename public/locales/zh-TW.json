@@ -38,6 +38,8 @@
     "QuickMonacoEditor.format": "格式化 json",
     "QuickMonacoEditor.delformat": "刪除 json 空格",
     "QuickMonacoEditor.end00": "#### QuickMonacoEditor ####",
+    "QuickMonacoEditor.gzip": "壓縮 GZip",
+    "QuickMonacoEditor.ungzip": "解壓 GZip",
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "選擇語言",

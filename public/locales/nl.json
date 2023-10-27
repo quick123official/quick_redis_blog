@@ -38,6 +38,8 @@
     "QuickMonacoEditor.format": "Formaat json",
     "QuickMonacoEditor.delformat": "Verwijder json-spaties",
     "QuickMonacoEditor.end00": "#### QuickMonacoEditor ####",
+    "QuickMonacoEditor.gzip": "Compression GZip",
+    "QuickMonacoEditor.ungzip": "Dekompression GZip",
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Selecteer taal",
