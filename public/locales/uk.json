@@ -38,6 +38,8 @@
     "QuickMonacoEditor.format": "Форматувати json",
     "QuickMonacoEditor.delformat": "Видалити пробіли json",
     "QuickMonacoEditor.end00": "#### QuickMonacoEditor ####",
+    "QuickMonacoEditor.gzip": "Compression GZip",
+    "QuickMonacoEditor.ungzip": "Dekompression GZip",
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Вибрати мову",

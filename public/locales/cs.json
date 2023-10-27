@@ -38,6 +38,8 @@
     "QuickMonacoEditor.format": "Format json",
     "QuickMonacoEditor.delformat": "Odstranit mezery JSON",
     "QuickMonacoEditor.end00": "#### QuickMonacoEditor ####",
+    "QuickMonacoEditor.gzip": "Compression GZip",
+    "QuickMonacoEditor.ungzip": "Decompression GZip",
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "Vyberte jazyk",

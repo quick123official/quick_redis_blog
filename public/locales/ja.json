@@ -38,6 +38,8 @@
     "QuickMonacoEditor.format": "フォーマットJSON",
     "QuickMonacoEditor.delformat": "jsonスペースの削除",
     "QuickMonacoEditor.end00": "#### QuickMonacoEditor ####",
+    "QuickMonacoEditor.gzip": "あっしゅ GZip",
+    "QuickMonacoEditor.ungzip": "ストレス解消 GZip",
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "言語を選択してください",

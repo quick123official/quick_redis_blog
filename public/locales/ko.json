@@ -38,6 +38,8 @@
     "QuickMonacoEditor.format": "json 형식",
     "QuickMonacoEditor.delformat": "json 공백 삭제",
     "QuickMonacoEditor.end00": "#### QuickMonacoEditor ####",
+    "QuickMonacoEditor.gzip": "압축 GZip",
+    "QuickMonacoEditor.ungzip": "해제 GZip",
 
     "SystemConfig.start": "#### SystemConfig ####",
     "SystemConfig.lang": "언어 선택",
