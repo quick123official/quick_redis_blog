@@ -2,15 +2,21 @@ import MonacoEditor from "react-monaco-editor";
 import { Row, Col, Button, Space, message } from "antd";
 import React from "react";
 import intl from "react-intl-universal";
+import { useTheme } from "@/theme/ThemeContext";
 const pako = require('pako');
 
 /**
- * 扩展 MonacoEditor
- *
- * @class QuickMonacoEditor
- * @extends {MonacoEditor}
+ * 包装组件 - 处理主题
  */
-class QuickMonacoEditor extends React.Component {
+function QuickMonacoEditorWithTheme(props) {
+    const { actualTheme } = useTheme();
+    return <QuickMonacoEditorInner {...props} actualTheme={actualTheme} />;
+}
+
+/**
+ * 扩展 MonacoEditor
+ */
+class QuickMonacoEditorInner extends React.Component {
     // MonacoEditor Options
     MONACO_EDITOR_OPTIONS = {
         minimap: {
@@ -41,21 +47,28 @@ class QuickMonacoEditor extends React.Component {
         roundedSelection: true,
         automaticLayout: true,
     };
+
+    // 根据主题获取 Monaco theme
+    getMonacoTheme() {
+        return this.props.actualTheme === "dark" ? "vs-dark" : "vs";
+    }
+
     /**
      *组件更新
-     *
-     * @param {*} prevProps
-     * @memberof QuickMonacoEditor
      */
     componentDidUpdate(prevProps) {
-        this.refs.monacoEditor.editor.setSelection({
-            startLineNumber: 1,
-            startColumn: 1,
-            endLineNumber: 1,
-            endColumn: 1,
-        });
-        this.refs.monacoEditor.editor.layout();
+        // 主题变化时，Monaco 会通过 theme prop 自动更新
+        if (this.refs.monacoEditor && this.refs.monacoEditor.editor) {
+            this.refs.monacoEditor.editor.setSelection({
+                startLineNumber: 1,
+                startColumn: 1,
+                endLineNumber: 1,
+                endColumn: 1,
+            });
+            this.refs.monacoEditor.editor.layout();
+        }
     }
+
     /**
      * 格式化 Json
      */
@@ -71,12 +84,9 @@ class QuickMonacoEditor extends React.Component {
             message.error("Json format error：" + error);
         }
     }
+
     /**
      *monacoEditor did mount
-     *
-     * @param {*} monacoEditor
-     * @param {*} monaco
-     * @memberof QuickMonacoEditor
      */
     editorDidMount(monacoEditor, monaco) {
         monacoEditor.addCommand(
@@ -87,6 +97,7 @@ class QuickMonacoEditor extends React.Component {
         );
         monacoEditor.focus();
     }
+
     /**
      * 删除 Json 空格
      */
@@ -128,10 +139,13 @@ class QuickMonacoEditor extends React.Component {
         } catch (error) {
             message.error("Json format error：" + error);
         }
-
     }
 
     render() {
+        const monacoTheme = this.getMonacoTheme();
+        const borderStyle = {
+            border: "1px solid var(--app-border-color)",
+        };
         return (
             <div>
                 <Row>
@@ -153,12 +167,12 @@ class QuickMonacoEditor extends React.Component {
                             </Space>
                         </Col>
                         <Col span={24}>
-                            <div style={{ border: "1px solid #eee" }}>
+                            <div style={borderStyle}>
                                 <MonacoEditor
                                     ref="monacoEditor"
                                     height={this.props.height}
                                     language="json"
-                                    theme="vs"
+                                    theme={monacoTheme}
                                     value={this.props.value}
                                     defaultValue=""
                                     options={this.MONACO_EDITOR_OPTIONS}
@@ -177,4 +191,5 @@ class QuickMonacoEditor extends React.Component {
         );
     }
 }
-export default QuickMonacoEditor;
+
+export default QuickMonacoEditorWithTheme;

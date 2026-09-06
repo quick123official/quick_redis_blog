@@ -71,7 +71,7 @@ class HostTag extends Component {
                         <TabPane
                             tab={this.HostTagMenuDropdown(tab.title)}
                             key={tab.key}
-                            style={{ background: "#fff" }}
+                            style={{ background: "var(--app-bg-primary)" }}
                             closable={tab.closable}
                         >
                             <div

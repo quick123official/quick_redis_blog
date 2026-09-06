@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog } = require("electron");
+const { app, BrowserWindow, Menu, dialog, nativeTheme } = require("electron");
 const Log = require("electron-log");
 const path = require("path");
 const menu = require("./modules/menu");
@@ -57,9 +57,9 @@ function createWindow() {
             preload: path.join(__dirname, "./preload.js"),
             devTools: openDevTools,
             enableRemoteModule: true,
-            contextIsolation: false, 
+            contextIsolation: false,
         },
-        backgroundColor: "#EBEBEB",
+        backgroundColor: nativeTheme.shouldUseDarkColors ? "#141414" : "#EBEBEB",
     });
 
     // 添加菜单
@@ -116,7 +116,19 @@ function createWindow() {
 
 app.allowRendererProcessReuse = false;
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+    createWindow();
+    // 监听系统主题变化（Windows 深色模式切换）
+    nativeTheme.on("updated", () => {
+        const shouldUseDark = nativeTheme.shouldUseDarkColors;
+        Log.info("[cmd=main] nativeTheme updated, shouldUseDarkColors:", shouldUseDark);
+        if (mainWindow) {
+            mainWindow.webContents.send("theme-changed", {
+                theme: shouldUseDark ? "dark" : "light",
+            });
+        }
+    });
+});
 
 //关闭程序
 app.on("window-all-closed", function () {

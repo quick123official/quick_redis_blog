@@ -2,24 +2,55 @@ import React, { Component } from "react";
 import Terminal from "terminal-in-react-quick123";
 import RedisCommand from "@/utils/RedisCommand";
 import intl from "react-intl-universal";
+import { useTheme } from "@/theme/ThemeContext";
+
 /**
- * 终端
+ * Terminal 颜色配置
  */
-class HostTerminal extends Component {
+const TERMINAL_THEME = {
+    light: {
+        color: "#002766",
+        backgroundColor: "#fff",
+        barColor: "#002766",
+        prompt: "#002766",
+    },
+    dark: {
+        color: "#8be9fd",
+        backgroundColor: "#1e1e1e",
+        barColor: "#8be9fd",
+        prompt: "#50fa7b",
+    },
+};
+
+/**
+ * HostTerminal 包装组件 - 处理主题
+ */
+function HostTerminalWithTheme({ node, title }) {
+    const { actualTheme } = useTheme();
+    const themeColors = TERMINAL_THEME[actualTheme] || TERMINAL_THEME.light;
+    return <HostTerminalInner node={node} title={title} themeColors={themeColors} />;
+}
+
+/**
+ * 终端（内部类组件）
+ */
+class HostTerminalInner extends Component {
     state = { redis: undefined };
 
     componentDidMount() {
         let redis = this.props.node.redis;
         this.setState({ redis: redis });
     }
+
     render() {
+        const { themeColors } = this.props;
         return (
             <div>
                 <Terminal
-                    color="#002766"
-                    backgroundColor="#fff"
-                    barColor="#002766"
-                    prompt="#002766"
+                    color={themeColors.color}
+                    backgroundColor={themeColors.backgroundColor}
+                    barColor={themeColors.barColor}
+                    prompt={themeColors.prompt}
                     promptSymbol=">"
                     style={{
                         fontWeight: "bold",
@@ -28,7 +59,6 @@ class HostTerminal extends Component {
                         paddingLeft: "20px",
                         paddingRight: "20px",
                         height: "90vh",
-                        // width: "90vw",
                     }}
                     commands={{
                         append: (args, print, runCommand) => {
@@ -229,9 +259,7 @@ class HostTerminal extends Component {
                         lastsave: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        latency: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        latency: "",
                         lindex: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -265,21 +293,15 @@ class HostTerminal extends Component {
                         ltrim: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        memory: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        memory: "",
                         mget: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
                         migrate: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        module: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        monitor: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        module: "",
+                        monitor: "usage: monitor",
                         move: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -292,9 +314,7 @@ class HostTerminal extends Component {
                         multi: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        object: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        object: "",
                         persist: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -310,21 +330,15 @@ class HostTerminal extends Component {
                         pfcount: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        pfdebug: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        pfdebug: "",
                         pfmerge: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        pfselftest: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        pfselftest: "",
                         ping: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        post: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        post: "",
                         psetex: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -340,9 +354,7 @@ class HostTerminal extends Component {
                         publish: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        pubsub: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        pubsub: "",
                         punsubscribe: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -361,18 +373,14 @@ class HostTerminal extends Component {
                         renamenx: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        replconf: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        replconf: "",
                         replicaof: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
                         restore: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        role: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        role: "",
                         rpop: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -397,40 +405,11 @@ class HostTerminal extends Component {
                         scard: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        script: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        script: "",
                         sdiff: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
                         sdiffstore: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        select: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        set: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        setbit: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        setex: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        setnx: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        setrange: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        shutdown: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        sinter: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        sinterstore: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
                         sismember: (args, print, runCommand) => {
@@ -439,9 +418,7 @@ class HostTerminal extends Component {
                         slaveof: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        slowlog: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        slowlog: "",
                         smembers: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -469,9 +446,7 @@ class HostTerminal extends Component {
                         subscribe: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        substr: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        substr: "",
                         sunion: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -481,12 +456,8 @@ class HostTerminal extends Component {
                         swapdb: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        sync: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
-                        time: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        sync: "",
+                        time: "",
                         touch: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -502,9 +473,7 @@ class HostTerminal extends Component {
                         unsubscribe: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        unwatch: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        unwatch: "",
                         wait: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -526,9 +495,7 @@ class HostTerminal extends Component {
                         xgroup: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        xinfo: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        xinfo: "",
                         xlen: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -547,9 +514,7 @@ class HostTerminal extends Component {
                         xrevrange: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
-                        xsetid: (args, print, runCommand) => {
-                            RedisCommand.invoke(this.state.redis, print, args);
-                        },
+                        xsetid: "",
                         xtrim: (args, print, runCommand) => {
                             RedisCommand.invoke(this.state.redis, print, args);
                         },
@@ -626,258 +591,17 @@ class HostTerminal extends Component {
                     commandPassThrough={(cmd) =>
                         `(error) ERR unknown command '${cmd}'`
                     }
-                    descriptions={{
-                        show: false,
-                        append: "usage: append key value",
-                        asking: "",
-                        bgrewriteaof: "usage: bgrewriteaof ",
-                        bgsave: "usage: bgsave [SCHEDULE]",
-                        bitcount: "usage: bitcount key [start end]",
-                        bitfield:
-                            "usage: bitfield key [GET type offset] [SET type offset value] [INCRBY type offset increment] [OVERFLOW WRAP|SAT|FAIL]",
-                        bitop: "usage: bitop operation destkey key [key ...]",
-                        bitpos: "usage: bitpos key bit [start] [end]",
-                        blpop: "usage: blpop key [key ...] timeout",
-                        brpop: "usage: brpop key [key ...] timeout",
-                        brpoplpush:
-                            "usage: brpoplpush source destination timeout",
-                        bzpopmax: "usage: bzpopmax key [key ...] timeout",
-                        bzpopmin: "usage: bzpopmin key [key ...] timeout",
-                        client: "",
-                        cluster: "",
-                        command: "usage: command ",
-                        config: "",
-                        dbsize: "usage: dbsize ",
-                        debug: "",
-                        decr: "usage: decr key",
-                        decrby: "usage: decrby key decrement",
-                        del: "usage: del key [key ...]",
-                        discard: "usage: discard ",
-                        dump: "usage: dump key",
-                        echo: "usage: echo message",
-                        eval:
-                            "usage: eval script numkeys key [key ...] arg [arg ...]",
-                        evalsha:
-                            "usage: evalsha sha1 numkeys key [key ...] arg [arg ...]",
-                        exec: "usage: exec ",
-                        exists: "usage: exists key [key ...]",
-                        expire: "usage: expire key seconds",
-                        expireat: "usage: expireat key timestamp",
-                        flushall: "usage: flushall [ASYNC]",
-                        flushdb: "usage: flushdb [ASYNC]",
-                        geoadd:
-                            "usage: geoadd key longitude latitude member [longitude latitude member ...]",
-                        geodist:
-                            "usage: geodist key member1 member2 [m|km|ft|mi]",
-                        geohash: "usage: geohash key member [member ...]",
-                        geopos: "usage: geopos key member [member ...]",
-                        georadius:
-                            "usage: georadius key longitude latitude radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count] [ASC|DESC] [STORE key] [STOREDIST key]",
-                        georadius_ro: "",
-                        georadiusbymember:
-                            "usage: georadiusbymember key member radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count] [ASC|DESC] [STORE key] [STOREDIST key]",
-                        georadiusbymember_ro: "",
-                        get: "usage: get key",
-                        getbit: "usage: getbit key offset",
-                        getrange: "usage: getrange key start end",
-                        getset: "usage: getset key value",
-                        hdel: "usage: hdel key field [field ...]",
-                        hexists: "usage: hexists key field",
-                        hget: "usage: hget key field",
-                        hgetall: "usage: hgetall key",
-                        hincrby: "usage: hincrby key field increment",
-                        hincrbyfloat: "usage: hincrbyfloat key field increment",
-                        hkeys: "usage: hkeys key",
-                        hlen: "usage: hlen key",
-                        hmget: "usage: hmget key field [field ...]",
-                        hmset: "usage: hmset key field value [field value ...]",
-                        hscan:
-                            "usage: hscan key cursor [MATCH pattern] [COUNT count]",
-                        hset: "usage: hset key field value [field value ...]",
-                        hsetnx: "usage: hsetnx key field value",
-                        hstrlen: "usage: hstrlen key field",
-                        hvals: "usage: hvals key",
-                        incr: "usage: incr key",
-                        incrby: "usage: incrby key increment",
-                        incrbyfloat: "usage: incrbyfloat key increment",
-                        info: "usage: info [section]",
-                        keys: "usage: keys pattern",
-                        lastsave: "usage: lastsave ",
-                        latency: "",
-                        lindex: "usage: lindex key index",
-                        linsert:
-                            "usage: linsert key BEFORE|AFTER pivot element",
-                        llen: "usage: llen key",
-                        lolwut: "usage: lolwut [VERSION version]",
-                        lpop: "usage: lpop key",
-                        lpush: "usage: lpush key element [element ...]",
-                        lpushx: "usage: lpushx key element [element ...]",
-                        lrange: "usage: lrange key start stop",
-                        lrem: "usage: lrem key count element",
-                        lset: "usage: lset key index element",
-                        ltrim: "usage: ltrim key start stop",
-                        memory: "",
-                        mget: "usage: mget key [key ...]",
-                        migrate: "usage: migrate host port key",
-                        module: "",
-                        monitor: "usage: monitor ",
-                        move: "usage: move key db",
-                        mset: "usage: mset key value [key value ...]",
-                        msetnx: "usage: msetnx key value [key value ...]",
-                        multi: "usage: multi ",
-                        object:
-                            "usage: object subcommand [arguments [arguments ...]]",
-                        persist: "usage: persist key",
-                        pexpire: "usage: pexpire key milliseconds",
-                        pexpireat:
-                            "usage: pexpireat key milliseconds-timestamp",
-                        pfadd: "usage: pfadd key element [element ...]",
-                        pfcount: "usage: pfcount key [key ...]",
-                        pfdebug: "",
-                        pfmerge:
-                            "usage: pfmerge destkey sourcekey [sourcekey ...]",
-                        pfselftest: "",
-                        ping: "usage: ping [message]",
-                        post: "",
-                        psetex: "usage: psetex key milliseconds value",
-                        psubscribe: "usage: psubscribe pattern [pattern ...]",
-                        psync: "usage: psync replicationid offset",
-                        pttl: "usage: pttl key",
-                        publish: "usage: publish channel message",
-                        pubsub:
-                            "usage: pubsub subcommand [argument [argument ...]]",
-                        punsubscribe:
-                            "usage: punsubscribe [pattern [pattern ...]]",
-                        randomkey: "usage: randomkey ",
-                        readonly: "usage: readonly ",
-                        readwrite: "usage: readwrite ",
-                        rename: "usage: rename key newkey",
-                        renamenx: "usage: renamenx key newkey",
-                        replconf: "",
-                        replicaof: "usage: replicaof host port",
-                        restore:
-                            "usage: restore key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME seconds] [FREQ frequency]",
-                        role: "usage: role ",
-                        rpop: "usage: rpop key",
-                        rpoplpush: "usage: rpoplpush source destination",
-                        rpush: "usage: rpush key element [element ...]",
-                        rpushx: "usage: rpushx key element [element ...]",
-                        sadd: "usage: sadd key member [member ...]",
-                        save: "usage: save ",
-                        scan:
-                            "usage: scan cursor [MATCH pattern] [COUNT count] [TYPE type]",
-                        scard: "usage: scard key",
-                        script: "",
-                        sdiff: "usage: sdiff key [key ...]",
-                        sdiffstore:
-                            "usage: sdiffstore destination key [key ...]",
-                        select: "usage: select index",
-                        set:
-                            "usage: set key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL]",
-                        setbit: "usage: setbit key offset value",
-                        setex: "usage: setex key seconds value",
-                        setnx: "usage: setnx key value",
-                        setrange: "usage: setrange key offset value",
-                        shutdown: "usage: shutdown [NOSAVE|SAVE]",
-                        sinter: "usage: sinter key [key ...]",
-                        sinterstore:
-                            "usage: sinterstore destination key [key ...]",
-                        sismember: "usage: sismember key member",
-                        slaveof: "usage: slaveof host port",
-                        slowlog: "usage: slowlog subcommand [argument]",
-                        smembers: "usage: smembers key",
-                        smove: "usage: smove source destination member",
-                        sort:
-                            "usage: sort key [BY pattern] [LIMIT offset count] [GET pattern [GET pattern ...]] [ASC|DESC] [ALPHA] [STORE destination]",
-                        spop: "usage: spop key [count]",
-                        srandmember: "usage: srandmember key [count]",
-                        srem: "usage: srem key member [member ...]",
-                        sscan:
-                            "usage: sscan key cursor [MATCH pattern] [COUNT count]",
-                        strlen: "usage: strlen key",
-                        subscribe: "usage: subscribe channel [channel ...]",
-                        substr: "",
-                        sunion: "usage: sunion key [key ...]",
-                        sunionstore:
-                            "usage: sunionstore destination key [key ...]",
-                        swapdb: "usage: swapdb index1 index2",
-                        sync: "usage: sync ",
-                        time: "usage: time ",
-                        touch: "usage: touch key [key ...]",
-                        ttl: "usage: ttl key",
-                        type: "usage: type key",
-                        unlink: "usage: unlink key [key ...]",
-                        unsubscribe:
-                            "usage: unsubscribe [channel [channel ...]]",
-                        unwatch: "usage: unwatch ",
-                        wait: "usage: wait numreplicas timeout",
-                        watch: "usage: watch key [key ...]",
-                        xack: "usage: xack key group ID [ID ...]",
-                        xadd:
-                            "usage: xadd key ID field value [field value ...]",
-                        xclaim:
-                            "usage: xclaim key group consumer min-idle-time ID [ID ...] [IDLE ms] [TIME ms-unix-time] [RETRYCOUNT count] [FORCE] [JUSTID]",
-                        xdel: "usage: xdel key ID [ID ...]",
-                        xgroup:
-                            "usage: xgroup [CREATE key groupname id-or-$] [SETID key groupname id-or-$] [DESTROY key groupname] [DELCONSUMER key groupname consumername]",
-                        xinfo:
-                            "usage: xinfo [CONSUMERS key groupname] [GROUPS key] [STREAM key] [HELP]",
-                        xlen: "usage: xlen key",
-                        xpending:
-                            "usage: xpending key group [start end count] [consumer]",
-                        xrange: "usage: xrange key start end [COUNT count]",
-                        xread:
-                            "usage: xread [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] id [id ...]",
-                        xreadgroup:
-                            "usage: xreadgroup GROUP group consumer [COUNT count] [BLOCK milliseconds] [NOACK] STREAMS key [key ...] ID [ID ...]",
-                        xrevrange:
-                            "usage: xrevrange key end start [COUNT count]",
-                        xsetid: "",
-                        xtrim: "usage: xtrim key MAXLEN [~] count",
-                        zadd:
-                            "usage: zadd key [NX|XX] [CH] [INCR] score member [score member ...]",
-                        zcard: "usage: zcard key",
-                        zcount: "usage: zcount key min max",
-                        zincrby: "usage: zincrby key increment member",
-                        zinterstore:
-                            "usage: zinterstore destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]",
-                        zlexcount: "usage: zlexcount key min max",
-                        zpopmax: "usage: zpopmax key [count]",
-                        zpopmin: "usage: zpopmin key [count]",
-                        zrange: "usage: zrange key start stop [WITHSCORES]",
-                        zrangebylex:
-                            "usage: zrangebylex key min max [LIMIT offset count]",
-                        zrangebyscore:
-                            "usage: zrangebyscore key min max [WITHSCORES] [LIMIT offset count]",
-                        zrank: "usage: zrank key member",
-                        zrem: "usage: zrem key member [member ...]",
-                        zremrangebylex: "usage: zremrangebylex key min max",
-                        zremrangebyrank:
-                            "usage: zremrangebyrank key start stop",
-                        zremrangebyscore: "usage: zremrangebyscore key min max",
-                        zrevrange:
-                            "usage: zrevrange key start stop [WITHSCORES]",
-                        zrevrangebylex:
-                            "usage: zrevrangebylex key max min [LIMIT offset count]",
-                        zrevrangebyscore:
-                            "usage: zrevrangebyscore key max min [WITHSCORES] [LIMIT offset count]",
-                        zrevrank: "usage: zrevrank key member",
-                        zscan:
-                            "usage: zscan key cursor [MATCH pattern] [COUNT count]",
-                        zscore: "usage: zscore key member",
-                        zunionstore:
-                            "usage: zunionstore destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]",
-                    }}
+                    descriptions={{ show: false }}
                     closedTitle="You closed the window."
                     closedMessage="Click on the icon to reopen."
                     allowTabs={false}
                     hideTopBar={true}
                     startState="maximised"
-                    msg= {intl.get("HostTerminal.descriptions.msg")}
+                    msg={intl.get("HostTerminal.descriptions.msg")}
                 />
             </div>
         );
     }
 }
 
-export default HostTerminal;
+export default HostTerminalWithTheme;

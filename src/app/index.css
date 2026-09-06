@@ -1,5 +1,28 @@
+/* ==== CSS 变量默认值（浅色主题） ==== */
+:root {
+    --app-bg-primary: #ffffff;
+    --app-bg-secondary: #fafafa;
+    --app-bg-tertiary: #f0f0f0;
+    --app-text-primary: rgba(0, 0, 0, 0.85);
+    --app-text-secondary: rgba(0, 0, 0, 0.65);
+    --app-border-color: #d9d9d9;
+    --app-divider-color: #f0f0f0;
+    --app-split-pane-bg: #000;
+}
+
+/* ==== 全局重置 ==== */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background: var(--app-bg-primary);
+    color: var(--app-text-primary);
+}
+
+/* ==== SplitPane Resizer 样式 ==== */
 .Resizer {
-    background: #000;
+    background: var(--app-split-pane-bg);
     opacity: 0.2;
     z-index: 1;
     -moz-box-sizing: border-box;
@@ -25,8 +48,8 @@
 }
 
 .Resizer.horizontal:hover {
-    border-top: 5px solid rgba(0, 0, 0, 0.5);
-    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+    border-top: 5px solid rgba(24, 144, 255, 0.5);
+    border-bottom: 5px solid rgba(24, 144, 255, 0.5);
 }
 
 .Resizer.vertical {
@@ -38,12 +61,83 @@
 }
 
 .Resizer.vertical:hover {
-    border-left: 5px solid rgba(0, 0, 0, 0.5);
-    border-right: 5px solid rgba(0, 0, 0, 0.5);
+    border-left: 5px solid rgba(24, 144, 255, 0.5);
+    border-right: 5px solid rgba(24, 144, 255, 0.5);
 }
+
 .Resizer.disabled {
     cursor: not-allowed;
 }
+
 .Resizer.disabled:hover {
     border-color: transparent;
+}
+
+/* ==== 滚动条样式 ==== */
+/* Webkit */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--app-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--app-border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--app-border-color) var(--app-bg-secondary);
+}
+
+/* ==== 暗色主题滚动条 ==== */
+.theme-dark ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ==== Ant Design 组件覆盖 ==== */
+
+/* 暗色主题下的全局背景 */
+.theme-dark .ant-tabs,
+.theme-dark .ant-modal-content,
+.theme-dark .ant-modal-header,
+.theme-dark .ant-modal-body,
+.theme-dark .ant-modal-footer,
+.theme-dark .ant-drawer-content,
+.theme-dark .ant-drawer-header,
+.theme-dark .ant-drawer-body,
+.theme-dark .ant-popover-inner-content,
+.theme-dark .ant-tooltip-inner {
+    background-color: var(--app-bg-secondary);
+}
+
+/* 暗色主题下的文本颜色 */
+.theme-dark,
+.theme-dark .ant-tabs-tab,
+.theme-dark .ant-modal-title,
+.theme-dark .ant-drawer-title,
+.theme-dark .ant-popover-inner-content,
+.theme-dark .ant-tooltip-inner {
+    color: var(--app-text-primary);
+}
+
+/* 暗色主题下的边框 */
+.theme-dark .ant-tabs-nav::before,
+.theme-dark .ant-divider-inner-text {
+    border-color: var(--app-border-color);
+}
+
+/* Terminal 组件暗色主题适配 */
+.theme-dark .terminal {
+    background-color: #1e1e1e !important;
+    color: #d4d4d4 !important;
 }
