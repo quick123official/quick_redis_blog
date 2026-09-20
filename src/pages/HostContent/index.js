@@ -188,7 +188,7 @@ class HostContent extends Component {
                     style={{
                         overflow: "auto",
                         height: "90vh",
-                        background: "#fff",
+                        background: "var(--app-bg-primary)",
                     }}
                 >
                     {this.state.dbTabs.map((tab) => (
@@ -200,7 +200,7 @@ class HostContent extends Component {
                                 ></HostCornerMarker>
                             }
                             key={tab.key}
-                            style={{ background: "#fff" }}
+                            style={{ background: "var(--app-bg-primary)" }}
                         >
                             <div>
                                 <SplitPane
@@ -214,7 +214,7 @@ class HostContent extends Component {
                                         style={{
                                             overflow: "auto",
                                             height: "90vh",
-                                            background: "#fff",
+                                            background: "var(--app-bg-primary)",
                                             paddingRight: "10px",
                                         }}
                                     >

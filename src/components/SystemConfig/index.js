@@ -3,9 +3,18 @@ import { Modal, Row, Col, Select, Input, Tooltip, Checkbox } from "antd";
 import LocaleUtils from "@/utils/LocaleUtils";
 import intl from "react-intl-universal";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { useTheme, THEME_MODE } from "@/theme/ThemeContext";
 const { Option } = Select;
 const { confirm } = Modal;
 const { ipcRenderer, remote } = window.require("electron");
+/**
+ * 系统配置（包装组件，处理主题）
+ */
+function SystemConfigWithTheme() {
+    const theme = useTheme();
+    return <SystemConfig themeContext={theme} />;
+}
+
 /**
  * 系统配置
  */
@@ -13,8 +22,9 @@ class SystemConfig extends React.Component {
     needRestart = false;
     state = {
         visible: false,
-        config: { lang: "", splitSign: "", autoFormatJson: true },
+        config: { lang: "", splitSign: "", autoFormatJson: true, theme: "system" },
     };
+
     componentDidMount() {
         // 重置连接事件
         ipcRenderer.on("system-config", (event, arg) => {
@@ -34,6 +44,12 @@ class SystemConfig extends React.Component {
             visible: false,
         });
         LocaleUtils.saveSystemConfig(this.state.config);
+
+        // 应用主题设置
+        if (this.props.themeContext) {
+            this.props.themeContext.setTheme(this.state.config.theme || "system");
+        }
+
         if (this.needRestart) {
             this.needRestart = false;
             confirm({
@@ -54,11 +70,9 @@ class SystemConfig extends React.Component {
             visible: false,
         });
     };
+
     /**
      *修改语言
-     *
-     * @param {*} val
-     * @memberof SystemConfig
      */
     handleLangChange(val) {
         this.setState({
@@ -66,10 +80,9 @@ class SystemConfig extends React.Component {
         });
         this.needRestart = true;
     }
+
     /**
      *修改分隔符
-     *
-     * @memberof SystemConfig
      */
     handleSplitSignChange = (event) => {
         this.setState({
@@ -77,10 +90,9 @@ class SystemConfig extends React.Component {
         });
         this.needRestart = true;
     };
+
     /**
      *修改自动格式化json
-     *
-     * @memberof SystemConfig
      */
     handleAutoFormatJsonChange = (event) => {
         this.setState({
@@ -89,6 +101,16 @@ class SystemConfig extends React.Component {
                 autoFormatJson: event.target.checked,
             },
         });
+    };
+
+    /**
+     *修改主题
+     */
+    handleThemeChange = (val) => {
+        this.setState({
+            config: { ...this.state.config, theme: val },
+        });
+        // 主题切换不需要重启，立即生效
     };
 
     render() {
@@ -140,10 +162,30 @@ class SystemConfig extends React.Component {
                                 checked={this.state.config.autoFormatJson}
                             ></Checkbox>
                         </Col>
+                        <Col span={6}>
+                            {intl.get("SystemConfig.theme")}
+                        </Col>
+                        <Col span={18}>
+                            <Select
+                                value={this.state.config.theme || "system"}
+                                style={{ width: 300 }}
+                                onChange={this.handleThemeChange}
+                            >
+                                <Option value="system">
+                                    {intl.get("SystemConfig.theme.system")}
+                                </Option>
+                                <Option value="light">
+                                    {intl.get("SystemConfig.theme.light")}
+                                </Option>
+                                <Option value="dark">
+                                    {intl.get("SystemConfig.theme.dark")}
+                                </Option>
+                            </Select>
+                        </Col>
                     </Row>
                 </Modal>
             </div>
         );
     }
 }
-export default SystemConfig;
+export default SystemConfigWithTheme;

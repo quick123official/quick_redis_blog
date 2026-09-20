@@ -135,6 +135,7 @@ export default class LocaleUtils {
                 lang: locale,
                 splitSign: ":",
                 autoFormatJson: true,
+                theme: "system", // 默认跟随系统主题
             };
             this.saveSystemConfig(systemConfigDataTemp);
         }

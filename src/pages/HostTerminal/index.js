@@ -2,10 +2,30 @@ import React, { Component } from "react";
 import Terminal from "terminal-in-react-quick123";
 import RedisCommand from "@/utils/RedisCommand";
 import intl from "react-intl-universal";
+import { useTheme } from "@/theme/ThemeContext";
+
 /**
- * 终端
+ * Terminal 颜色配置
  */
-class HostTerminal extends Component {
+const TERMINAL_THEME = {
+    light: {
+        color: "#002766",
+        backgroundColor: "#fff",
+        barColor: "#002766",
+        prompt: "#002766",
+    },
+    dark: {
+        color: "#8be9fd",
+        backgroundColor: "#1e1e1e",
+        barColor: "#8be9fd",
+        prompt: "#50fa7b",
+    },
+};
+
+/**
+ * 终端（内部类组件）
+ */
+class HostTerminalInner extends Component {
     state = { redis: undefined };
 
     componentDidMount() {
@@ -13,13 +33,14 @@ class HostTerminal extends Component {
         this.setState({ redis: redis });
     }
     render() {
+        const themeColors = this.props.themeColors || TERMINAL_THEME.light;
         return (
             <div>
                 <Terminal
-                    color="#002766"
-                    backgroundColor="#fff"
-                    barColor="#002766"
-                    prompt="#002766"
+                    color={themeColors.color}
+                    backgroundColor={themeColors.backgroundColor}
+                    barColor={themeColors.barColor}
+                    prompt={themeColors.prompt}
                     promptSymbol=">"
                     style={{
                         fontWeight: "bold",
@@ -880,4 +901,13 @@ class HostTerminal extends Component {
     }
 }
 
-export default HostTerminal;
+/**
+ * 包装组件 - 处理主题
+ */
+function HostTerminalWithTheme(props) {
+    const { actualTheme } = useTheme();
+    const themeColors = TERMINAL_THEME[actualTheme] || TERMINAL_THEME.light;
+    return <HostTerminalInner {...props} themeColors={themeColors} />;
+}
+
+export default HostTerminalWithTheme;

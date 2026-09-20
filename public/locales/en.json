@@ -47,6 +47,10 @@
     "SystemConfig.auto.format.json": "Format json automatically",
     "SystemConfig.title": "System configuration",
     "SystemConfig.needRestart": "You need to restart to take effect.",
+    "SystemConfig.theme": "Theme",
+    "SystemConfig.theme.system": "Follow system",
+    "SystemConfig.theme.light": "Light",
+    "SystemConfig.theme.dark": "Dark",
     "SystemConfig.end00": "#### SystemConfig ####",
 
     "HostKeyTree.start": "#### HostKey ####",
