@@ -1,3 +1,5 @@
+// 必须在 intl/locale-data 之前引入，附带的 intl 包会定义全局 IntlPolyfill
+import "intl";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "@/app/App";
