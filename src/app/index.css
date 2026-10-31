@@ -141,3 +141,198 @@ html, body, #root {
     background-color: #1e1e1e !important;
     color: #d4d4d4 !important;
 }
+
+/* ============ 深色主题：资源树 ============ */
+.theme-dark .ant-tree {
+    background: transparent !important;
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-tree .ant-tree-node-content-wrapper {
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-tree .ant-tree-node-content-wrapper:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.theme-dark .ant-tree .ant-tree-node-selected {
+    background-color: rgba(255, 255, 255, 0.14) !important;
+    color: var(--app-text-primary) !important;
+}
+
+.theme-dark .ant-tree .ant-tree-switcher,
+.theme-dark .ant-tree .ant-tree-iconEle {
+    color: var(--app-text-secondary);
+}
+
+/* ============ 深色主题：Modal / 设置页文字 ============ */
+.theme-dark .ant-modal-content,
+.theme-dark .ant-modal-header {
+    background-color: var(--app-bg-secondary);
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-modal-header {
+    border-bottom: 1px solid var(--app-border-color);
+}
+
+.theme-dark .ant-modal-title,
+.theme-dark .ant-modal-body,
+.theme-dark .ant-modal-body .ant-row,
+.theme-dark .ant-modal-body .ant-col,
+.theme-dark .ant-modal-footer {
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-modal-close {
+    color: var(--app-text-secondary);
+}
+
+.theme-dark .ant-modal-close:hover {
+    color: var(--app-text-primary);
+}
+
+/* ============ 深色主题：输入类控件 ============ */
+.theme-dark .ant-input,
+.theme-dark .ant-input-affix-wrapper,
+.theme-dark .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    background-color: var(--app-bg-tertiary) !important;
+    color: var(--app-text-primary) !important;
+    border-color: var(--app-border-color) !important;
+}
+
+.theme-dark .ant-input::placeholder,
+.theme-dark .ant-select-selection-placeholder {
+    color: var(--app-text-secondary) !important;
+}
+
+.theme-dark .ant-select-selection-item {
+    color: var(--app-text-primary) !important;
+}
+
+.theme-dark .ant-select-arrow {
+    color: var(--app-text-secondary);
+}
+
+.theme-dark .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #177ddc !important;
+}
+
+/* 下拉面板 */
+.theme-dark .ant-select-dropdown {
+    background-color: var(--app-bg-secondary);
+    border: 1px solid var(--app-border-color);
+}
+
+.theme-dark .ant-select-item {
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-select-item-option-active {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.theme-dark .ant-select-item-option-selected {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+/* 复选框 */
+.theme-dark .ant-checkbox-inner {
+    background-color: var(--app-bg-tertiary);
+    border-color: var(--app-border-color);
+}
+
+/* 普通按钮（非主按钮） */
+.theme-dark .ant-btn-default {
+    background-color: var(--app-bg-tertiary);
+    color: var(--app-text-primary);
+    border-color: var(--app-border-color);
+}
+
+.theme-dark .ant-btn-default:hover {
+    color: #177ddc;
+    border-color: #177ddc;
+}
+
+/* 表格、标签页等通用容器的文字 */
+.theme-dark .ant-table,
+.theme-dark .ant-table-cell,
+.theme-dark .ant-tabs-tab {
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-table {
+    background-color: var(--app-bg-secondary);
+}
+
+.theme-dark .ant-table-thead > tr > th {
+    background-color: var(--app-bg-tertiary);
+    color: var(--app-text-primary);
+    border-bottom-color: var(--app-border-color);
+}
+
+.theme-dark .ant-table-tbody > tr > td {
+    border-bottom-color: var(--app-divider-color);
+}
+
+.theme-dark .ant-table-tbody > tr:hover > td {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* 下拉菜单 / 右键菜单 */
+.theme-dark .ant-dropdown-menu,
+.theme-dark .ant-menu {
+    background-color: var(--app-bg-secondary);
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-dropdown-menu-item,
+.theme-dark .ant-menu-item {
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-dropdown-menu-item:hover,
+.theme-dark .ant-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--app-text-primary);
+}
+
+/* 提示框 */
+.theme-dark .ant-tooltip-inner {
+    background-color: #434343;
+    color: #ffffff;
+}
+
+/* 全局通知 / 消息 */
+.theme-dark .ant-notification-notice {
+    background-color: var(--app-bg-secondary);
+    border: 1px solid var(--app-border-color);
+}
+
+.theme-dark .ant-notification-notice-message,
+.theme-dark .ant-notification-notice-description {
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-notification-notice-close {
+    color: var(--app-text-secondary);
+}
+
+.theme-dark .ant-message-notice-content {
+    background-color: var(--app-bg-secondary);
+    color: var(--app-text-primary);
+}
+
+/* 标签页 */
+.theme-dark .ant-tabs-nav {
+    color: var(--app-text-primary);
+}
+
+.theme-dark .ant-tabs-tab .ant-tabs-tab-btn {
+    color: var(--app-text-secondary);
+}
+
+.theme-dark .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #177ddc;
+}
