@@ -1,4 +1,5 @@
 import React, { Component, useEffect } from "react";
+import "antd/dist/antd.css";
 import ResourceTree from "@/pages/ResourceTree";
 import SystemConfig from "@/components/SystemConfig";
 import LocaleInit from "@/components/LocaleInit";
@@ -8,30 +9,6 @@ import HeartbeatService from "@/services/HeartbeatService";
 import CheckUpdateService from "@/services/CheckUpdateService";
 import { useTheme } from "@/theme/ThemeContext";
 import "@/app/index.css";
-
-/**
- * 根据主题加载对应的 antd CSS
- * 使用 CDN 加载，避免依赖本地文件路径
- */
-function loadAntdTheme(actualTheme) {
-    // 移除已有的 antd 样式
-    document.querySelectorAll('link[antd-theme="true"]').forEach((link) => {
-        link.remove();
-    });
-
-    // 使用 unpkg CDN 加载 antd CSS
-    // antd 4.2.4 提供了 antd.dark.css 暗色主题
-    const cssPath = actualTheme === "dark"
-        ? "https://unpkg.com/antd@4.2.4/dist/antd.dark.css"
-        : "https://unpkg.com/antd@4.2.4/dist/antd.css";
-
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = cssPath;
-    link.setAttribute("antd-theme", "true");
-    link.setAttribute("crossorigin", "anonymous");
-    document.head.appendChild(link);
-}
 
 class App extends Component {
     componentDidMount() {
@@ -89,12 +66,7 @@ class App extends Component {
  * 包装 App，注入主题相关的副作用
  */
 function AppWithTheme() {
-    const { actualTheme, isDark } = useTheme();
-
-    // 加载 antd 主题 CSS
-    useEffect(() => {
-        loadAntdTheme(actualTheme);
-    }, [actualTheme]);
+    const { isDark } = useTheme();
 
     // 在 body 上设置主题 class + CSS 变量
     useEffect(() => {
